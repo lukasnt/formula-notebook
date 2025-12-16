@@ -1,12 +1,14 @@
 package com.lukasnt.notebookapi.core;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
 import static com.lukasnt.notebookapi.core.operator.Constant.constant;
 import static com.lukasnt.notebookapi.core.operator.Logarithm.logarithm;
 import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class LogarithmTest {
 
