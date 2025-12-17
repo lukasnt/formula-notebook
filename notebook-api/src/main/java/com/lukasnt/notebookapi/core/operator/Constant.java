@@ -28,6 +28,10 @@ public class Constant implements Operator {
         return value;
     }
 
+    public static Constant of(BigDecimal value) {
+        return new Constant(value);
+    }
+
     public static Formula constant(BigDecimal value) {
         return new Formula(new Constant(value), new Formula[]{});
     }

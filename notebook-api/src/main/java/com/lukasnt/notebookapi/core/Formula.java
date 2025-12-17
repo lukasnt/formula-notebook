@@ -1,7 +1,6 @@
 package com.lukasnt.notebookapi.core;
 
 import com.lukasnt.notebookapi.core.operator.Operator;
-import com.lukasnt.notebookapi.reponse.FormulaTree;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -39,7 +38,11 @@ public class Formula {
         return result.toString();
     }
 
-    public FormulaTree createFormulaTree() {
-        return null;
+    public Operator getOperator() {
+        return operator;
+    }
+
+    public Formula[] getInputs() {
+        return inputs;
     }
 }
