@@ -2,6 +2,7 @@ package com.lukasnt.notebookapi;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.lukasnt.notebookapi.controllers.NotebookController;
+import com.lukasnt.notebookapi.core.NotebookManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
@@ -12,6 +13,11 @@ public class NotebookApplication {
 
     static void main(String[] args) {
         SpringApplication.run(NotebookApplication.class, args);
+    }
+
+    @Bean
+    public NotebookManager notebookManager() {
+        return new NotebookManager();
     }
 
     @Bean
