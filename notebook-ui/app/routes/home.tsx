@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home";
-import {Paper} from "@mui/material";
+import { Paper, Tabs } from "@mui/material";
 
 export function loader() {
   return { name: "React Router" };
@@ -8,11 +8,11 @@ export function loader() {
 export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <div className="home">
-        <Paper variant="outlined">
-            <div>
-                Lore ipsum
-            </div>
-        </Paper>
+      <Tabs>
+      </Tabs>
+      <Paper variant="outlined">
+        <div></div>
+      </Paper>
     </div>
   );
 }
