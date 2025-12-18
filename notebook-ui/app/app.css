@@ -1,1 +1,3 @@
-@import "tailwindcss";
+.home {
+    text-align: center;
+}
