@@ -45,7 +45,7 @@ export default function Sidebar() {
               </Typography>
             </ListItemText>
             <ListItemIcon>
-              <SaveIcon />
+              <SaveIcon htmlColor={"black"} />
             </ListItemIcon>
           </ListItemButton>
           <ListItemButton>
@@ -55,7 +55,7 @@ export default function Sidebar() {
               </Typography>
             </ListItemText>
             <ListItemIcon>
-              <FastForwardIcon />
+              <FastForwardIcon htmlColor={"black"} />
             </ListItemIcon>
           </ListItemButton>
           <ListItemButton>
@@ -65,7 +65,7 @@ export default function Sidebar() {
               </Typography>
             </ListItemText>
             <ListItemIcon>
-              <ClearAllIcon />
+              <ClearAllIcon htmlColor={"black"} />
             </ListItemIcon>
           </ListItemButton>
         </List>

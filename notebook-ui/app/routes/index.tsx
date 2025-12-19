@@ -1,7 +1,7 @@
 import "./styles/index.css";
 import NotebookCollection, {
   type Notebook,
-} from "~/components/notebooks/NotebookCollection";
+} from "~/components/notebook-collection/NotebookCollection";
 
 const testNotebooks: Notebook[] = [
   {
@@ -29,7 +29,7 @@ const testNotebooks: Notebook[] = [
 
 export default function Index() {
   return (
-    <div className="home">
+    <div>
       <NotebookCollection notebooks={testNotebooks} />
     </div>
   );
