@@ -37,6 +37,7 @@ export default function NotebookCollection({ notebooks }: NotebookProps) {
               hover
               onClick={() => navigate("notebook")}
               style={{ cursor: "pointer" }}
+              key={notebook.id}
             >
               <TableCell>
                 <BookIcon />

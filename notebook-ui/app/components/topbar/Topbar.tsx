@@ -5,28 +5,30 @@ import { NavLink } from "react-router";
 
 export default function Topbar() {
   return (
-    <AppBar position="static" color="default">
-      <Toolbar>
-        <NavLink to={""} className={"logo-link"}>
-          <div className={"logo-container"}>
-            <CollectionsBookmarkIcon fontSize={"large"} />
-            <Typography
-              variant="h6"
-              noWrap
-              component="span"
-              sx={{
-                marginX: "0.25rem",
-                fontFamily: "monospace",
-                fontWeight: 700,
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              Formula Notebook
-            </Typography>
-          </div>
-        </NavLink>
-      </Toolbar>
-    </AppBar>
+    <div className={"topbar-spacing"}>
+      <AppBar position="fixed" color="default">
+        <Toolbar>
+          <NavLink to={""} className={"logo-link"}>
+            <div className={"logo-container"}>
+              <CollectionsBookmarkIcon fontSize={"large"} />
+              <Typography
+                variant="h6"
+                noWrap
+                component="span"
+                sx={{
+                  marginX: "0.25rem",
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                Formula Notebook
+              </Typography>
+            </div>
+          </NavLink>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
 }

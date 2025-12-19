@@ -1,3 +1,9 @@
+.topbar-spacing {
+  min-height: 65px;
+  max-height: 65px;
+  height: 65px;
+}
+
 .logo-link {
   text-decoration: none;
   color: inherit;
