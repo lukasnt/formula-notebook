@@ -1,0 +1,48 @@
+services:
+  notebook-api:
+    build:
+      context: .
+      target: notebook-api-env
+    ports:
+      - 3030:8080
+    volumes:
+      - ./notebook-api/src:/usr/home/notebook-api/src
+      - ./notebook-api/pom.xml:/usr/home/notebook-api/pom.xml
+    command: mvn spring-boot:run
+
+  notebook-ui:
+    build:
+      context: .
+      target: notebook-ui-env
+    volumes:
+      - ./notebook-ui:/usr/home/notebook-ui
+    ports:
+      - 9000:9000
+      - 8080:8080
+      - 5173:5173
+    command: npm run dev
+
+  postgres-db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: testdb
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    user: postgres
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 5050:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@email.com
+      PGADMIN_DEFAULT_PASSWORD: password
+
+
+volumes:
+  db-data:
