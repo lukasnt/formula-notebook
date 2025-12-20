@@ -1,34 +1,102 @@
 .cells-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
-    box-sizing: border-box;
-    width: 100%;
-    padding: 1rem;
-}
-
-.cell {
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 1rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    padding-left: 1rem;
-    border: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem;
 }
 
 .add-button-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .title-container {
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 1rem;
-    padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.cell {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  padding: 0;
+  border: 1px solid gray;
+}
+
+.cell-header-container {
+  --header-height: 25px;
+  height: var(--header-height);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+
+.cell-header-left {
+  width: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+
+.cell-header-left-element {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: var(--header-height);
+  border-right: 1px solid black;
+}
+
+.cell-type-select {
+  margin-left: 1rem;
+  margin-right: 0.5rem;
+}
+
+.cell-type-select .MuiSelect-select {
+  padding: 0;
+  font-size: small;
+}
+
+.cell-header-right {
+  width: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+}
+
+.cell-header-right-element {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: var(--header-height);
+  border-left: 1px solid black;
+}
+
+.cell-body {
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.cell-result-container {
+  --result-height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  padding-left: 1rem;
+  align-items: center;
+  height: var(--result-height);
+  border-top: 1px solid black;
 }

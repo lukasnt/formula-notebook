@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router";
 import { Button, Paper, TextField, Typography } from "@mui/material";
 
 import "./notebook.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useState } from "react";
+import Cell from "~/components/notebook/Cell";
 
 export default function Notebook() {
-  const [title, setTitle] = useState("Title");
+  const [title, setTitle] = useState("Untitled");
   const [cells, setCells] = useState<string[]>([]);
 
   const handleAddCell = () => {
@@ -29,15 +29,13 @@ export default function Notebook() {
       </Paper>
       <Paper className={"cells-container"}>
         {cells.map((content) => (
-          <Paper className={"cell"} style={{ background: "white" }}>
-            <Typography>Lore ipsum dolor sit amet</Typography>
-          </Paper>
+          <Cell />
         ))}
         <div className={"add-button-container"}>
           <Button
-            color={"inherit"}
+            color="inherit"
             fullWidth
-            variant="contained"
+            variant="outlined"
             onClick={handleAddCell}
           >
             <Typography>Add cell</Typography>

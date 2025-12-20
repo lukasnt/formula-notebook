@@ -1,9 +1,9 @@
 .sidebar-container {
-    left: 0;
-    position: fixed;
-    min-width: 200px;
-    width: 250px;
-    max-width: 250px;
-    height: 100%;
-    overflow-y: auto;
+  left: 0;
+  position: fixed;
+  min-width: 200px;
+  width: 250px;
+  max-width: 250px;
+  height: 100%;
+  overflow-y: auto;
 }

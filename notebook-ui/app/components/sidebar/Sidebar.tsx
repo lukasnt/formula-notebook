@@ -24,11 +24,11 @@ export default function Sidebar() {
 
   const handleClickOpenArithmetic = () => {
     setOpenArithmetic(!openArithmetic);
-  }
+  };
 
   const handleClickOpenFunctions = () => {
     setOpenFunctions(!openFunctions);
-  }
+  };
 
   return (
     <Paper variant={"elevation"} className={"sidebar-container"}>
