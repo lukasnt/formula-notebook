@@ -1,4 +1,4 @@
-package com.lukasnt.notebookapi.reponse;
+package com.lukasnt.notebookapi.response;
 
 public enum OperatorType {
     NULLARY,

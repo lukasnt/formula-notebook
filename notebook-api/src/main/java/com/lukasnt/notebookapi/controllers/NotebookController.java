@@ -1,7 +1,7 @@
 package com.lukasnt.notebookapi.controllers;
 
 import com.lukasnt.notebookapi.core.NotebookManager;
-import com.lukasnt.notebookapi.reponse.*;
+import com.lukasnt.notebookapi.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

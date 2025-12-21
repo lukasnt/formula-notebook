@@ -1,6 +1,6 @@
 package com.lukasnt.notebookapi.controllers;
 
-import com.lukasnt.notebookapi.reponse.OperatorInfo;
+import com.lukasnt.notebookapi.response.OperatorInfo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

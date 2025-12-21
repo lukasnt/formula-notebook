@@ -4,7 +4,7 @@ import com.lukasnt.notebookapi.core.Cell;
 import com.lukasnt.notebookapi.core.Formula;
 import com.lukasnt.notebookapi.core.Notebook;
 import com.lukasnt.notebookapi.core.operator.*;
-import com.lukasnt.notebookapi.reponse.*;
+import com.lukasnt.notebookapi.response.*;
 
 import java.util.Arrays;
 import java.util.Optional;
