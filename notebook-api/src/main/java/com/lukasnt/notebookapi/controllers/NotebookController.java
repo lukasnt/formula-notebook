@@ -30,27 +30,27 @@ public class NotebookController {
 
     @GetMapping("/{id}")
     public NotebookResponse getNotebook(@PathVariable String id) {
-        return ResponseMapper.mapNotebook(notebookManager.getNotebook(id));
+        return ResponseMapper.mapNotebook(notebookManager.getStoredNotebook(id));
     }
 
     @GetMapping("/{id}/cell/{cellId}")
     public NotebookCell evaluateCell(@PathVariable String id, @PathVariable String cellId) {
-        return ResponseMapper.mapCell(notebookManager.getNotebook(id).evaluateCell(cellId));
+        return ResponseMapper.mapCell(notebookManager.getStoredNotebook(id).evaluateCell(cellId));
     }
 
     @PostMapping("/{id}/cell")
     public NotebookCell createCell(@PathVariable String id) {
-        return ResponseMapper.mapCell(notebookManager.getNotebook(id).createCell());
+        return ResponseMapper.mapCell(notebookManager.getStoredNotebook(id).createCell());
     }
 
     @DeleteMapping("/{id}/cell/{cellId}")
     public NotebookCell deleteCell(@PathVariable String id, @PathVariable String cellId) {
-        return ResponseMapper.mapCell(notebookManager.getNotebook(id).deleteCell(cellId));
+        return ResponseMapper.mapCell(notebookManager.getStoredNotebook(id).deleteCell(cellId));
     }
 
     @PutMapping("/{id}/cell/{cellId}")
     public NotebookCell replaceCellFormula(@PathVariable String id, @PathVariable String cellId, @RequestBody FormulaTree formula) {
-        var cell = notebookManager.getNotebook(id)
+        var cell = notebookManager.getStoredNotebook(id)
             .replaceCellFormula(cellId, RequestMapper.mapFormulaTree(formula));
         return ResponseMapper.mapCell(cell);
     }

@@ -19,6 +19,11 @@ public class Notebook {
         this.cells = new LinkedHashMap<>();
     }
 
+    public Notebook(String id, List<Cell> cells) {
+        this(id);
+        cells.forEach(cell -> this.cells.put(cell.getId(), cell));
+    }
+
     public Cell createCell() {
         var cell = new Cell(id, String.valueOf(cellIdCounter++));
         cells.put(cell.getId(), cell);

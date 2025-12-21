@@ -1,7 +1,7 @@
 CREATE TABLE notebooks (
     notebook_id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    created TIMESTAMP NOT NULL,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified TIMESTAMP
 );
 
