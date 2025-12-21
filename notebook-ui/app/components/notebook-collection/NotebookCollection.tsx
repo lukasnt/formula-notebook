@@ -14,7 +14,7 @@ import BookIcon from "@mui/icons-material/Book";
 import { useNavigate } from "react-router";
 
 export interface Notebook {
-  id: string;
+  notebookId: string;
   title: string;
   created: Date;
   modified: Date;
@@ -37,7 +37,7 @@ export default function NotebookCollection({ notebooks }: NotebookProps) {
               hover
               onClick={() => navigate("notebook")}
               style={{ cursor: "pointer" }}
-              key={notebook.id}
+              key={notebook.notebookId}
             >
               <TableCell>
                 <BookIcon />
