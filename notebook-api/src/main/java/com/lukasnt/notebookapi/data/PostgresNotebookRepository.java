@@ -19,6 +19,12 @@ public class PostgresNotebookRepository implements NotebookRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Override
+    public List<NotebookEntry> getAllNotebooks() {
+        String sql = "SELECT * FROM notebooks";
+        return jdbcTemplate.query(sql, PostgresNotebookRepository::notebookEntry);
+    }
+
+    @Override
     public NotebookEntry getNotebook(String id) {
         String sql = "SELECT * FROM notebooks WHERE notebook_id = ?";
         var result = jdbcTemplate.query(sql, PostgresNotebookRepository::notebookEntry, Integer.parseInt(id));

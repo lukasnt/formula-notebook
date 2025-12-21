@@ -16,7 +16,7 @@ public class NotebookController {
     @Autowired
     NotebookManager notebookManager;
 
-    @GetMapping()
+    @GetMapping("/test")
     public NotebookResponse test() {
         return new NotebookResponse("1", "Test", ZonedDateTime.now(), List.of(
             new NotebookCell("1", "1", "a", ZonedDateTime.now(),
@@ -26,6 +26,11 @@ public class NotebookController {
                 ), new Evaluated(null, BigDecimal.TWO, null)),
                 new Evaluated(null, BigDecimal.TWO, null)
         )));
+    }
+
+    @GetMapping()
+    public List<NotebookResponse> getAllNotebooks() {
+        return notebookManager.getAllNotebooks().stream().map(ResponseMapper::mapNotebook).toList();
     }
 
     @GetMapping("/{id}")

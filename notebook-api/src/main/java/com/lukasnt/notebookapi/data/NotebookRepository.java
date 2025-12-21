@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface NotebookRepository {
 
+    List<NotebookEntry> getAllNotebooks();
     NotebookEntry getNotebook(String id);
     List<CellEntry> getCells(String notebookId);
 

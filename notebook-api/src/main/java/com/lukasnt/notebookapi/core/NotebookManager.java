@@ -3,7 +3,9 @@ package com.lukasnt.notebookapi.core;
 import com.lukasnt.notebookapi.data.EntryMapper;
 import com.lukasnt.notebookapi.data.NotebookRepository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class NotebookManager {
 
@@ -14,6 +16,10 @@ public class NotebookManager {
         this.repository = repository;
         notebooks = new HashMap<>();
         notebooks.put("1", new Notebook("1"));
+    }
+
+    public List<Notebook> getAllNotebooks() {
+        return repository.getAllNotebooks().stream().map(EntryMapper::toNotebook).toList();
     }
 
     public Notebook getCachedNotebook(String id) throws IllegalArgumentException {
