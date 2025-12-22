@@ -3,19 +3,19 @@ package com.lukasnt.notebookapi.core;
 import com.lukasnt.notebookapi.data.EntryMapper;
 import com.lukasnt.notebookapi.data.NotebookRepository;
 
-import java.util.ArrayList;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 
 public class NotebookManager {
 
-    private HashMap<String, Notebook> notebooks;
-    private NotebookRepository repository;
+    private final HashMap<String, Notebook> notebooks;
+    private final NotebookRepository repository;
 
     public NotebookManager(NotebookRepository repository) {
         this.repository = repository;
         notebooks = new HashMap<>();
-        notebooks.put("1", new Notebook("1"));
+        notebooks.put("1", new Notebook("1", "Test", ZonedDateTime.now()));
     }
 
     public List<Notebook> getAllNotebooks() {

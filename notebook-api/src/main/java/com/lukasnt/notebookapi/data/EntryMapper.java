@@ -8,11 +8,16 @@ import java.util.List;
 public class EntryMapper {
 
     public static Notebook toNotebook(NotebookEntry notebookEntry) {
-        return new Notebook(notebookEntry.notebookId());
+        return new Notebook(notebookEntry.notebookId(), notebookEntry.title(), notebookEntry.created());
     }
 
     public static Notebook toNotebook(NotebookEntry notebookEntry, List<CellEntry> cellEntries) {
-        return new Notebook(notebookEntry.notebookId(), cellEntries.stream().map(EntryMapper::toCell).toList());
+        return new Notebook(
+            notebookEntry.notebookId(),
+            notebookEntry.title(),
+            notebookEntry.created(),
+            cellEntries.stream().map(EntryMapper::toCell).toList()
+        );
     }
 
     public static Cell toCell(CellEntry cellEntry) {

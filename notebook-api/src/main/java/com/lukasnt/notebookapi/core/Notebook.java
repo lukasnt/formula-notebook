@@ -3,60 +3,57 @@ package com.lukasnt.notebookapi.core;
 import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Notebook {
 
     private final String id;
     private final ZonedDateTime created;
-    private String title;
-    private LinkedHashMap<String, Cell> cells;
+    private final String title;
+    private final LinkedHashMap<String, Cell> cells;
+    private ZonedDateTime modified;
 
     private int cellIdCounter = 0;
 
-    public Notebook(String id) {
+    public Notebook(String id, String title, ZonedDateTime created) {
         this.id = id;
-        this.created = ZonedDateTime.now();
+        this.title = title;
+        this.created = created;
         this.cells = new LinkedHashMap<>();
     }
 
-    public Notebook(String id, List<Cell> cells) {
-        this(id);
+    public Notebook(String id, String title, ZonedDateTime created, List<Cell> cells) {
+        this(id, title, created);
         cells.forEach(cell -> this.cells.put(cell.getId(), cell));
     }
 
     public Cell createCell() {
         var cell = new Cell(id, String.valueOf(cellIdCounter++));
         cells.put(cell.getId(), cell);
+        modified = ZonedDateTime.now();
         return cell;
     }
 
     public List<Cell> evaluateCells() {
         cells.values().forEach(Cell::evaluate);
+        modified = ZonedDateTime.now();
         return cells.values().stream().toList();
     }
 
-    public Cell evaluateCell(String cellId) throws IllegalArgumentException {
-        var cell = findCell(cellId);
-        cell.evaluate();
-        return cell;
+    public Cell evaluateCell(String cellId) {
+        return modifyCell(cellId, Cell::evaluate);
     }
 
-    public Cell replaceCellFormula(String cellId, Formula formula) throws IllegalArgumentException {
-        var cell = findCell(cellId);
-        cell.replaceFormula(formula);
-        return cell;
+    public Cell replaceCellFormula(String cellId, Formula formula) {
+        return modifyCell(cellId, cell -> cell.replaceFormula(formula));
     }
 
-    public Cell setCellName(String cellId, String cellName) throws IllegalArgumentException {
-        var cell = findCell(cellId);
-        cell.setName(cellName);
-        return cell;
+    public Cell setCellName(String cellId, String cellName) {
+        return modifyCell(cellId, cell -> cell.setName(cellName));
     }
 
     public Cell deleteCell(String cellId) throws IllegalArgumentException {
-        var cell = findCell(cellId);
-        cells.remove(cellId);
-        return cell;
+        return modifyCell(cellId, _ -> cells.remove(cellId));
     }
 
     private Cell findCell(String cellId) throws IllegalArgumentException {
@@ -66,6 +63,13 @@ public class Notebook {
         } else {
             throw new IllegalArgumentException(String.format("Cell with id %s not found", cellId));
         }
+    }
+
+    private Cell modifyCell(String cellId, Consumer<Cell> cellConsumer) throws IllegalArgumentException {
+        var cell = findCell(cellId);
+        cellConsumer.accept(cell);
+        modified = ZonedDateTime.now();
+        return cell;
     }
 
     public String getId() {
@@ -83,4 +87,9 @@ public class Notebook {
     public LinkedHashMap<String, Cell> getCells() {
         return cells;
     }
+
+    public ZonedDateTime getModified() {
+        return modified;
+    }
+
 }

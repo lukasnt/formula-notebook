@@ -89,7 +89,8 @@ public class PostgresNotebookRepository implements NotebookRepository {
     static NotebookEntry notebookEntry(ResultSet rs, int rowNum) {
         try {
             return new NotebookEntry(
-                String.valueOf(rs.getInt("notebook_id")),
+                rs.getInt("id"),
+                rs.getString("notebook_id"),
                 rs.getString("title"),
                 toZonedDateTime(rs.getTimestamp("created")),
                 toZonedDateTime(rs.getTimestamp("modified"))
@@ -102,8 +103,9 @@ public class PostgresNotebookRepository implements NotebookRepository {
     static CellEntry cellEntry(ResultSet rs, int rowNum) {
         try {
             return new CellEntry(
-                String.valueOf(rs.getInt("cell_id")),
-                String.valueOf(rs.getInt("notebook_id")),
+                rs.getInt("id"),
+                rs.getString("cell_id"),
+                rs.getString("notebook_id"),
                 rs.getString("symbol"),
                 toZonedDateTime(rs.getTimestamp("updated")),
                 rs.getString("text_content"),

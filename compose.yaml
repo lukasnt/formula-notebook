@@ -5,7 +5,6 @@ services:
       target: notebook-api-env
     env_file:
       - ./notebook-api/.env
-      - .env
     ports:
       - 3030:8080
     volumes:
