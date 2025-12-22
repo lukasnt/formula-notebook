@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/notebooks")
@@ -18,13 +19,14 @@ public class NotebookController {
 
     @GetMapping("/test")
     public NotebookResponse test() {
-        return new NotebookResponse("1", "Test", ZonedDateTime.now(), List.of(
-            new NotebookCell("1", "1", "a", ZonedDateTime.now(),
+        return new NotebookResponse(UUID.randomUUID(), "Test", ZonedDateTime.now(), List.of(
+            new NotebookCell(UUID.randomUUID(), UUID.randomUUID(), "a", ZonedDateTime.now(),
                 new FormulaTree(OperatorID.PLUS, List.of(
-                    new FormulaTree(OperatorID.CONSTANT, null, new Evaluated(null, BigDecimal.ONE, null)),
-                    new FormulaTree(OperatorID.CONSTANT, null, new Evaluated(null, BigDecimal.ONE, null))
-                ), new Evaluated(null, BigDecimal.TWO, null)),
-                new Evaluated(null, BigDecimal.TWO, null)
+                    new FormulaTree(OperatorID.CONSTANT, null, new Evaluated(BigDecimal.ONE, null)),
+                    new FormulaTree(OperatorID.CONSTANT, null, new Evaluated(BigDecimal.ONE, null))
+                ), new Evaluated(BigDecimal.TWO, null)),
+                "Text",
+                new Evaluated(BigDecimal.TWO, null)
         )));
     }
 

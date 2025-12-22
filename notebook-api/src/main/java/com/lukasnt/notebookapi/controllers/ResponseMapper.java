@@ -26,11 +26,11 @@ public class ResponseMapper {
         return new NotebookCell(
             cell.getNotebookId(),
             cell.getId(),
-            cell.getName(),
+            cell.getSymbol(),
             cell.getUpdated(),
             Optional.ofNullable(cell.getFormula()).map(ResponseMapper::mapFormula).orElse(null),
+            cell.getTextContent(),
             new Evaluated(
-                "",
                 cell.getEvaluated(),
                 ""
             )

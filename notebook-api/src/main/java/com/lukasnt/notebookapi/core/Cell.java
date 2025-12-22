@@ -3,25 +3,30 @@ package com.lukasnt.notebookapi.core;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 public class Cell {
 
-    private final String notebookId;
-    private final String id;
+    private final UUID notebookId;
+    private final UUID id;
     private ZonedDateTime updated;
-    private String name;
+    private String symbol;
+    private String textContent;
     private BigDecimal evaluated;
     private Formula formula;
 
-    public Cell(String notebookId, String id) {
+    public Cell(UUID notebookId, UUID id) {
         this.notebookId = notebookId;
         this.id = id;
         this.updated = ZonedDateTime.now();
     }
 
-    public Cell(String notebookId, String id, Formula formula) {
+    public Cell(UUID notebookId, UUID id, String symbol, Formula formula, String textContent, BigDecimal evaluated) {
         this(notebookId, id);
+        this.symbol = symbol;
         this.formula = formula;
+        this.textContent = textContent;
+        this.evaluated = evaluated;
     }
 
     public BigDecimal evaluate() {
@@ -36,16 +41,16 @@ public class Cell {
         this.evaluated = null;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
         updated = ZonedDateTime.now();
     }
 
-    public String getNotebookId() {
+    public UUID getNotebookId() {
         return notebookId;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -53,8 +58,12 @@ public class Cell {
         return updated;
     }
 
-    public String getName() {
-        return name;
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public String getTextContent() {
+        return textContent;
     }
 
     public BigDecimal getEvaluated() {

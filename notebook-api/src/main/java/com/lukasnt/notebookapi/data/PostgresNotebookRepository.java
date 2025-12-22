@@ -11,6 +11,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class PostgresNotebookRepository implements NotebookRepository {
@@ -25,16 +26,16 @@ public class PostgresNotebookRepository implements NotebookRepository {
     }
 
     @Override
-    public NotebookEntry getNotebook(String id) {
+    public NotebookEntry getNotebook(String notebookId) {
         String sql = "SELECT * FROM notebooks WHERE notebook_id = ?";
-        var result = jdbcTemplate.query(sql, PostgresNotebookRepository::notebookEntry, Integer.parseInt(id));
+        var result = jdbcTemplate.query(sql, PostgresNotebookRepository::notebookEntry, UUID.fromString(notebookId));
         return !result.isEmpty() ? result.getFirst() : null;
     }
 
     @Override
     public List<CellEntry> getCells(String notebookId) {
         String sql = "SELECT * FROM cells WHERE notebook_id = ?";
-        return jdbcTemplate.query(sql, PostgresNotebookRepository::cellEntry, Integer.parseInt(notebookId));
+        return jdbcTemplate.query(sql, PostgresNotebookRepository::cellEntry, UUID.fromString(notebookId));
     }
 
     @Override
@@ -90,7 +91,7 @@ public class PostgresNotebookRepository implements NotebookRepository {
         try {
             return new NotebookEntry(
                 rs.getInt("id"),
-                rs.getString("notebook_id"),
+                UUID.fromString(rs.getString("notebook_id")),
                 rs.getString("title"),
                 toZonedDateTime(rs.getTimestamp("created")),
                 toZonedDateTime(rs.getTimestamp("modified"))
@@ -104,8 +105,8 @@ public class PostgresNotebookRepository implements NotebookRepository {
         try {
             return new CellEntry(
                 rs.getInt("id"),
-                rs.getString("cell_id"),
-                rs.getString("notebook_id"),
+                UUID.fromString(rs.getString("cell_id")),
+                UUID.fromString(rs.getString("notebook_id")),
                 rs.getString("symbol"),
                 toZonedDateTime(rs.getTimestamp("updated")),
                 rs.getString("text_content"),

@@ -21,7 +21,14 @@ public class EntryMapper {
     }
 
     public static Cell toCell(CellEntry cellEntry) {
-        return new Cell(cellEntry.notebookId(), cellEntry.cellId());
+        return new Cell(
+            cellEntry.notebookId(),
+            cellEntry.cellId(),
+            cellEntry.symbol(),
+            null,
+            cellEntry.textContent(),
+            cellEntry.evaluated()
+        );
     }
 
 }
