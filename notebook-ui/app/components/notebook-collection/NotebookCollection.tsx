@@ -12,20 +12,13 @@ import "./notebook-collection.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BookIcon from "@mui/icons-material/Book";
 import { useNavigate } from "react-router";
+import type { NotebookProps } from "~/components/notebook/Notebook";
 
-export interface Notebook {
-  notebookId: string;
-  title: string;
-  created: Date;
-  modified: Date;
-  cellCount: number;
+interface NotebookCollectionProps {
+  notebooks: NotebookProps[];
 }
 
-export interface NotebookProps {
-  notebooks: Notebook[];
-}
-
-export default function NotebookCollection({ notebooks }: NotebookProps) {
+export default function NotebookCollection({ notebooks }: NotebookCollectionProps) {
   const navigate = useNavigate();
 
   return (
@@ -35,7 +28,7 @@ export default function NotebookCollection({ notebooks }: NotebookProps) {
           {notebooks.map((notebook) => (
             <TableRow
               hover
-              onClick={() => navigate("notebook")}
+              onClick={() => navigate(`notebooks/${notebook.notebookId}`)}
               style={{ cursor: "pointer" }}
               key={notebook.notebookId}
             >

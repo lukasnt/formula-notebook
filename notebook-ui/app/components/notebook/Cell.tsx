@@ -10,16 +10,26 @@ import {
 import { Delete, PlayArrow } from "@mui/icons-material";
 import { type ChangeEvent, useState } from "react";
 
-export default function Cell() {
-  const [result, setResult] = useState<string | null>(null);
-  const [textValue, setTextValue] = useState<string>("");
+export interface CellProps {
+  notebookId: string;
+  cellId: string;
+  updated: Date;
+  symbol?: string;
+  formula?: any;
+  textContent?: string;
+  evaluated?: { num: number; error: string };
+}
+
+export default function Cell(props: CellProps) {
+  const [result, setResult] = useState<number | undefined>(props.evaluated?.num);
+  const [textValue, setTextValue] = useState<string | undefined>(props.textContent);
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTextValue(e.target.value);
   };
 
   const handleRunCell = () => {
-    setResult(textValue);
+
   };
 
   return (

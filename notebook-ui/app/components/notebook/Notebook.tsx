@@ -3,14 +3,33 @@ import { Button, Paper, TextField, Typography } from "@mui/material";
 import "./notebook.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useState } from "react";
-import Cell from "~/components/notebook/Cell";
+import Cell, { type CellProps } from "~/components/notebook/Cell";
+import { v4 } from "uuid";
 
-export default function Notebook() {
-  const [title, setTitle] = useState("Untitled");
-  const [cells, setCells] = useState<string[]>([]);
+export interface NotebookProps {
+  notebookId: string;
+  title: string;
+  created: Date;
+  modified: Date;
+  cells: CellProps[];
+  cellCount: number;
+}
+
+export default function Notebook(props: NotebookProps) {
+  const [title, setTitle] = useState(props.title);
+  const [cells, setCells] = useState<CellProps[]>(props.cells);
 
   const handleAddCell = () => {
-    setCells([...cells, "123"]);
+    setCells([
+      ...cells,
+      {
+        notebookId: props.notebookId,
+        cellId: v4(),
+        symbol: "",
+        textContent: "",
+        updated: new Date(),
+      },
+    ]);
   };
 
   return (
@@ -28,8 +47,8 @@ export default function Notebook() {
         />
       </Paper>
       <Paper className={"cells-container"}>
-        {cells.map((content) => (
-          <Cell />
+        {cells.map((cellData) => (
+          <Cell {...cellData} />
         ))}
         <div className={"add-button-container"}>
           <Button
