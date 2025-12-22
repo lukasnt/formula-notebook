@@ -8,6 +8,6 @@ import {
 export default [
   layout("routes/topbar.tsx", [
     index("routes/index.tsx"),
-    route("notebook", "routes/notebook.tsx"),
+    route("notebooks/:id", "routes/notebook.tsx"),
   ]),
 ] satisfies RouteConfig;
