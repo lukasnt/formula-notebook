@@ -1,4 +1,5 @@
 import type { NotebookResponse } from "~/api/types/notebook-response";
+import type { CellProps } from "~/components/notebook/Cell";
 
 export const apiUrl = (): string => {
   const apiHost: string = import.meta.env.VITE_API_HOSTNAME || "localhost";
@@ -6,14 +7,54 @@ export const apiUrl = (): string => {
   return `http://${apiHost}:${apiPort}/api`;
 };
 
-export const fetchNotebooks = (): Promise<NotebookResponse[]> => {
-  return fetch(`${apiUrl()}/notebooks`, {})
-    .then((res) => res.json())
-    .catch((error) => console.log(error));
+export const fetchNotebooks = async (): Promise<NotebookResponse[]> => {
+  try {
+    const res = await fetch(`${apiUrl()}/notebooks`, {});
+    return res.json();
+  } catch (error) {
+    throw error;
+  }
 };
 
-export const fetchNotebook = (notebookId: string): Promise<NotebookResponse> => {
-  return fetch(`${apiUrl()}/notebooks/${notebookId}`, {})
-    .then((res) => res.json())
-    .catch((error) => console.log(error));
+export const fetchNotebook = async (
+  notebookId: string,
+): Promise<NotebookResponse> => {
+  try {
+    const res = await fetch(`${apiUrl()}/notebooks/${notebookId}`, {});
+    return res.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const postCell = async (
+  notebookId: string,
+  data: string,
+): Promise<CellProps> => {
+  try {
+    const res = await fetch(`${apiUrl()}/notebooks/${notebookId}/cell`, {
+      method: "POST",
+      body: data,
+    });
+    return await res.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteCell = async (
+  notebookId: string,
+  cellId: string,
+): Promise<CellProps> => {
+  try {
+    const res = await fetch(
+      `${apiUrl()}/notebooks/${notebookId}/cell/${cellId}`,
+      {
+        method: "DELETE",
+      },
+    );
+    return await res.json();
+  } catch (error) {
+    throw error;
+  }
 };

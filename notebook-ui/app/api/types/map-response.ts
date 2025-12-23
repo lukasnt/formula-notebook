@@ -4,8 +4,8 @@ import type { NotebookProps } from "~/components/notebook/Notebook";
 export const toNotebook = (response: NotebookResponse): NotebookProps => {
   return {
     ...response,
-    created: new Date(response.created),
-    modified: new Date(),
+    created: response.created,
+    modified: response.modified,
     cellCount: response.cells.length,
   };
 };

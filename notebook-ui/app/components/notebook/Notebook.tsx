@@ -2,35 +2,47 @@ import { Button, Paper, TextField, Typography } from "@mui/material";
 
 import "./notebook.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { useState } from "react";
 import Cell, { type CellProps } from "~/components/notebook/Cell";
-import { v4 } from "uuid";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "~/providers/store";
+import { addCell, initCell, setTitle } from "~/providers/notebook-slices";
+import { useFetcher } from "react-router";
+import { useEffect } from "react";
+import { ADD_CELL } from "~/routes/actions/notebook-actions";
 
 export interface NotebookProps {
   notebookId: string;
   title: string;
-  created: Date;
-  modified: Date;
+  created: string;
+  modified: string;
   cells: CellProps[];
   cellCount: number;
 }
 
-export default function Notebook(props: NotebookProps) {
-  const [title, setTitle] = useState(props.title);
-  const [cells, setCells] = useState<CellProps[]>(props.cells);
+export default function Notebook() {
+  const notebook = useSelector((state: RootState) => state.notebook);
+  const dispatch = useDispatch();
+  const cellFetcher = useFetcher<CellProps>();
 
-  const handleAddCell = () => {
-    setCells([
-      ...cells,
-      {
-        notebookId: props.notebookId,
-        cellId: v4(),
-        symbol: "",
-        textContent: "",
-        updated: new Date(),
-      },
-    ]);
+  const handleAddCell = async () => {
+    let newCell: CellProps = {
+      notebookId: notebook.notebookId,
+      cellId: "",
+      symbol: "",
+      textContent: "",
+      updated: "",
+    };
+    dispatch(addCell(newCell));
+    await cellFetcher.submit({
+      cell: JSON.stringify(newCell),
+      action: ADD_CELL,
+    });
   };
+
+  useEffect(() => {
+    console.log(cellFetcher.data);
+    dispatch(initCell(cellFetcher.data as CellProps));
+  }, [cellFetcher.data]);
 
   return (
     <div className="notebook-container">
@@ -39,16 +51,16 @@ export default function Notebook(props: NotebookProps) {
           variant="standard"
           color={"primary"}
           fullWidth={true}
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={notebook.title}
+          onChange={(e) => dispatch(setTitle(e.target.value))}
           slotProps={{
             input: { style: { fontSize: 24 } },
           }}
         />
       </Paper>
       <Paper className={"cells-container"}>
-        {cells.map((cellData) => (
-          <Cell {...cellData} />
+        {notebook.cells.map((cellData) => (
+          <Cell key={cellData.cellId} {...cellData} />
         ))}
         <div className={"add-button-container"}>
           <Button

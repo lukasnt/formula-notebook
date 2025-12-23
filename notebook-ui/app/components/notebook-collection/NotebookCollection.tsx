@@ -18,7 +18,9 @@ interface NotebookCollectionProps {
   notebooks: NotebookProps[];
 }
 
-export default function NotebookCollection({ notebooks }: NotebookCollectionProps) {
+export default function NotebookCollection({
+  notebooks,
+}: NotebookCollectionProps) {
   const navigate = useNavigate();
 
   return (
@@ -39,10 +41,10 @@ export default function NotebookCollection({ notebooks }: NotebookCollectionProp
                 <Typography variant={"h6"}>{notebook.title}</Typography>
               </TableCell>
               <TableCell>
-                {"Created " + notebook.created.toDateString()}
+                {"Created " + new Date(notebook.created).toDateString()}
               </TableCell>
               <TableCell>
-                {"Modified " + notebook.modified.toDateString()}
+                {"Modified " + new Date(notebook.modified).toDateString()}
               </TableCell>
               <TableCell>{notebook.cellCount + " cells"}</TableCell>
               <TableCell>
