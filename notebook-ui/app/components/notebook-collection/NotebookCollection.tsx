@@ -12,10 +12,10 @@ import "./notebook-collection.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BookIcon from "@mui/icons-material/Book";
 import { useNavigate } from "react-router";
-import type { NotebookProps } from "~/components/notebook/Notebook";
+import type { NotebookData } from "~/components/notebook/Notebook";
 
 interface NotebookCollectionProps {
-  notebooks: NotebookProps[];
+  notebooks: NotebookData[];
 }
 
 export default function NotebookCollection({

@@ -5,7 +5,7 @@ import type { Route } from "./+types";
 import type { NotebookResponse } from "~/api/types/notebook-response";
 import { toNotebook } from "~/api/types/map-response";
 import { fetchNotebooks } from "~/api/services/notebook-service";
-import type { NotebookProps } from "~/components/notebook/Notebook";
+import type { NotebookData } from "~/components/notebook/Notebook";
 
 export async function loader() {
   return {
@@ -14,7 +14,7 @@ export async function loader() {
 }
 
 export default function Index({ loaderData }: Route.ComponentProps) {
-  const [notebooks, setNotebooks] = useState<NotebookProps[]>([]);
+  const [notebooks, setNotebooks] = useState<NotebookData[]>([]);
 
   useEffect(() => {
     setNotebooks(

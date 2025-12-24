@@ -1,5 +1,5 @@
 import type { NotebookResponse } from "~/api/types/notebook-response";
-import type { CellProps } from "~/components/notebook/Cell";
+import type { CellData } from "~/components/notebook/Cell";
 
 export const apiUrl = (): string => {
   const apiHost: string = import.meta.env.VITE_API_HOSTNAME || "localhost";
@@ -27,10 +27,25 @@ export const fetchNotebook = async (
   }
 };
 
+export const saveNotebook = async (
+  notebookId: string,
+  data: string
+): Promise<NotebookResponse> => {
+  try {
+    const res = await fetch(`${apiUrl()}/notebooks/${notebookId}`, {
+      method: "PUT",
+      body: data,
+    });
+    return res.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const postCell = async (
   notebookId: string,
   data: string,
-): Promise<CellProps> => {
+): Promise<CellData> => {
   try {
     const res = await fetch(`${apiUrl()}/notebooks/${notebookId}/cell`, {
       method: "POST",
@@ -45,7 +60,7 @@ export const postCell = async (
 export const deleteCell = async (
   notebookId: string,
   cellId: string,
-): Promise<CellProps> => {
+): Promise<CellData> => {
   try {
     const res = await fetch(
       `${apiUrl()}/notebooks/${notebookId}/cell/${cellId}`,

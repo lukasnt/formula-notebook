@@ -8,42 +8,53 @@ import {
   Typography,
 } from "@mui/material";
 import { Delete, PlayArrow } from "@mui/icons-material";
-import { type ChangeEvent, useState } from "react";
-import { useFetcher } from "react-router";
-import { DELETE_CELL } from "~/routes/actions/notebook-actions";
-import { deleteCell } from "~/providers/notebook-slices";
+import { type ChangeEvent, useEffect, useState } from "react";
+import { useLoaderData } from "react-router";
+import { editCellText } from "~/providers/notebook-slices";
 import { useDispatch } from "react-redux";
 
-export interface CellProps {
+export interface CellData {
   notebookId: string;
   cellId: string;
-  updated: string;
+  updated?: string;
   symbol?: string;
   formula?: any;
   textContent?: string;
   evaluated?: { num: number; error: string };
 }
 
-export default function Cell(props: CellProps) {
-  const [result, setResult] = useState<number | undefined>(
-    props.evaluated?.num,
-  );
-  const [textValue, setTextValue] = useState<string | undefined>(
-    props.textContent,
-  );
+export interface CellProps {
+  notebookId: string;
+  cellId: string;
+  onDelete: (cellId: string) => void;
+}
+
+export default function Cell({ notebookId, cellId, onDelete }: CellProps) {
+  const { notebook } = useLoaderData();
+  const [result, setResult] = useState<number | undefined>();
+  const [textValue, setTextValue] = useState<string | undefined>();
   const dispatch = useDispatch();
-  const cellFetcher = useFetcher<CellProps>();
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTextValue(e.target.value);
+    dispatch(editCellText({ cellId, notebookId, textContent: e.target.value }));
   };
 
   const handleRunCell = () => {};
 
   const handleDeleteCell = () => {
-    dispatch(deleteCell(props.cellId));
-    cellFetcher.submit({ cellId: props.cellId, actionType: DELETE_CELL });
+    onDelete(cellId);
   };
+
+  useEffect(() => {
+    const cellData: CellData = notebook.cells.find(
+      (cell: CellData) => cell.cellId === cellId,
+    );
+    if (cellData) {
+      setResult(cellData.evaluated?.num);
+      setTextValue(cellData.textContent);
+    }
+  }, [notebook.cells]);
 
   return (
     <Paper className={"cell"} style={{ background: "white" }}>

@@ -1,8 +1,8 @@
-import type { NotebookProps } from "~/components/notebook/Notebook";
+import type { NotebookData } from "~/components/notebook/Notebook";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { CellProps } from "~/components/notebook/Cell";
+import type { CellData } from "~/components/notebook/Cell";
 
-const initialState: NotebookProps = {
+const initialState: NotebookData = {
   notebookId: "",
   title: "",
   created: new Date().toDateString(),
@@ -15,16 +15,16 @@ export const notebookSlice = createSlice({
   name: "notebook",
   initialState,
   reducers: {
-    initNotebook: (state, action: PayloadAction<NotebookProps>) => {
+    initNotebook: (state, action: PayloadAction<NotebookData>) => {
       return action.payload;
     },
     setTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
     },
-    addCell: (state, action: PayloadAction<CellProps>) => {
+    addCell: (state, action: PayloadAction<CellData>) => {
       state.cells.push(action.payload);
     },
-    initCell: (state, action: PayloadAction<CellProps>) => {
+    initCell: (state, action: PayloadAction<CellData>) => {
       const cell = state.cells.find((cell) => cell.cellId === "");
       if (cell) {
         cell.cellId = action.payload.cellId;
@@ -38,9 +38,17 @@ export const notebookSlice = createSlice({
         (cell) => cell.cellId !== action.payload,
       );
     },
+    editCellText: (state, action: PayloadAction<CellData>) => {
+      const cell = state.cells.find(
+        (cell) => cell.cellId === action.payload.cellId,
+      );
+      if (cell) {
+        cell.textContent = action.payload.textContent;
+      }
+    },
   },
 });
 
-export const { initNotebook, setTitle, addCell, initCell, deleteCell } =
+export const { initNotebook, setTitle, addCell, initCell, deleteCell, editCellText } =
   notebookSlice.actions;
 export default notebookSlice.reducer;
