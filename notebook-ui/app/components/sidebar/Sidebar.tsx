@@ -14,9 +14,9 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import FunctionsIcon from "@mui/icons-material/Functions";
 import FastForwardIcon from "@mui/icons-material/FastForward";
-import SaveIcon from "@mui/icons-material/Save";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import { useState } from "react";
+import SaveButton from "~/components/sidebar/SaveButton";
 
 export default function Sidebar() {
   const [openArithmetic, setOpenArithmetic] = useState(false);
@@ -38,16 +38,7 @@ export default function Sidebar() {
         }
       >
         <List sx={{ pl: 4 }}>
-          <ListItemButton>
-            <ListItemText>
-              <Typography variant={"subtitle2"} component="div">
-                Save
-              </Typography>
-            </ListItemText>
-            <ListItemIcon>
-              <SaveIcon htmlColor={"black"} />
-            </ListItemIcon>
-          </ListItemButton>
+          <SaveButton />
           <ListItemButton>
             <ListItemText>
               <Typography variant={"subtitle2"} component="div">

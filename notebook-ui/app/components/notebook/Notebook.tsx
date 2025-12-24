@@ -1,78 +1,69 @@
-import { Button, Paper, TextField, Typography } from "@mui/material";
+import { Paper } from "@mui/material";
 
 import "./notebook.css";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Cell, { type CellProps } from "~/components/notebook/Cell";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "~/providers/store";
-import { addCell, initCell, setTitle } from "~/providers/notebook-slices";
-import { useFetcher } from "react-router";
-import { useEffect } from "react";
-import { ADD_CELL } from "~/routes/actions/notebook-actions";
+import Cell, { type CellData } from "~/components/notebook/Cell";
+import { useDispatch } from "react-redux";
+import { addCell, deleteCell } from "~/providers/notebook-slices";
+import { useFetcher, useLoaderData } from "react-router";
+import { useEffect, useState } from "react";
+import {
+  ADD_CELL,
+  DELETE_CELL,
+  type NotebookAction,
+} from "~/routes/actions/notebook-actions";
+import NotebookTitle from "~/components/notebook/NotebookTitle";
+import type { loader } from "~/routes/notebook";
+import AddCellButton from "~/components/notebook/AddCellButton";
 
-export interface NotebookProps {
+export interface NotebookData {
   notebookId: string;
   title: string;
   created: string;
   modified: string;
-  cells: CellProps[];
+  cells: CellData[];
   cellCount: number;
 }
 
 export default function Notebook() {
-  const notebook = useSelector((state: RootState) => state.notebook);
+  const { notebook } = useLoaderData<typeof loader>();
   const dispatch = useDispatch();
-  const cellFetcher = useFetcher<CellProps>();
-
-  const handleAddCell = async () => {
-    let newCell: CellProps = {
-      notebookId: notebook.notebookId,
-      cellId: "",
-      symbol: "",
-      textContent: "",
-      updated: "",
-    };
-    dispatch(addCell(newCell));
-    await cellFetcher.submit({
-      cell: JSON.stringify(newCell),
-      action: ADD_CELL,
-    });
-  };
+  const fetcher = useFetcher<NotebookAction>();
+  const [cellIds, setCellIds] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log(cellFetcher.data);
-    dispatch(initCell(cellFetcher.data as CellProps));
-  }, [cellFetcher.data]);
+    setCellIds(notebook.cells.map((cell: CellData) => cell.cellId));
+  }, []);
 
   return (
     <div className="notebook-container">
-      <Paper className={"title-container"}>
-        <TextField
-          variant="standard"
-          color={"primary"}
-          fullWidth={true}
-          value={notebook.title}
-          onChange={(e) => dispatch(setTitle(e.target.value))}
-          slotProps={{
-            input: { style: { fontSize: 24 } },
+      <NotebookTitle notebookId={notebook.notebookId} />
+      <Paper className={"cells-container"}>
+        {cellIds.map((cellId: string) => (
+          <Cell
+            key={cellId}
+            cellId={cellId}
+            notebookId={notebook.notebookId}
+            onDelete={(cellId: string) => {
+              setCellIds(cellIds.filter((id: string) => id !== cellId));
+              dispatch(deleteCell(cellId));
+              fetcher.submit(
+                { cellId: cellId, actionType: DELETE_CELL },
+                { method: "DELETE" },
+              );
+            }}
+          />
+        ))}
+        <AddCellButton
+          notebookId={notebook.notebookId}
+          onAddCell={(cell: CellData) => {
+            setCellIds([...cellIds, cell.cellId]);
+            dispatch(addCell(cell));
+            fetcher.submit(
+              { cell: JSON.stringify(cell), actionType: ADD_CELL },
+              { method: "POST" },
+            );
           }}
         />
-      </Paper>
-      <Paper className={"cells-container"}>
-        {notebook.cells.map((cellData) => (
-          <Cell key={cellData.cellId} {...cellData} />
-        ))}
-        <div className={"add-button-container"}>
-          <Button
-            color="inherit"
-            fullWidth
-            variant="outlined"
-            onClick={handleAddCell}
-          >
-            <Typography>Add cell</Typography>
-            <AddCircleOutlineIcon />
-          </Button>
-        </div>
       </Paper>
     </div>
   );
