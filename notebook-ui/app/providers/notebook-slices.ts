@@ -49,6 +49,12 @@ export const notebookSlice = createSlice({
   },
 });
 
-export const { initNotebook, setTitle, addCell, initCell, deleteCell, editCellText } =
-  notebookSlice.actions;
+export const {
+  initNotebook,
+  setTitle,
+  addCell,
+  initCell,
+  deleteCell,
+  editCellText,
+} = notebookSlice.actions;
 export default notebookSlice.reducer;

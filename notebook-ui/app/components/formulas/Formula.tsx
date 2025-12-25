@@ -13,33 +13,53 @@ export interface FormulaProps {
   inputs: FormulaProps[];
   value?: number;
   depth?: number;
+  hovered?: Selected;
+  setHovered?: (newHovered: Selected) => void;
   selected?: Selected;
   setSelected?: (newSelected: Selected) => void;
 }
 
 export default function Formula(props: FormulaProps) {
   const depth = props.depth || 0;
+  const [isHovered, setIsHovered] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
+
+  useEffect(() => {
+    setIsHovered(props.id == props?.hovered?.id);
+  }, [props.hovered]);
 
   useEffect(() => {
     setIsSelected(props.id == props?.selected?.id);
   }, [props.selected]);
 
+  const styleName = (isHovered: boolean, isSelected: boolean): string => {
+    return isSelected
+      ? "formula selected"
+      : isHovered
+        ? "formula hovered"
+        : "formula";
+  };
+
   return (
     <div
-      className={isSelected ? "formula selected" : "formula"}
+      className={styleName(isHovered, isSelected)}
       onMouseOverCapture={(e) => {
-        if (
-          props.selected &&
-          props.setSelected &&
-          depth >= props.selected.depth
-        ) {
-          props.setSelected({ id: props.id, depth: depth });
+        if (props.hovered && props.setHovered && depth >= props.hovered.depth) {
+          props.setHovered({ id: props.id, depth: depth });
         }
       }}
       onMouseOutCapture={(e) => {
-        if (props.setSelected) {
-          props.setSelected({ id: "", depth: 0 });
+        if (props.setHovered) {
+          props.setHovered({ id: "", depth: 0 });
+        }
+      }}
+      onClick={(e) => {
+        if (
+          props.hovered &&
+          props.setSelected &&
+          depth >= props.hovered.depth
+        ) {
+          props.setSelected({ id: props.id, depth: depth });
         }
       }}
     >
@@ -49,9 +69,11 @@ export default function Formula(props: FormulaProps) {
         inputs={props.inputs.map((input: FormulaProps) => {
           return {
             ...input,
+            depth: depth + 2,
+            hovered: props.hovered,
+            setHovered: props.setHovered,
             selected: props.selected,
             setSelected: props.setSelected,
-            depth: depth + 2,
           };
         })}
       />
@@ -61,8 +83,9 @@ export default function Formula(props: FormulaProps) {
 
 export function FormulaRoot(props: FormulaProps) {
   const depth = props.depth || 0;
-  const initSelected: Selected = { id: "", depth: 0 };
-  const [selected, setSelected] = useState(initSelected);
+  const initHovered: Selected = { id: "", depth: 0 };
+  const [hovered, setHovered] = useState(initHovered);
+  const [selected, setSelected] = useState(initHovered);
 
   return (
     <div>
@@ -70,6 +93,8 @@ export function FormulaRoot(props: FormulaProps) {
         {...props}
         id={"null"}
         depth={depth + 1}
+        hovered={hovered}
+        setHovered={(newHovered: Selected) => setHovered(newHovered)}
         selected={selected}
         setSelected={(newSelected: Selected) => setSelected(newSelected)}
       />

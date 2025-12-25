@@ -29,7 +29,7 @@ export const fetchNotebook = async (
 
 export const saveNotebook = async (
   notebookId: string,
-  data: string
+  data: string,
 ): Promise<NotebookResponse> => {
   try {
     const res = await fetch(`${apiUrl()}/notebooks/${notebookId}`, {
