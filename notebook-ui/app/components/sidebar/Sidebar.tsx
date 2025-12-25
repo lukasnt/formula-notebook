@@ -17,10 +17,16 @@ import FastForwardIcon from "@mui/icons-material/FastForward";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import { useState } from "react";
 import SaveButton from "~/components/sidebar/SaveButton";
+import { useSelector } from "react-redux";
+import type { RootState } from "~/providers/store";
+import DeleteIcon from "@mui/icons-material/Delete";
+import UnselectButton from "~/components/sidebar/UnselectButton";
 
 export default function Sidebar() {
   const [openArithmetic, setOpenArithmetic] = useState(false);
   const [openFunctions, setOpenFunctions] = useState(false);
+
+  const selectedFormula = useSelector((state: RootState) => state.formula);
 
   const handleClickOpenArithmetic = () => {
     setOpenArithmetic(!openArithmetic);
@@ -61,6 +67,27 @@ export default function Sidebar() {
           </ListItemButton>
         </List>
       </List>
+      {selectedFormula.id != "" && (
+        <List
+          subheader={
+            <ListSubheader component="div">Formula options</ListSubheader>
+          }
+        >
+          <List sx={{ pl: 4 }}>
+            <UnselectButton />
+            <ListItemButton>
+              <ListItemText>
+                <Typography variant={"subtitle2"} component="div">
+                  Delete
+                </Typography>
+              </ListItemText>
+              <ListItemIcon>
+                <DeleteIcon htmlColor={"black"} />
+              </ListItemIcon>
+            </ListItemButton>
+          </List>
+        </List>
+      )}
       <List
         subheader={
           <ListSubheader component="div">Mathematical library</ListSubheader>

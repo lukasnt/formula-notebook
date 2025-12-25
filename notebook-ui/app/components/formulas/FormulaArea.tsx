@@ -1,4 +1,6 @@
 import { type FormulaProps, FormulaRoot } from "~/components/formulas/Formula";
+import { useSelector } from "react-redux";
+import type { RootState } from "~/providers/store";
 
 const testInputs: FormulaProps[] = [
   {
@@ -60,9 +62,16 @@ const testInputs: FormulaProps[] = [
 ];
 
 export default function FormulaArea() {
+  const selectedFormula = useSelector((state: RootState) => state.formula);
+
   return (
     <div style={{ fontSize: 25 }}>
-      <FormulaRoot id={"1"} operator={"ADD"} inputs={testInputs} />
+      <FormulaRoot
+        id={"1"}
+        operator={"ADD"}
+        inputs={testInputs}
+        selected={{ id: selectedFormula.id, depth: selectedFormula.depth || 0 }}
+      />
     </div>
   );
 }
