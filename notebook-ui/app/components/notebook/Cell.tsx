@@ -4,6 +4,7 @@ import {
   MenuItem,
   Paper,
   Select,
+  type SelectChangeEvent,
   TextField,
   Typography,
 } from "@mui/material";
@@ -12,6 +13,7 @@ import { type ChangeEvent, useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import { editCellText } from "~/providers/notebook-slices";
 import { useDispatch } from "react-redux";
+import FormulaArea from "~/components/formulas/FormulaArea";
 
 export interface CellData {
   notebookId: string;
@@ -33,11 +35,16 @@ export default function Cell({ notebookId, cellId, onDelete }: CellProps) {
   const { notebook } = useLoaderData();
   const [result, setResult] = useState<number | undefined>();
   const [textValue, setTextValue] = useState<string | undefined>();
+  const [cellType, setCellType] = useState<string>("text");
   const dispatch = useDispatch();
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTextValue(e.target.value);
     dispatch(editCellText({ cellId, notebookId, textContent: e.target.value }));
+  };
+
+  const handleCellTypeChange = (e: SelectChangeEvent) => {
+    setCellType(e.target.value);
   };
 
   const handleRunCell = () => {};
@@ -78,10 +85,11 @@ export default function Cell({ notebookId, cellId, onDelete }: CellProps) {
               }}
               size="small"
               variant={"standard"}
-              value={"text"}
+              value={cellType}
               label={"Cell type"}
               defaultValue={"text"}
               disableUnderline
+              onChange={handleCellTypeChange}
             >
               <MenuItem value={"text"} style={{ fontSize: "small" }}>
                 Text
@@ -106,16 +114,20 @@ export default function Cell({ notebookId, cellId, onDelete }: CellProps) {
         </div>
       </div>
       <div className={"cell-body"}>
-        <TextField
-          multiline
-          variant="standard"
-          fullWidth
-          value={textValue}
-          onChange={handleTextChange}
-          slotProps={{
-            input: { disableUnderline: true },
-          }}
-        />
+        {cellType === "text" ? (
+          <TextField
+            multiline
+            variant="standard"
+            fullWidth
+            value={textValue}
+            onChange={handleTextChange}
+            slotProps={{
+              input: { disableUnderline: true },
+            }}
+          />
+        ) : (
+          <FormulaArea />
+        )}
       </div>
       {result != null && (
         <div className={"cell-result-container"}>
