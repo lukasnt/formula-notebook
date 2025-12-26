@@ -14,7 +14,8 @@ public class RequestMapper {
 
     public static Formula mapFormulaTree(FormulaTree formulaTree) {
         IO.println(formulaTree);
-        var input = Optional.ofNullable(formulaTree).map(FormulaTree::input).orElse(Collections.emptyList());
+        var id = Optional.ofNullable(formulaTree).map(FormulaTree::id).orElse(null);
+        var input = Optional.ofNullable(formulaTree).map(FormulaTree::inputs).orElse(Collections.emptyList());
         var mappedInput = input.stream()
             .map(RequestMapper::mapFormulaTree)
             .toArray(Formula[]::new);
@@ -22,9 +23,14 @@ public class RequestMapper {
             .map(FormulaTree::value).map(Evaluated::num)
             .orElse(BigDecimal.ZERO);
         var operatorId = Optional.ofNullable(formulaTree)
-            .map(FormulaTree::operatorId)
+            .map(FormulaTree::operator)
             .orElse(OperatorID.CONSTANT);
-        return new Formula(RequestMapper.mapOperator(operatorId, constValue), mappedInput);
+        return new Formula(
+            id,
+            RequestMapper.mapOperator(operatorId, constValue),
+            mappedInput,
+            constValue
+        );
     }
 
     public static Operator mapOperator(OperatorID operatorId, BigDecimal constValue) {

@@ -21,9 +21,9 @@ public class NotebookController {
     public NotebookResponse test() {
         return new NotebookResponse(UUID.randomUUID(), "Test", ZonedDateTime.now(), List.of(
             new NotebookCell(UUID.randomUUID(), UUID.randomUUID(), "a", ZonedDateTime.now(),
-                new FormulaTree(OperatorID.PLUS, List.of(
-                    new FormulaTree(OperatorID.CONSTANT, null, new Evaluated(BigDecimal.ONE, null)),
-                    new FormulaTree(OperatorID.CONSTANT, null, new Evaluated(BigDecimal.ONE, null))
+                new FormulaTree("1", OperatorID.PLUS, List.of(
+                    new FormulaTree("2", OperatorID.CONSTANT, null, new Evaluated(BigDecimal.ONE, null)),
+                    new FormulaTree("3", OperatorID.CONSTANT, null, new Evaluated(BigDecimal.ONE, null))
                 ), new Evaluated(BigDecimal.TWO, null)),
                 "Text",
                 new Evaluated(BigDecimal.TWO, null)

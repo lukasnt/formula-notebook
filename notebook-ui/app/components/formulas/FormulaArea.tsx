@@ -1,11 +1,13 @@
 import { type FormulaProps, FormulaRoot } from "~/components/formulas/Formula";
 import { useSelector } from "react-redux";
 import type { RootState } from "~/providers/store";
+import { useLoaderData } from "react-router";
+import type { loader } from "~/routes/notebook";
 
 const testInputs: FormulaProps[] = [
   {
     id: "1",
-    operator: "ADD",
+    operator: "PLUS",
     inputs: [
       {
         id: "2",
@@ -17,19 +19,19 @@ const testInputs: FormulaProps[] = [
             inputs: [
               {
                 id: "4",
-                operator: "ADD",
-                value: 10,
+                operator: "PLUS",
+                value: {num: 10},
                 inputs: [
                   {
                     id: "5",
                     operator: "CONSTANT",
-                    value: 5,
+                    value: {num: 5},
                     inputs: [],
                   },
                   {
                     id: "6",
                     operator: "CONSTANT",
-                    value: 6,
+                    value: {num: 6},
                     inputs: [],
                   },
                 ],
@@ -37,7 +39,7 @@ const testInputs: FormulaProps[] = [
               {
                 id: "7",
                 operator: "CONSTANT",
-                value: 20,
+                value: {num: 20},
                 inputs: [],
               },
             ],
@@ -45,31 +47,41 @@ const testInputs: FormulaProps[] = [
           {
             id: "8",
             operator: "CONSTANT",
-            value: 20,
+            value: {num: 20},
             inputs: [],
           },
         ],
       },
-      { id: "9", operator: "CONSTANT", value: 20, inputs: [] },
+      { id: "9", operator: "CONSTANT", value: {num: 20}, inputs: [] },
     ],
   },
   {
     id: "10",
     operator: "CONSTANT",
-    value: 20,
+    value: {num: 20},
     inputs: [],
   },
 ];
 
-export default function FormulaArea() {
+export interface FormulaAreaProps {
+  cellId: string;
+}
+
+export default function FormulaArea({ cellId }: FormulaAreaProps) {
   const selectedFormula = useSelector((state: RootState) => state.formula);
+
+  const { notebook } = useLoaderData<typeof loader>();
+
+  const cell = notebook.cells.find(cell => cell.cellId === cellId);
+
+  console.log(cell);
 
   return (
     <div style={{ fontSize: 25 }}>
       <FormulaRoot
-        id={"1"}
-        operator={"ADD"}
-        inputs={testInputs}
+        id={cell?.formula ? cell?.formula.id : "-1"}
+        operator={cell?.formula ? cell?.formula.operator : "PLUS"}
+        inputs={cell?.formula ? cell?.formula.inputs : testInputs}
         selected={{ id: selectedFormula.id, depth: selectedFormula.depth || 0 }}
       />
     </div>

@@ -39,6 +39,7 @@ public class ResponseMapper {
 
     public static FormulaTree mapFormula(Formula formula) {
         return new FormulaTree(
+            formula.getId(),
             Optional.ofNullable(formula.getOperator())
                 .map(ResponseMapper::mapOperator)
                 .orElse(OperatorID.CONSTANT),

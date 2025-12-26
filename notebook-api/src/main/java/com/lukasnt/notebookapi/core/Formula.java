@@ -7,18 +7,20 @@ import java.util.Arrays;
 
 public class Formula {
 
+    private final String id;
     private final Operator operator;
     private final Formula[] inputs;
     private final BigDecimal value;
 
-    public Formula(Operator operator, Formula[] inputs, BigDecimal value) {
+    public Formula(String id, Operator operator, Formula[] inputs, BigDecimal value) {
+        this.id = id;
         this.operator = operator;
         this.inputs = inputs;
         this.value = value;
     }
 
     public Formula(Operator operator, Formula[] inputs) {
-        this(operator, inputs, null);
+        this(null, operator, inputs, null);
     }
 
     public BigDecimal eval() {
@@ -42,6 +44,10 @@ public class Formula {
         }
         result.append(notation.substring(index));
         return result.toString();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Operator getOperator() {

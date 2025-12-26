@@ -47,6 +47,7 @@ public class EntryMapper {
 
     public static Formula toFormula(FormulaEntry formulaEntry, Map<UUID, FormulaEntry> formulasIndex) {
         return new Formula(
+            String.valueOf(formulaEntry.formulaId()),
             RequestMapper.mapOperator(OperatorID.valueOf(formulaEntry.operator()), formulaEntry.value()),
             Arrays.stream(formulaEntry.inputs())
                 .map(formulasIndex::get)

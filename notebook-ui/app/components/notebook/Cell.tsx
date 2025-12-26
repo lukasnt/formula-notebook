@@ -126,7 +126,7 @@ export default function Cell({ notebookId, cellId, onDelete }: CellProps) {
             }}
           />
         ) : (
-          <FormulaArea />
+          <FormulaArea cellId={cellId} />
         )}
       </div>
       {result != null && (

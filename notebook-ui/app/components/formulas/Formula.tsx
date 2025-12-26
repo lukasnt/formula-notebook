@@ -13,7 +13,7 @@ export interface FormulaProps {
   id: string;
   operator: string;
   inputs: FormulaProps[];
-  value?: number;
+  value?: { num?: number; error?: string };
   depth?: number;
   hovered?: Selected;
   setHovered?: (newHovered: Selected) => void;
@@ -96,7 +96,7 @@ export function FormulaRoot(props: FormulaProps) {
     <div>
       <Formula
         {...props}
-        id={"null"}
+        id={props.id}
         depth={depth + 1}
         hovered={hovered}
         setHovered={(newHovered: Selected) => setHovered(newHovered)}

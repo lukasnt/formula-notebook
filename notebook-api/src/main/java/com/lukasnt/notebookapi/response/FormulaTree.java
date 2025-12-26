@@ -3,7 +3,8 @@ package com.lukasnt.notebookapi.response;
 import java.util.List;
 
 public record FormulaTree(
-    OperatorID operatorId,
-    List<FormulaTree> input,
+    String id,
+    OperatorID operator,
+    List<FormulaTree> inputs,
     Evaluated value
 ) { }

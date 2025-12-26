@@ -1,6 +1,6 @@
 import Formula, { type FormulaProps } from "~/components/formulas/Formula";
 
-export default function Add(props: FormulaProps) {
+export default function Plus(props: FormulaProps) {
   return (
     <span
       style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
