@@ -11,6 +11,7 @@ public record CellEntry(
     String symbol,
     ZonedDateTime updated,
     String textContent,
+    UUID formula,
     BigDecimal evaluated
 ) {
 }

@@ -27,7 +27,7 @@ public class NotebookManager {
     public Notebook getStoredNotebook(String id) throws IllegalArgumentException {
         var notebook = repository.getNotebook(id);
         if (notebook != null) {
-            return EntryMapper.toNotebook(repository.getNotebook(id), repository.getCells(id));
+            return EntryMapper.toNotebook(repository.getNotebook(id), repository.getCells(id), repository.getFormulas(id));
         } else {
             throw new IllegalArgumentException(String.format("Notebook with id %s not found", id));
         }

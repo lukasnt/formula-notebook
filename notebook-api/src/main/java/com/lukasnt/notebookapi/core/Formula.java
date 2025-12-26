@@ -9,10 +9,16 @@ public class Formula {
 
     private final Operator operator;
     private final Formula[] inputs;
+    private final BigDecimal value;
 
-    public Formula(Operator operator, Formula[] inputs) {
+    public Formula(Operator operator, Formula[] inputs, BigDecimal value) {
         this.operator = operator;
         this.inputs = inputs;
+        this.value = value;
+    }
+
+    public Formula(Operator operator, Formula[] inputs) {
+        this(operator, inputs, null);
     }
 
     public BigDecimal eval() {
@@ -44,5 +50,9 @@ public class Formula {
 
     public Formula[] getInputs() {
         return inputs;
+    }
+
+    public BigDecimal getValue() {
+        return value;
     }
 }

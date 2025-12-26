@@ -43,7 +43,10 @@ public class ResponseMapper {
                 .map(ResponseMapper::mapOperator)
                 .orElse(OperatorID.CONSTANT),
             Arrays.stream(formula.getInputs()).map(ResponseMapper::mapFormula).toList(),
-            null
+            new Evaluated(
+                formula.getValue(),
+                null
+            )
         );
     }
 

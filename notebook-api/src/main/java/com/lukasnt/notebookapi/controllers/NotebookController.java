@@ -40,6 +40,12 @@ public class NotebookController {
         return ResponseMapper.mapNotebook(notebookManager.getStoredNotebook(id));
     }
 
+    @PutMapping("/{id}")
+    public NotebookResponse saveNotebook(@PathVariable String id, @RequestBody String notebook) {
+        IO.println(notebook);
+        return ResponseMapper.mapNotebook(notebookManager.getStoredNotebook(id));
+    }
+
     @GetMapping("/{id}/cell/{cellId}")
     public NotebookCell evaluateCell(@PathVariable String id, @PathVariable String cellId) {
         return ResponseMapper.mapCell(notebookManager.getStoredNotebook(id).evaluateCell(cellId));

@@ -8,7 +8,7 @@ CREATE TABLE notebooks (
 
 CREATE TABLE cells (
     id SERIAL,
-    cell_id UUID DEFAULT gen_random_uuid(),
+    cell_id UUID UNIQUE NOT NULL DEFAULT gen_random_uuid(),
     notebook_id UUID,
     PRIMARY KEY (id, notebook_id),
     CONSTRAINT fk_notebook_id
