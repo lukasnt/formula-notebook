@@ -52,11 +52,11 @@ public class Notebook {
     }
 
     public Cell deleteCell(String cellId) throws IllegalArgumentException {
-        return modifyCell(cellId, _ -> cells.remove(cellId));
+        return modifyCell(cellId, _ -> cells.remove(UUID.fromString(cellId)));
     }
 
     private Cell findCell(String cellId) throws IllegalArgumentException {
-        var cell = cells.get(cellId);
+        var cell = cells.get(UUID.fromString(cellId));
         if (cell != null) {
             return cell;
         } else {

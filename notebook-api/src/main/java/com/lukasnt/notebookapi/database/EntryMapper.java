@@ -57,4 +57,16 @@ public class EntryMapper {
         );
     }
 
+    public static CellEntry toCellEntry(Cell cell) {
+        return new CellEntry(
+            null,
+            cell.getId(),
+            cell.getNotebookId(),
+            cell.getSymbol(),
+            cell.getUpdated(),
+            cell.getTextContent(),
+            Optional.ofNullable(cell.getFormula()).map(Formula::getId).map(UUID::fromString).orElse(null),
+            cell.getEvaluated()
+        );
+    }
 }

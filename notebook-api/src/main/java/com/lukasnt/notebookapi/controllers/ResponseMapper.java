@@ -7,7 +7,7 @@ import com.lukasnt.notebookapi.core.operator.*;
 import com.lukasnt.notebookapi.models.OperatorID;
 import com.lukasnt.notebookapi.models.Evaluated;
 import com.lukasnt.notebookapi.models.FormulaTree;
-import com.lukasnt.notebookapi.models.response.NotebookCell;
+import com.lukasnt.notebookapi.models.NotebookCell;
 import com.lukasnt.notebookapi.models.response.NotebookResponse;
 
 import java.util.Arrays;

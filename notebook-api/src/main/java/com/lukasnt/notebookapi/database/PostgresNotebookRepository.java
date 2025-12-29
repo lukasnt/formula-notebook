@@ -21,26 +21,26 @@ public class PostgresNotebookRepository implements NotebookRepository {
 
     @Override
     public List<NotebookEntry> getAllNotebooks() {
-        String sql = "SELECT * FROM notebooks";
+        var sql = "SELECT * FROM notebooks";
         return jdbcTemplate.query(sql, PostgresNotebookRepository::notebookEntry);
     }
 
     @Override
     public NotebookEntry getNotebook(String notebookId) {
-        String sql = "SELECT * FROM notebooks WHERE notebook_id = ?";
+        var sql = "SELECT * FROM notebooks WHERE notebook_id = ?";
         var result = jdbcTemplate.query(sql, PostgresNotebookRepository::notebookEntry, UUID.fromString(notebookId));
         return !result.isEmpty() ? result.getFirst() : null;
     }
 
     @Override
     public List<CellEntry> getCells(String notebookId) {
-        String sql = "SELECT * FROM cells WHERE notebook_id = ?";
+        var sql = "SELECT * FROM cells WHERE notebook_id = ?";
         return jdbcTemplate.query(sql, PostgresNotebookRepository::cellEntry, UUID.fromString(notebookId));
     }
 
     @Override
     public List<FormulaEntry> getFormulas(String notebookId) {
-        String sql = """
+        var sql = """
             SELECT *
             FROM formulas
             INNER JOIN (SELECT cell_id
@@ -67,10 +67,10 @@ public class PostgresNotebookRepository implements NotebookRepository {
 
     @Override
     public CellEntry insertCell(CellEntry cell) {
-        int id = jdbcTemplate.update("INSERT into cells (cell_id, notebook_id, updated, textContent, evaluated) VALUES (?, ?, ?, ?, ?)",
+        int id = jdbcTemplate.update("INSERT into cells (cell_id, notebook_id, updated, text_content, evaluated) VALUES (?, ?, ?, ?, ?)",
             cell.cellId(),
             cell.notebookId(),
-            cell.updated(),
+            java.sql.Timestamp.from(cell.updated().toInstant()),
             cell.textContent(),
             cell.evaluated()
         );
@@ -82,7 +82,7 @@ public class PostgresNotebookRepository implements NotebookRepository {
 
     @Override
     public List<FormulaEntry> insertFormulas(List<FormulaEntry> formulas) {
-        String sql = "INSERT INTO formulas (formulaId, cellId, operator, inputs, value, error) VALUES (?, ?, ?, ?, ?, ?)";
+        var sql = "INSERT INTO formulas (formulaId, cellId, operator, inputs, value, error) VALUES (?, ?, ?, ?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, formulas, formulas.size(), (ps,formula) -> {
             ps.setString(1, String.valueOf(formula.formulaId()));
             ps.setString(2, String.valueOf(formula.cellId()));
@@ -111,7 +111,11 @@ public class PostgresNotebookRepository implements NotebookRepository {
 
     @Override
     public NotebookEntry deleteCell(CellEntry cell) {
-        return null;
+        var deleteSql = "DELETE FROM cells WHERE cell_id = ?";
+        jdbcTemplate.update(deleteSql, cell.cellId());
+        var updateSql = "UPDATE notebooks SET modified = now() WHERE notebook_id = ?";
+        jdbcTemplate.update(updateSql, cell.notebookId());
+        return this.getNotebook(String.valueOf(cell.notebookId()));
     }
 
     static NotebookEntry notebookEntry(ResultSet rs, int rowNum) {
