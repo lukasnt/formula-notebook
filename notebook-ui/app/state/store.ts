@@ -1,8 +1,7 @@
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
-import { notebookSlice } from "~/providers/notebook-slices";
-import { selectedFormulaSlice } from "~/providers/formula-slices";
+import { notebookSlice } from "~/state/notebook-slices";
 
-export const rootReducer = combineSlices(notebookSlice, selectedFormulaSlice);
+export const rootReducer = combineSlices(notebookSlice);
 
 export const store = configureStore({
   reducer: rootReducer,

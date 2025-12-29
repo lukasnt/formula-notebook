@@ -4,7 +4,7 @@ import "./notebook.css";
 import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import { useDispatch } from "react-redux";
-import { setTitle } from "~/providers/notebook-slices";
+import { setTitle } from "~/state/notebook-slices";
 
 export interface NotebookTitleProps {
   notebookId: string;

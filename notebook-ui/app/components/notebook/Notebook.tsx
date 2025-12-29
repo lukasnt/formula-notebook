@@ -3,7 +3,7 @@ import { Paper } from "@mui/material";
 import "./notebook.css";
 import Cell, { type CellData } from "~/components/notebook/Cell";
 import { useDispatch } from "react-redux";
-import { addCell, deleteCell, initCell } from "~/providers/notebook-slices";
+import { addCell, deleteCell, initCell } from "~/state/notebook-slices";
 import { useFetcher, useLoaderData } from "react-router";
 import { useEffect, useState } from "react";
 import {

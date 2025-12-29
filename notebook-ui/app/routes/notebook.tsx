@@ -5,7 +5,7 @@ import { fetchNotebook } from "~/api/services/notebook-service";
 import { toNotebook } from "~/api/types/map-response";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { initNotebook } from "~/providers/notebook-slices";
+import { initNotebook } from "~/state/notebook-slices";
 import type { Route } from "./+types/notebook";
 import {
   executeAction,

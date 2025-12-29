@@ -6,7 +6,8 @@ import {
 } from "@mui/material";
 import TabUnselectedIcon from "@mui/icons-material/TabUnselected";
 import { useDispatch } from "react-redux";
-import { emptyFormula, setSelectedFormula } from "~/providers/formula-slices";
+import { emptyFormula } from "~/state/formula-const";
+import { setSelectedFormula } from "~/state/notebook-slices";
 
 export default function UnselectButton() {
   const dispatch = useDispatch();

@@ -2,14 +2,24 @@ import type { NotebookData } from "~/components/notebook/Notebook";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { CellData } from "~/components/notebook/Cell";
 import { NULL_UUID } from "~/components/notebook/AddCellButton";
+import type { FormulaProps } from "~/components/formulas/Formula";
+import { emptyFormula, initialCellFormula } from "~/state/formula-const";
+import { insertFormula } from "~/state/formula-utils";
 
-const initialState: NotebookData = {
+export interface NotebookState extends NotebookData {
+  rootFormula: FormulaProps;
+  selectedFormula: FormulaProps;
+}
+
+const initialState: NotebookState = {
   notebookId: "",
   title: "",
   created: new Date().toDateString(),
   modified: new Date().toDateString(),
   cells: [],
   cellCount: 0,
+  rootFormula: initialCellFormula,
+  selectedFormula: emptyFormula,
 };
 
 export const notebookSlice = createSlice({
@@ -17,7 +27,11 @@ export const notebookSlice = createSlice({
   initialState,
   reducers: {
     initNotebook: (state, action: PayloadAction<NotebookData>) => {
-      return action.payload;
+      return {
+        ...action.payload,
+        rootFormula: state.rootFormula,
+        selectedFormula: state.selectedFormula,
+      };
     },
     setTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
@@ -47,6 +61,21 @@ export const notebookSlice = createSlice({
         cell.textContent = action.payload.textContent;
       }
     },
+    setSelectedFormula: (state, action: PayloadAction<FormulaProps>) => {
+      state.selectedFormula = action.payload;
+    },
+    setRootFormula: (state, action: PayloadAction<FormulaProps>) => {
+      state.rootFormula = action.payload;
+    },
+    insertFormulaEnd: (state, action: PayloadAction<FormulaProps>) => {
+      state.rootFormula = {
+        ...action.payload,
+        inputs: [state.rootFormula, ...action.payload.inputs],
+      };
+    },
+    insertAtSelected: (state, action: PayloadAction<FormulaProps>) => {
+      insertFormula(state, action.payload);
+    },
   },
 });
 
@@ -57,5 +86,9 @@ export const {
   initCell,
   deleteCell,
   editCellText,
+  setSelectedFormula,
+  setRootFormula,
+  insertFormulaEnd,
+  insertAtSelected,
 } = notebookSlice.actions;
 export default notebookSlice.reducer;

@@ -18,7 +18,7 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import { useState } from "react";
 import SaveButton from "~/components/sidebar/SaveButton";
 import { useSelector } from "react-redux";
-import type { RootState } from "~/providers/store";
+import type { RootState } from "~/state/store";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UnselectButton from "~/components/sidebar/UnselectButton";
 import OperatorButton from "~/components/sidebar/OperatorButton";
@@ -27,7 +27,7 @@ export default function Sidebar() {
   const [openArithmetic, setOpenArithmetic] = useState(false);
   const [openFunctions, setOpenFunctions] = useState(false);
 
-  const selectedFormula = useSelector((state: RootState) => state.selectedFormula.selectedFormula);
+  const selectedFormula = useSelector((state: RootState) => state.notebook.selectedFormula);
 
   const handleClickOpenArithmetic = () => {
     setOpenArithmetic(!openArithmetic);

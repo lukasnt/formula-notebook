@@ -10,7 +10,7 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Provider } from "react-redux";
-import { store } from "~/providers/store";
+import { store } from "~/state/store";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

@@ -8,7 +8,7 @@ import {
 import "./sidebar.css";
 import SaveIcon from "@mui/icons-material/Save";
 import { useSelector } from "react-redux";
-import type { RootState } from "~/providers/store";
+import type { RootState } from "~/state/store";
 import { useFetcher } from "react-router";
 import {
   type NotebookAction,

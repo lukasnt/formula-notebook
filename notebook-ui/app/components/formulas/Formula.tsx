@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./formula.css";
 import FormulaOperator from "~/components/formulas/operators/FormulaOperator";
 import { useDispatch } from "react-redux";
-import { setSelectedFormula } from "~/providers/formula-slices";
+import { setSelectedFormula } from "~/state/notebook-slices";
 
 export interface Selected {
   id: string;

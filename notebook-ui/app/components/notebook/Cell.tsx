@@ -11,7 +11,7 @@ import {
 import { Delete, PlayArrow } from "@mui/icons-material";
 import { type ChangeEvent, useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
-import { editCellText } from "~/providers/notebook-slices";
+import { editCellText } from "~/state/notebook-slices";
 import { useDispatch } from "react-redux";
 import FormulaArea from "~/components/formulas/FormulaArea";
 

@@ -1,10 +1,10 @@
 import { FormulaRoot } from "~/components/formulas/Formula";
 import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "~/providers/store";
+import type { RootState } from "~/state/store";
 import { useLoaderData } from "react-router";
 import type { loader } from "~/routes/notebook";
 import { useEffect, useState } from "react";
-import { setRootFormula } from "~/providers/formula-slices";
+import { setRootFormula } from "~/state/notebook-slices";
 
 export interface FormulaAreaProps {
   cellId: string;
@@ -17,11 +17,11 @@ export default function FormulaArea({ cellId }: FormulaAreaProps) {
   const cell = notebook.cells.find((cell) => cell.cellId === cellId);
 
   const selectedFormula = useSelector(
-    (state: RootState) => state.selectedFormula.selectedFormula,
+    (state: RootState) => state.notebook.selectedFormula,
   );
 
   const rootFormula = useSelector(
-    (state: RootState) => state.selectedFormula.rootFormula,
+    (state: RootState) => state.notebook.rootFormula,
   );
 
   const [formula, setFormula] = useState(
@@ -36,7 +36,6 @@ export default function FormulaArea({ cellId }: FormulaAreaProps) {
     <div
       style={{ fontSize: 25 }}
       onClick={() => {
-        console.log("root formula:", rootFormula);
         dispatch(setRootFormula(formula));
       }}
     >
