@@ -1,6 +1,7 @@
 import type { NotebookData } from "~/components/notebook/Notebook";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { CellData } from "~/components/notebook/Cell";
+import { NULL_UUID } from "~/components/notebook/AddCellButton";
 
 const initialState: NotebookData = {
   notebookId: "",
@@ -25,7 +26,7 @@ export const notebookSlice = createSlice({
       state.cells.push(action.payload);
     },
     initCell: (state, action: PayloadAction<CellData>) => {
-      const cell = state.cells.find((cell) => cell.cellId === "");
+      const cell = state.cells.find((cell) => cell.cellId === NULL_UUID);
       if (cell) {
         cell.cellId = action.payload.cellId;
         cell.updated = action.payload.updated;

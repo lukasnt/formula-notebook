@@ -3,7 +3,7 @@ import { Paper } from "@mui/material";
 import "./notebook.css";
 import Cell, { type CellData } from "~/components/notebook/Cell";
 import { useDispatch } from "react-redux";
-import { addCell, deleteCell } from "~/providers/notebook-slices";
+import { addCell, deleteCell, initCell } from "~/providers/notebook-slices";
 import { useFetcher, useLoaderData } from "react-router";
 import { useEffect, useState } from "react";
 import {
@@ -27,12 +27,20 @@ export interface NotebookData {
 export default function Notebook() {
   const { notebook } = useLoaderData<typeof loader>();
   const dispatch = useDispatch();
-  const fetcher = useFetcher<NotebookAction>();
+  const fetcher = useFetcher<NotebookAction>( { key: notebook.notebookId });
   const [cellIds, setCellIds] = useState<string[]>([]);
 
   useEffect(() => {
     setCellIds(notebook.cells.map((cell: CellData) => cell.cellId));
   }, []);
+
+  useEffect(() => {
+    if (fetcher.data?.actionType === ADD_CELL) {
+      const cellData = fetcher.data?.cellData as CellData;
+      setCellIds([...cellIds.slice(0, cellIds.length - 1), cellData.cellId]);
+      dispatch(initCell(cellData));
+    }
+  }, [fetcher.data?.cellData]);
 
   return (
     <div className="notebook-container">
