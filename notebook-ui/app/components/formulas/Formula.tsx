@@ -10,6 +10,7 @@ export interface Selected {
 }
 
 export interface FormulaProps {
+  cellId?: string;
   id: string;
   operator: string;
   inputs: FormulaProps[];
@@ -74,6 +75,7 @@ export default function Formula(props: FormulaProps) {
         inputs={props.inputs.map((input: FormulaProps) => {
           return {
             ...input,
+            cellId: props.cellId,
             depth: depth + 2,
             hovered: props.hovered,
             setHovered: props.setHovered,

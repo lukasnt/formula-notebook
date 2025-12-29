@@ -1,88 +1,51 @@
-import { type FormulaProps, FormulaRoot } from "~/components/formulas/Formula";
-import { useSelector } from "react-redux";
+import { FormulaRoot } from "~/components/formulas/Formula";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "~/providers/store";
 import { useLoaderData } from "react-router";
 import type { loader } from "~/routes/notebook";
-
-const testInputs: FormulaProps[] = [
-  {
-    id: "1",
-    operator: "PLUS",
-    inputs: [
-      {
-        id: "2",
-        operator: "DIVISION",
-        inputs: [
-          {
-            id: "3",
-            operator: "DIVISION",
-            inputs: [
-              {
-                id: "4",
-                operator: "PLUS",
-                value: {num: 10},
-                inputs: [
-                  {
-                    id: "5",
-                    operator: "CONSTANT",
-                    value: {num: 5},
-                    inputs: [],
-                  },
-                  {
-                    id: "6",
-                    operator: "CONSTANT",
-                    value: {num: 6},
-                    inputs: [],
-                  },
-                ],
-              },
-              {
-                id: "7",
-                operator: "CONSTANT",
-                value: {num: 20},
-                inputs: [],
-              },
-            ],
-          },
-          {
-            id: "8",
-            operator: "CONSTANT",
-            value: {num: 20},
-            inputs: [],
-          },
-        ],
-      },
-      { id: "9", operator: "CONSTANT", value: {num: 20}, inputs: [] },
-    ],
-  },
-  {
-    id: "10",
-    operator: "CONSTANT",
-    value: {num: 20},
-    inputs: [],
-  },
-];
+import { useEffect, useState } from "react";
+import { setRootFormula } from "~/providers/formula-slices";
 
 export interface FormulaAreaProps {
   cellId: string;
 }
 
 export default function FormulaArea({ cellId }: FormulaAreaProps) {
-  const selectedFormula = useSelector((state: RootState) => state.formula);
-
   const { notebook } = useLoaderData<typeof loader>();
+  const dispatch = useDispatch();
 
-  const cell = notebook.cells.find(cell => cell.cellId === cellId);
+  const cell = notebook.cells.find((cell) => cell.cellId === cellId);
 
-  console.log(cell);
+  const selectedFormula = useSelector(
+    (state: RootState) => state.selectedFormula.selectedFormula,
+  );
+
+  const rootFormula = useSelector(
+    (state: RootState) => state.selectedFormula.rootFormula,
+  );
+
+  const [formula, setFormula] = useState(
+    cell?.formula ? cell.formula : rootFormula,
+  );
+
+  useEffect(() => {
+    setFormula(cell?.formula ? cell.formula : rootFormula);
+  }, [rootFormula]);
 
   return (
-    <div style={{ fontSize: 25 }}>
+    <div
+      style={{ fontSize: 25 }}
+      onClick={() => {
+        console.log("root formula:", rootFormula);
+        dispatch(setRootFormula(formula));
+      }}
+    >
       <FormulaRoot
-        id={cell?.formula ? cell?.formula.id : "-1"}
-        operator={cell?.formula ? cell?.formula.operator : "PLUS"}
-        inputs={cell?.formula ? cell?.formula.inputs : testInputs}
-        selected={{ id: selectedFormula.id, depth: selectedFormula.depth || 0 }}
+        {...formula}
+        selected={{
+          id: selectedFormula.id,
+          depth: selectedFormula.depth || 0,
+        }}
       />
     </div>
   );

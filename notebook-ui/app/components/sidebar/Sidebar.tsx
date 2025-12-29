@@ -21,12 +21,13 @@ import { useSelector } from "react-redux";
 import type { RootState } from "~/providers/store";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UnselectButton from "~/components/sidebar/UnselectButton";
+import OperatorButton from "~/components/sidebar/OperatorButton";
 
 export default function Sidebar() {
   const [openArithmetic, setOpenArithmetic] = useState(false);
   const [openFunctions, setOpenFunctions] = useState(false);
 
-  const selectedFormula = useSelector((state: RootState) => state.formula);
+  const selectedFormula = useSelector((state: RootState) => state.selectedFormula.selectedFormula);
 
   const handleClickOpenArithmetic = () => {
     setOpenArithmetic(!openArithmetic);
@@ -102,18 +103,9 @@ export default function Sidebar() {
         </ListItemButton>
         <Collapse in={openArithmetic}>
           <List sx={{ pl: 4 }}>
-            <ListItemButton>
-              <ListItemText primary={"+"} />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemText primary={"-"} />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemText primary={"*"} />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemText primary={"/"} />
-            </ListItemButton>
+            <OperatorButton symbol="+" operator="PLUS" />
+            <OperatorButton symbol="-" operator="MINUS" />
+            <OperatorButton symbol="/" operator="DIVISION" />
           </List>
         </Collapse>
         <ListItemButton onClick={handleClickOpenFunctions}>

@@ -15,7 +15,7 @@ export default function AddCellButton({
   notebookId,
   onAddCell,
 }: AddCellButtonProps) {
-  
+
   const handleAddCell = async () => {
     let newCell: CellData = {
       notebookId: notebookId,
