@@ -1,4 +1,4 @@
-package com.lukasnt.notebookapi.data;
+package com.lukasnt.notebookapi.database;
 
 import java.util.List;
 

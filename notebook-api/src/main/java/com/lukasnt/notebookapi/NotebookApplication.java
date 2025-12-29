@@ -2,9 +2,9 @@ package com.lukasnt.notebookapi;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.lukasnt.notebookapi.controllers.NotebookController;
-import com.lukasnt.notebookapi.core.NotebookManager;
-import com.lukasnt.notebookapi.data.NotebookRepository;
-import com.lukasnt.notebookapi.data.PostgresNotebookRepository;
+import com.lukasnt.notebookapi.core.NotebookService;
+import com.lukasnt.notebookapi.database.NotebookRepository;
+import com.lukasnt.notebookapi.database.PostgresNotebookRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
@@ -22,8 +22,8 @@ public class NotebookApplication {
     }
 
     @Bean
-    public NotebookManager notebookManager(NotebookRepository notebookRepository) {
-        return new NotebookManager(notebookRepository);
+    public NotebookService notebookManager(NotebookRepository notebookRepository) {
+        return new NotebookService(notebookRepository);
     }
 
     @Bean

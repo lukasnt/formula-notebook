@@ -1,7 +1,11 @@
 package com.lukasnt.notebookapi.controllers;
 
-import com.lukasnt.notebookapi.core.NotebookManager;
-import com.lukasnt.notebookapi.response.*;
+import com.lukasnt.notebookapi.core.NotebookService;
+import com.lukasnt.notebookapi.models.OperatorID;
+import com.lukasnt.notebookapi.models.Evaluated;
+import com.lukasnt.notebookapi.models.FormulaTree;
+import com.lukasnt.notebookapi.models.response.NotebookCell;
+import com.lukasnt.notebookapi.models.response.NotebookResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +19,7 @@ import java.util.UUID;
 public class NotebookController {
 
     @Autowired
-    NotebookManager notebookManager;
+    NotebookService notebookService;
 
     @GetMapping("/test")
     public NotebookResponse test() {
@@ -32,38 +36,38 @@ public class NotebookController {
 
     @GetMapping()
     public List<NotebookResponse> getAllNotebooks() {
-        return notebookManager.getAllNotebooks().stream().map(ResponseMapper::mapNotebook).toList();
+        return notebookService.getAllNotebooks().stream().map(ResponseMapper::mapNotebook).toList();
     }
 
     @GetMapping("/{id}")
     public NotebookResponse getNotebook(@PathVariable String id) {
-        return ResponseMapper.mapNotebook(notebookManager.getStoredNotebook(id));
+        return ResponseMapper.mapNotebook(notebookService.getStoredNotebook(id));
     }
 
     @PutMapping("/{id}")
     public NotebookResponse saveNotebook(@PathVariable String id, @RequestBody String notebook) {
         IO.println(notebook);
-        return ResponseMapper.mapNotebook(notebookManager.getStoredNotebook(id));
+        return ResponseMapper.mapNotebook(notebookService.getStoredNotebook(id));
     }
 
     @GetMapping("/{id}/cell/{cellId}")
     public NotebookCell evaluateCell(@PathVariable String id, @PathVariable String cellId) {
-        return ResponseMapper.mapCell(notebookManager.getStoredNotebook(id).evaluateCell(cellId));
+        return ResponseMapper.mapCell(notebookService.getStoredNotebook(id).evaluateCell(cellId));
     }
 
     @PostMapping("/{id}/cell")
     public NotebookCell createCell(@PathVariable String id) {
-        return ResponseMapper.mapCell(notebookManager.getStoredNotebook(id).createCell());
+        return ResponseMapper.mapCell(notebookService.getStoredNotebook(id).createCell());
     }
 
     @DeleteMapping("/{id}/cell/{cellId}")
     public NotebookCell deleteCell(@PathVariable String id, @PathVariable String cellId) {
-        return ResponseMapper.mapCell(notebookManager.getStoredNotebook(id).deleteCell(cellId));
+        return ResponseMapper.mapCell(notebookService.getStoredNotebook(id).deleteCell(cellId));
     }
 
     @PutMapping("/{id}/cell/{cellId}")
     public NotebookCell replaceCellFormula(@PathVariable String id, @PathVariable String cellId, @RequestBody FormulaTree formula) {
-        var cell = notebookManager.getStoredNotebook(id)
+        var cell = notebookService.getStoredNotebook(id)
             .replaceCellFormula(cellId, RequestMapper.mapFormulaTree(formula));
         return ResponseMapper.mapCell(cell);
     }

@@ -1,19 +1,19 @@
 package com.lukasnt.notebookapi.core;
 
-import com.lukasnt.notebookapi.data.EntryMapper;
-import com.lukasnt.notebookapi.data.NotebookRepository;
+import com.lukasnt.notebookapi.database.EntryMapper;
+import com.lukasnt.notebookapi.database.NotebookRepository;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class NotebookManager {
+public class NotebookService {
 
-    private final HashMap<String, Notebook> notebooks;
+    private final HashMap<String, Notebook> notebookCache;
     private final NotebookRepository repository;
 
-    public NotebookManager(NotebookRepository repository) {
+    public NotebookService(NotebookRepository repository) {
         this.repository = repository;
-        notebooks = new HashMap<>();
+        notebookCache = new HashMap<>();
     }
 
     public List<Notebook> getAllNotebooks() {
@@ -34,7 +34,7 @@ public class NotebookManager {
     }
 
     private Notebook findNotebook(String id) throws IllegalArgumentException {
-        var notebook = notebooks.get(id);
+        var notebook = notebookCache.get(id);
         if (notebook != null) {
             return notebook;
         } else {

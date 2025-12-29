@@ -1,4 +1,4 @@
-package com.lukasnt.notebookapi.response;
+package com.lukasnt.notebookapi.models.response;
 
 import java.time.ZonedDateTime;
 import java.util.List;

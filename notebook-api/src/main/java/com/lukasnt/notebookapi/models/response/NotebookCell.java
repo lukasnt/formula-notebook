@@ -1,4 +1,7 @@
-package com.lukasnt.notebookapi.response;
+package com.lukasnt.notebookapi.models.response;
+
+import com.lukasnt.notebookapi.models.Evaluated;
+import com.lukasnt.notebookapi.models.FormulaTree;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;

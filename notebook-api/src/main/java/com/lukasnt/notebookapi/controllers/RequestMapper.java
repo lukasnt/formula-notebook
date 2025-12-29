@@ -2,9 +2,9 @@ package com.lukasnt.notebookapi.controllers;
 
 import com.lukasnt.notebookapi.core.Formula;
 import com.lukasnt.notebookapi.core.operator.*;
-import com.lukasnt.notebookapi.response.Evaluated;
-import com.lukasnt.notebookapi.response.FormulaTree;
-import com.lukasnt.notebookapi.response.OperatorID;
+import com.lukasnt.notebookapi.models.Evaluated;
+import com.lukasnt.notebookapi.models.FormulaTree;
+import com.lukasnt.notebookapi.models.OperatorID;
 
 import java.math.BigDecimal;
 import java.util.Collections;

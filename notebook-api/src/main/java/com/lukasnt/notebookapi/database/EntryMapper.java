@@ -1,10 +1,10 @@
-package com.lukasnt.notebookapi.data;
+package com.lukasnt.notebookapi.database;
 
 import com.lukasnt.notebookapi.controllers.RequestMapper;
 import com.lukasnt.notebookapi.core.Cell;
 import com.lukasnt.notebookapi.core.Formula;
 import com.lukasnt.notebookapi.core.Notebook;
-import com.lukasnt.notebookapi.response.OperatorID;
+import com.lukasnt.notebookapi.models.OperatorID;
 
 import java.util.*;
 import java.util.function.Function;

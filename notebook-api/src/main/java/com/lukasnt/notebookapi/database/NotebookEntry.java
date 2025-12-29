@@ -1,4 +1,4 @@
-package com.lukasnt.notebookapi.data;
+package com.lukasnt.notebookapi.database;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;

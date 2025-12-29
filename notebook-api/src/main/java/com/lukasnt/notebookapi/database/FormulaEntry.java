@@ -1,4 +1,4 @@
-package com.lukasnt.notebookapi.data;
+package com.lukasnt.notebookapi.database;
 
 import java.math.BigDecimal;
 import java.util.UUID;

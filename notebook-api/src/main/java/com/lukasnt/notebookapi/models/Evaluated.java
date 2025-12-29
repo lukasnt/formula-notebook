@@ -1,4 +1,4 @@
-package com.lukasnt.notebookapi.response;
+package com.lukasnt.notebookapi.models;
 
 import java.math.BigDecimal;
 
