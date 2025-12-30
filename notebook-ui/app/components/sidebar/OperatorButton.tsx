@@ -11,14 +11,6 @@ export interface OperatorButtonProps {
 }
 
 export default function OperatorButton({ symbol, operator }: OperatorButtonProps) {
-  const selectedCellFormula = useSelector(
-    (state: RootState) => state.notebook.rootFormula,
-  );
-
-  const selectedFormula = useSelector(
-    (state: RootState) => state.notebook.selectedFormula,
-  );
-
   const dispatch = useDispatch();
 
   return (
@@ -31,7 +23,7 @@ export default function OperatorButton({ symbol, operator }: OperatorButtonProps
             inputs: [
               {
                 id: v4(),
-                operator: "CONSTANT",
+                operator: "EMPTY",
                 value: { num: 20 },
                 inputs: [],
               },

@@ -1,36 +1,58 @@
 import { TextField } from "@mui/material";
 import { useState } from "react";
+import "./formula.css";
+import { useDispatch } from "react-redux";
+import { insertAtSelected } from "~/state/notebook-slices";
+import { v4 } from "uuid";
 
 export default function FormulaField() {
-  const [activeInput, setActiveInput] = useState(false);
-  const [value, setValue] = useState("10");
+  const [activeInput, setActiveInput] = useState(true);
+  const [value, setValue] = useState("");
+
+  const dispatch = useDispatch();
 
   return (
-    <span
-      onMouseOver={() => setActiveInput(true)}
-      onMouseLeave={() => setActiveInput(false)}
-    >
-      {activeInput ? (
-        <TextField
-          name="name"
-          variant="filled"
-          size="small"
-          hiddenLabel
-          style={{ minWidth: 35, maxWidth: 50 }}
-          slotProps={{
-            htmlInput: {
-              style: {
-                paddingBottom: 1,
-                paddingTop: 1,
-              },
+    <span>
+      <TextField
+        name="name"
+        variant="outlined"
+        size="small"
+        hiddenLabel
+        style={{ minWidth: 35, width: 55, margin: 0, padding: 0 }}
+        slotProps={{
+          htmlInput: {
+            inputMode: "numeric",
+            pattern: "[0-9]",
+            fieldSizing: "content",
+            style: {
+              paddingBottom: 0,
+              paddingTop: 0,
+              textAlign: "center",
+              fontSize: 25,
             },
-          }}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
-      ) : (
-        <span>{value}</span>
-      )}
+          },
+        }}
+        focused={activeInput}
+        autoFocus={true}
+        disabled={!activeInput}
+        value={value}
+        onChange={(e) => {
+          if (/^\d*$/.test(e.target.value)) setValue(e.target.value);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            dispatch(
+              insertAtSelected({
+                id: v4(),
+                operator: "CONSTANT",
+                value: { num: parseInt(value) },
+                inputs: [],
+              }),
+            );
+            setActiveInput(false);
+          }
+        }}
+      />
     </span>
   );
 }

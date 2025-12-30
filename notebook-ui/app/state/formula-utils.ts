@@ -18,7 +18,7 @@ export const insertFormulaAt = (
       ...newFormula,
       inputs: [{ ...newRoot }, ...newFormula.inputs],
     };
-    state.selectedFormula = newRoot;
+    state.selectedFormula = newFormula.inputs[0] || newRoot;
   }
 
   // Traverse tree until finding selected and insert new formula
@@ -33,7 +33,7 @@ export const insertFormulaAt = (
           inputs: [{ ...input }, ...newFormula.inputs],
         };
         newInputs.push(inserted);
-        state.selectedFormula = inserted;
+        state.selectedFormula = newFormula.inputs[0] || inserted;
       } else {
         newInputs.push(input);
       }
