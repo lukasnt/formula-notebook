@@ -35,8 +35,12 @@ export const saveNotebook = async (
     const res = await fetch(`${apiUrl()}/notebooks/${notebookId}`, {
       method: "PUT",
       body: data,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
-    return res.json();
+    var result: NotebookResponse = await res.json();
+    return result;
   } catch (error) {
     throw error;
   }
@@ -50,6 +54,9 @@ export const postCell = async (
     const res = await fetch(`${apiUrl()}/notebooks/${notebookId}/cell`, {
       method: "POST",
       body: data,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     return await res.json();
   } catch (error) {

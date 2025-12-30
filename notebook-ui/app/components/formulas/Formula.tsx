@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./formula.css";
 import FormulaOperator from "~/components/formulas/operators/FormulaOperator";
 import { useDispatch } from "react-redux";
-import { setSelectedFormula } from "~/state/notebook-slices";
+import { setSelectedCell, setSelectedFormula } from "~/state/notebook-slices";
 
 export interface Selected {
   id: string;
@@ -66,6 +66,7 @@ export default function Formula(props: FormulaProps) {
         ) {
           props.setSelected({ id: props.id, depth: depth });
           dispatch(setSelectedFormula(props));
+          dispatch(setSelectedCell(props.cellId as string));
         }
       }}
     >

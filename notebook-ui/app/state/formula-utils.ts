@@ -1,12 +1,14 @@
 import type { WritableDraft } from "immer";
 import type { FormulaProps } from "~/components/formulas/Formula";
 import type { NotebookState } from "~/state/notebook-slices";
+import type { CellData } from "~/components/notebook/Cell";
 
-export const insertFormula = (
+export const insertFormulaAt = (
   state: WritableDraft<NotebookState>,
+  cell: WritableDraft<CellData>,
   newFormula: FormulaProps,
 ) => {
-  let newRoot = { ...state.rootFormula };
+  let newRoot = { ...(cell.formula as FormulaProps) };
   let stack = [newRoot];
   let current = newRoot;
 
@@ -41,6 +43,6 @@ export const insertFormula = (
     // Make a copy of the inputs to ensure state change is triggered
     current.inputs = [...newInputs];
   }
-  state.rootFormula = newRoot;
+  cell.formula = newRoot;
 };
 

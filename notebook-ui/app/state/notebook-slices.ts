@@ -4,10 +4,12 @@ import type { CellData } from "~/components/notebook/Cell";
 import { NULL_UUID } from "~/components/notebook/AddCellButton";
 import type { FormulaProps } from "~/components/formulas/Formula";
 import { emptyFormula, initialCellFormula } from "~/state/formula-const";
-import { insertFormula } from "~/state/formula-utils";
+import { insertFormulaAt } from "~/state/formula-utils";
+import { findCell } from "~/state/cell-utils";
+import type { WritableDraft } from "immer";
 
 export interface NotebookState extends NotebookData {
-  rootFormula: FormulaProps;
+  selectedCell: string;
   selectedFormula: FormulaProps;
 }
 
@@ -18,7 +20,7 @@ const initialState: NotebookState = {
   modified: new Date().toDateString(),
   cells: [],
   cellCount: 0,
-  rootFormula: initialCellFormula,
+  selectedCell: "",
   selectedFormula: emptyFormula,
 };
 
@@ -29,7 +31,7 @@ export const notebookSlice = createSlice({
     initNotebook: (state, action: PayloadAction<NotebookData>) => {
       return {
         ...action.payload,
-        rootFormula: state.rootFormula,
+        selectedCell: "",
         selectedFormula: state.selectedFormula,
       };
     },
@@ -40,7 +42,7 @@ export const notebookSlice = createSlice({
       state.cells.push(action.payload);
     },
     initCell: (state, action: PayloadAction<CellData>) => {
-      const cell = state.cells.find((cell) => cell.cellId === NULL_UUID);
+      const cell = findCell(state, NULL_UUID);
       if (cell) {
         cell.cellId = action.payload.cellId;
         cell.updated = action.payload.updated;
@@ -54,9 +56,7 @@ export const notebookSlice = createSlice({
       );
     },
     editCellText: (state, action: PayloadAction<CellData>) => {
-      const cell = state.cells.find(
-        (cell) => cell.cellId === action.payload.cellId,
-      );
+      const cell = findCell(state, action.payload.cellId);
       if (cell) {
         cell.textContent = action.payload.textContent;
       }
@@ -64,17 +64,15 @@ export const notebookSlice = createSlice({
     setSelectedFormula: (state, action: PayloadAction<FormulaProps>) => {
       state.selectedFormula = action.payload;
     },
-    setRootFormula: (state, action: PayloadAction<FormulaProps>) => {
-      state.rootFormula = action.payload;
-    },
-    insertFormulaEnd: (state, action: PayloadAction<FormulaProps>) => {
-      state.rootFormula = {
-        ...action.payload,
-        inputs: [state.rootFormula, ...action.payload.inputs],
-      };
+    setSelectedCell: (state, action: PayloadAction<string>) => {
+      state.selectedCell = action.payload;
     },
     insertAtSelected: (state, action: PayloadAction<FormulaProps>) => {
-      insertFormula(state, action.payload);
+      let cell = findCell(
+        state,
+        state.selectedCell as string,
+      ) as WritableDraft<CellData>;
+      insertFormulaAt(state, cell, action.payload);
     },
   },
 });
@@ -87,8 +85,7 @@ export const {
   deleteCell,
   editCellText,
   setSelectedFormula,
-  setRootFormula,
-  insertFormulaEnd,
+  setSelectedCell,
   insertAtSelected,
 } = notebookSlice.actions;
 export default notebookSlice.reducer;

@@ -14,13 +14,14 @@ import { useLoaderData } from "react-router";
 import { editCellText } from "~/state/notebook-slices";
 import { useDispatch } from "react-redux";
 import FormulaArea from "~/components/formulas/FormulaArea";
+import type { FormulaProps } from "~/components/formulas/Formula";
 
 export interface CellData {
   notebookId: string;
   cellId: string;
   updated?: string;
   symbol?: string;
-  formula?: any;
+  formula?: FormulaProps;
   textContent?: string;
   evaluated?: { num: number; error: string };
 }

@@ -14,8 +14,4 @@ CREATE TABLE formulas (
 );
 
 ALTER TABLE cells
-ADD COLUMN formula UUID,
-ADD CONSTRAINT fk_formula_id
-    FOREIGN KEY (formula)
-    REFERENCES formulas (formula_id)
-    ON DELETE NO ACTION;
+ADD COLUMN formula UUID;
