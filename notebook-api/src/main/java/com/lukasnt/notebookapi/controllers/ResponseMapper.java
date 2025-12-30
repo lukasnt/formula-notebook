@@ -8,19 +8,19 @@ import com.lukasnt.notebookapi.models.OperatorID;
 import com.lukasnt.notebookapi.models.Evaluated;
 import com.lukasnt.notebookapi.models.FormulaTree;
 import com.lukasnt.notebookapi.models.NotebookCell;
-import com.lukasnt.notebookapi.models.response.NotebookResponse;
+import com.lukasnt.notebookapi.models.NotebookData;
 
 import java.util.Arrays;
 import java.util.Optional;
 
 public class ResponseMapper {
 
-    public static NotebookResponse mapNotebook(Notebook notebook) {
-        return new NotebookResponse(
+    public static NotebookData mapNotebook(Notebook notebook) {
+        return new NotebookData(
             notebook.getId(),
             notebook.getTitle(),
             notebook.getCreated(),
-            notebook.getCells().values().stream()
+            notebook.getCells().stream()
                 .map(ResponseMapper::mapCell)
                 .toList()
         );

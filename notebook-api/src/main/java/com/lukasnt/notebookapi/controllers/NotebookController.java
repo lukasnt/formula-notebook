@@ -5,7 +5,7 @@ import com.lukasnt.notebookapi.models.OperatorID;
 import com.lukasnt.notebookapi.models.Evaluated;
 import com.lukasnt.notebookapi.models.FormulaTree;
 import com.lukasnt.notebookapi.models.NotebookCell;
-import com.lukasnt.notebookapi.models.response.NotebookResponse;
+import com.lukasnt.notebookapi.models.NotebookData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +22,8 @@ public class NotebookController {
     NotebookService notebookService;
 
     @GetMapping("/test")
-    public NotebookResponse test() {
-        return new NotebookResponse(UUID.randomUUID(), "Test", ZonedDateTime.now(), List.of(
+    public NotebookData test() {
+        return new NotebookData(UUID.randomUUID(), "Test", ZonedDateTime.now(), List.of(
             new NotebookCell(UUID.randomUUID(), UUID.randomUUID(), "a", ZonedDateTime.now(),
                 new FormulaTree("1", OperatorID.PLUS, List.of(
                     new FormulaTree("2", OperatorID.CONSTANT, null, new Evaluated(BigDecimal.ONE, null)),
@@ -35,19 +35,19 @@ public class NotebookController {
     }
 
     @GetMapping()
-    public List<NotebookResponse> getAllNotebooks() {
+    public List<NotebookData> getAllNotebooks() {
         return notebookService.getAllNotebooks().stream().map(ResponseMapper::mapNotebook).toList();
     }
 
     @GetMapping("/{id}")
-    public NotebookResponse getNotebook(@PathVariable String id) {
+    public NotebookData getNotebook(@PathVariable String id) {
         return ResponseMapper.mapNotebook(notebookService.getNotebook(id));
     }
 
     @PutMapping("/{id}")
-    public NotebookResponse saveNotebook(@PathVariable String id, @RequestBody String notebook) {
+    public NotebookData saveNotebook(@PathVariable String id, @RequestBody NotebookData notebook) {
         IO.println(notebook);
-        return ResponseMapper.mapNotebook(notebookService.getNotebook(id));
+        return notebookService.saveNotebook(notebook);
     }
 
     @GetMapping("/{id}/cell/{cellId}")

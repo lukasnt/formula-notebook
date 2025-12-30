@@ -10,6 +10,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.lukasnt.notebookapi.controllers.ResponseMapper.mapOperator;
+
 public class EntryMapper {
 
     public static Notebook toNotebook(NotebookEntry notebookEntry) {
@@ -57,6 +59,16 @@ public class EntryMapper {
         );
     }
 
+    public static NotebookEntry toNotebookEntry(Notebook notebook) {
+        return new NotebookEntry(
+            null,
+            notebook.getId(),
+            notebook.getTitle(),
+            notebook.getCreated(),
+            notebook.getModified()
+        );
+    }
+
     public static CellEntry toCellEntry(Cell cell) {
         return new CellEntry(
             null,
@@ -67,6 +79,21 @@ public class EntryMapper {
             cell.getTextContent(),
             Optional.ofNullable(cell.getFormula()).map(Formula::getId).map(UUID::fromString).orElse(null),
             cell.getEvaluated()
+        );
+    }
+
+    public static FormulaEntry toFormulaEntry(Formula formula, String cellId) {
+        return new FormulaEntry(
+            null,
+            UUID.fromString(formula.getId()),
+            UUID.fromString(cellId),
+            mapOperator(formula.getOperator()).toString(),
+            Arrays.stream(formula.getInputs())
+                .map(Formula::getId)
+                .map(UUID::fromString)
+                .toArray(UUID[]::new),
+            formula.getValue(),
+            ""
         );
     }
 }

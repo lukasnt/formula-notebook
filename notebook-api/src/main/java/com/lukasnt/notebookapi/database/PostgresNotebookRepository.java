@@ -3,6 +3,7 @@ package com.lukasnt.notebookapi.database;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -81,17 +82,47 @@ public class PostgresNotebookRepository implements NotebookRepository {
     }
 
     @Override
+    public List<CellEntry> insertCells(List<CellEntry> cells) {
+        var sql = "INSERT INTO cells (cell_id, notebook_id, symbol, updated, text_content, formula, evaluated) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.batchUpdate(sql, cells, cells.size(), (ps,cell) -> {
+            ps.setObject(1, cell.cellId());
+            ps.setObject(2, cell.notebookId());
+            ps.setString(3, cell.symbol());
+            ps.setTimestamp(4, toSqlTimestamp(cell.updated()));
+            ps.setString(5, cell.textContent());
+            ps.setObject(6, cell.formula());
+            ps.setBigDecimal(7, cell.evaluated());
+        });
+        return cells;
+    }
+
+    @Override
     public List<FormulaEntry> insertFormulas(List<FormulaEntry> formulas) {
-        var sql = "INSERT INTO formulas (formulaId, cellId, operator, inputs, value, error) VALUES (?, ?, ?, ?, ?, ?)";
+        var sql = "INSERT INTO formulas (formula_id, cell_id, operator, inputs, value, error) VALUES (?, ?, ?, ?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, formulas, formulas.size(), (ps,formula) -> {
-            ps.setString(1, String.valueOf(formula.formulaId()));
-            ps.setString(2, String.valueOf(formula.cellId()));
+            ps.setObject(1, formula.formulaId());
+            ps.setObject(2, formula.cellId());
             ps.setString(3, formula.operator());
             ps.setArray(4, ps.getConnection().createArrayOf("UUID", formula.inputs()));
             ps.setBigDecimal(5, formula.value());
             ps.setString(6, formula.error());
         });
         return formulas;
+    }
+
+    @Transactional
+    @Override
+    public NotebookEntry replaceNotebook(NotebookEntry notebook) {
+        var deleteSql = "DELETE FROM notebooks WHERE notebook_id = ?";
+        jdbcTemplate.update(deleteSql, notebook.notebookId());
+        var insertSql = "INSERT INTO notebooks (notebook_id, title, created, modified) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(insertSql,
+            notebook.notebookId(),
+            notebook.title(),
+            toSqlTimestamp(notebook.created()),
+            toSqlTimestamp(notebook.modified())
+        );
+        return notebook;
     }
 
     @Override
@@ -109,6 +140,7 @@ public class PostgresNotebookRepository implements NotebookRepository {
         return null;
     }
 
+    @Transactional
     @Override
     public NotebookEntry deleteCell(CellEntry cell) {
         var deleteSql = "DELETE FROM cells WHERE cell_id = ?";
@@ -170,6 +202,10 @@ public class PostgresNotebookRepository implements NotebookRepository {
             .map(Timestamp::toInstant)
             .map(t -> t.atZone(ZoneId.systemDefault()))
             .orElse(null);
+    }
+
+    static java.sql.Timestamp toSqlTimestamp(ZonedDateTime zonedDateTime) {
+        return java.sql.Timestamp.from(zonedDateTime.toInstant());
     }
 
     static UUID toUUID(String value) {

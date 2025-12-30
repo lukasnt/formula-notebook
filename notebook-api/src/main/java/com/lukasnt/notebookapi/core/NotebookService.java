@@ -1,10 +1,16 @@
 package com.lukasnt.notebookapi.core;
 
+import com.lukasnt.notebookapi.controllers.RequestMapper;
 import com.lukasnt.notebookapi.controllers.ResponseMapper;
+import com.lukasnt.notebookapi.database.CellEntry;
 import com.lukasnt.notebookapi.database.EntryMapper;
+import com.lukasnt.notebookapi.database.FormulaEntry;
 import com.lukasnt.notebookapi.database.NotebookRepository;
 import com.lukasnt.notebookapi.models.NotebookCell;
+import com.lukasnt.notebookapi.models.NotebookData;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,6 +26,30 @@ public class NotebookService {
 
     public List<Notebook> getAllNotebooks() {
         return repository.getAllNotebooks().stream().map(EntryMapper::toNotebook).toList();
+    }
+
+    public NotebookData saveNotebook(NotebookData notebookData) {
+        var notebook = RequestMapper.mapNotebook(notebookData);;
+        notebook.setModified(ZonedDateTime.now());
+        notebookCache.put(notebook.getId().toString(), notebook);
+        repository.replaceNotebook(EntryMapper.toNotebookEntry(notebook));
+
+        List<CellEntry> cellEntries = notebook.getCells().stream()
+            .map(EntryMapper::toCellEntry).toList();
+        repository.insertCells(cellEntries);
+
+        List<FormulaEntry> formulaEntries = new ArrayList<>();
+        for (Cell cell : notebook.getCells()) {
+            if (cell.getFormula() != null) {
+                var subFormulas = cell.getFormula().collectSubFormulas().stream()
+                    .map(formula -> EntryMapper.toFormulaEntry(formula, String.valueOf(cell.getId())))
+                    .toList();
+                formulaEntries.addAll(subFormulas);
+            }
+        }
+        repository.insertFormulas(formulaEntries);
+
+        return ResponseMapper.mapNotebook(notebook);
     }
 
     public NotebookCell createCell(String notebookId) {

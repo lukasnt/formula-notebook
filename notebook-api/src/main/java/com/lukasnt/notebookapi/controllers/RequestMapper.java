@@ -1,16 +1,36 @@
 package com.lukasnt.notebookapi.controllers;
 
+import com.lukasnt.notebookapi.core.Cell;
 import com.lukasnt.notebookapi.core.Formula;
+import com.lukasnt.notebookapi.core.Notebook;
 import com.lukasnt.notebookapi.core.operator.*;
-import com.lukasnt.notebookapi.models.Evaluated;
-import com.lukasnt.notebookapi.models.FormulaTree;
-import com.lukasnt.notebookapi.models.OperatorID;
+import com.lukasnt.notebookapi.models.*;
 
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Optional;
 
 public class RequestMapper {
+
+    public static Notebook mapNotebook(NotebookData notebookData) {
+        return new Notebook(
+            notebookData.notebookId(),
+            notebookData.title(),
+            notebookData.created(),
+            notebookData.cells().stream().map(RequestMapper::mapCell).toList()
+        );
+    }
+
+    public static Cell mapCell(NotebookCell cellData) {
+        return new Cell(
+            cellData.notebookId(),
+            cellData.cellId(),
+            cellData.symbol(),
+            mapFormulaTree(cellData.formula()),
+            cellData.textContent(),
+            Optional.ofNullable(cellData.evaluated()).map(Evaluated::num).orElse(null)
+        );
+    }
 
     public static Formula mapFormulaTree(FormulaTree formulaTree) {
         IO.println(formulaTree);

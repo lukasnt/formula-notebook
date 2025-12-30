@@ -3,7 +3,10 @@ package com.lukasnt.notebookapi.core;
 import com.lukasnt.notebookapi.core.operator.Operator;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 public class Formula {
 
@@ -13,7 +16,7 @@ public class Formula {
     private final BigDecimal value;
 
     public Formula(String id, Operator operator, Formula[] inputs, BigDecimal value) {
-        this.id = id;
+        this.id = id != null ? id : UUID.randomUUID().toString();
         this.operator = operator;
         this.inputs = inputs;
         this.value = value;
@@ -44,6 +47,15 @@ public class Formula {
         }
         result.append(notation.substring(index));
         return result.toString();
+    }
+
+    public List<Formula> collectSubFormulas() {
+        List<Formula> subFormulas = new ArrayList<>();
+        subFormulas.add(this);
+        for (Formula f : inputs) {
+            subFormulas.addAll(f.collectSubFormulas());
+        }
+        return subFormulas;
     }
 
     public String getId() {

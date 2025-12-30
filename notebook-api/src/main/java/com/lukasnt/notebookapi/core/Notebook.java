@@ -55,6 +55,10 @@ public class Notebook {
         return modifyCell(cellId, _ -> cells.remove(UUID.fromString(cellId)));
     }
 
+    public void setModified(ZonedDateTime zonedDateTime) {
+        this.modified = zonedDateTime;
+    }
+
     private Cell findCell(String cellId) throws IllegalArgumentException {
         var cell = cells.get(UUID.fromString(cellId));
         if (cell != null) {
@@ -83,8 +87,8 @@ public class Notebook {
         return created;
     }
 
-    public LinkedHashMap<UUID, Cell> getCells() {
-        return cells;
+    public List<Cell> getCells() {
+        return cells.values().stream().toList();
     }
 
     public ZonedDateTime getModified() {
