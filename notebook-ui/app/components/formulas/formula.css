@@ -16,7 +16,7 @@
 
 .selected {
   color: lightgray;
-  box-shadow: 0px 0px 10px 8px #1E90FFFF;
+  box-shadow: 0px 0px 10px 8px #1e90ffff;
   border-radius: 5px;
   cursor: pointer;
 }

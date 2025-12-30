@@ -2,7 +2,7 @@ import { TextField } from "@mui/material";
 import { useState } from "react";
 import "./formula.css";
 import { useDispatch } from "react-redux";
-import { insertAtSelected } from "~/state/notebook-slices";
+import { replaceAtSelected } from "~/state/notebook-slices";
 import { v4 } from "uuid";
 
 export default function FormulaField() {
@@ -42,7 +42,7 @@ export default function FormulaField() {
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             dispatch(
-              insertAtSelected({
+              replaceAtSelected({
                 id: v4(),
                 operator: "CONSTANT",
                 value: { num: parseInt(value) },

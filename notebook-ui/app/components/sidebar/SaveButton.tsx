@@ -14,6 +14,7 @@ import {
   type NotebookAction,
   SAVE_NOTEBOOK,
 } from "~/routes/actions/notebook-actions";
+import { onlyData } from "~/state/notebook-utils";
 
 export default function SaveButton() {
   const notebook = useSelector((state: RootState) => state.notebook);
@@ -21,7 +22,7 @@ export default function SaveButton() {
 
   const handleSaveNotebook = () => {
     fetcher.submit(
-      { notebook: JSON.stringify(notebook), actionType: SAVE_NOTEBOOK },
+      { notebook: JSON.stringify(onlyData(notebook)), actionType: SAVE_NOTEBOOK },
       { method: "POST" },
     );
   };

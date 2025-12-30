@@ -3,9 +3,7 @@ import {
   postCell,
   saveNotebook,
 } from "~/api/services/notebook-service";
-import type { CellData } from "~/components/notebook/Cell";
-import type { NotebookData } from "~/components/notebook/Notebook";
-import { toNotebook } from "~/api/types/map-response";
+import type { CellData, NotebookData } from "~/api/types/notebook-data";
 
 export const SAVE_NOTEBOOK = "SAVE_NOTEBOOK";
 export const ADD_CELL = "ADD_CELL";
@@ -40,8 +38,9 @@ export const executeAction = async (
     case SAVE_NOTEBOOK:
       return {
         actionType: actionType,
-        notebookData: toNotebook(
-          await saveNotebook(notebookId, formData.get("notebook") as string),
+        notebookData: await saveNotebook(
+          notebookId,
+          formData.get("notebook") as string,
         ),
       };
     default:

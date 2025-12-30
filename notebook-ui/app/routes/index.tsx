@@ -2,10 +2,8 @@ import "./styles/index.css";
 import NotebookCollection from "~/components/notebook-collection/NotebookCollection";
 import { useEffect, useState } from "react";
 import type { Route } from "./+types";
-import type { NotebookResponse } from "~/api/types/notebook-response";
-import { toNotebook } from "~/api/types/map-response";
 import { fetchNotebooks } from "~/api/services/notebook-service";
-import type { NotebookData } from "~/components/notebook/Notebook";
+import type { NotebookData } from "~/api/types/notebook-data";
 
 export async function loader() {
   return {
@@ -17,11 +15,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
   const [notebooks, setNotebooks] = useState<NotebookData[]>([]);
 
   useEffect(() => {
-    setNotebooks(
-      loaderData.notebooks.map((response: NotebookResponse) =>
-        toNotebook(response),
-      ),
-    );
+    setNotebooks(loaderData.notebooks);
   }, []);
 
   return (

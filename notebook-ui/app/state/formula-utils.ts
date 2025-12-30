@@ -1,37 +1,75 @@
 import type { WritableDraft } from "immer";
-import type { FormulaProps } from "~/components/formulas/Formula";
 import type { NotebookState } from "~/state/notebook-slices";
-import type { CellData } from "~/components/notebook/Cell";
+import type { CellData, FormulaData } from "~/api/types/notebook-data";
+import type { FormulaProps } from "~/components/formulas/Formula";
+
+export const onlyData = (props: FormulaProps): FormulaData => {
+  return {
+    cellId: props.cellId,
+    id: props.id,
+    operator: props.operator,
+    inputs: props.inputs.map((input) => onlyData(input)),
+    value: { ...props.value },
+  };
+};
 
 export const insertFormulaAt = (
   state: WritableDraft<NotebookState>,
   cell: WritableDraft<CellData>,
-  newFormula: FormulaProps,
+  newFormula: FormulaData,
 ) => {
-  let newRoot = { ...(cell.formula as FormulaProps) };
+  return modifyFormulaAt(
+    state,
+    cell,
+    newFormula,
+    (old: FormulaData, newData: FormulaData): FormulaData => {
+      return {
+        ...newData,
+        inputs: [{ ...old }, ...newData.inputs],
+      };
+    },
+  );
+};
+
+export const replaceFormulaAt = (
+  state: WritableDraft<NotebookState>,
+  cell: WritableDraft<CellData>,
+  newFormula: FormulaData,
+) => {
+  return modifyFormulaAt(
+    state,
+    cell,
+    newFormula,
+    (old: FormulaData, newData: FormulaData): FormulaData => {
+      return { ...newData, inputs: [...newData.inputs] };
+    },
+  );
+};
+
+export const modifyFormulaAt = (
+  state: WritableDraft<NotebookState>,
+  cell: WritableDraft<CellData>,
+  newFormula: FormulaData,
+  modify: (old: FormulaData, newData: FormulaData) => FormulaData,
+) => {
+  let newRoot = { ...(cell.formula as FormulaData) };
   let stack = [newRoot];
   let current = newRoot;
 
   // Check if root is the selected, and if so, replace with new formula directly
   if (newRoot.id === state.selectedFormula.id) {
-    newRoot = {
-      ...newFormula,
-      inputs: [{ ...newRoot }, ...newFormula.inputs],
-    };
+    newRoot = modify(newRoot, newFormula);
     state.selectedFormula = newFormula.inputs[0] || newRoot;
   }
 
   // Traverse tree until finding selected and insert new formula
   while (stack.length > 0 && current.id != state.selectedFormula.id) {
-    current = stack.pop() as FormulaProps;
-    let newInputs: FormulaProps[] = [];
+    current = stack.pop() as FormulaData;
+    let newInputs: FormulaData[] = [];
     for (const input of current.inputs) {
       // Check if any of the inputs are the selected
       if (input.id === state.selectedFormula.id) {
-        const inserted = {
-          ...newFormula,
-          inputs: [{ ...input }, ...newFormula.inputs],
-        };
+        const inserted = modify(input, newFormula);
         newInputs.push(inserted);
         state.selectedFormula = newFormula.inputs[0] || inserted;
       } else {
@@ -45,4 +83,3 @@ export const insertFormulaAt = (
   }
   cell.formula = newRoot;
 };
-

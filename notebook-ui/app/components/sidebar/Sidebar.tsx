@@ -27,7 +27,9 @@ export default function Sidebar() {
   const [openArithmetic, setOpenArithmetic] = useState(false);
   const [openFunctions, setOpenFunctions] = useState(false);
 
-  const selectedFormula = useSelector((state: RootState) => state.notebook.selectedFormula);
+  const selectedFormula = useSelector(
+    (state: RootState) => state.notebook.selectedFormula,
+  );
 
   const handleClickOpenArithmetic = () => {
     setOpenArithmetic(!openArithmetic);

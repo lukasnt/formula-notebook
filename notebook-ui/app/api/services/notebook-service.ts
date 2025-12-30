@@ -1,5 +1,4 @@
-import type { NotebookResponse } from "~/api/types/notebook-response";
-import type { CellData } from "~/components/notebook/Cell";
+import type { CellData, NotebookData } from "~/api/types/notebook-data";
 
 export const apiUrl = (): string => {
   const apiHost: string = import.meta.env.VITE_API_HOSTNAME || "localhost";
@@ -7,7 +6,7 @@ export const apiUrl = (): string => {
   return `http://${apiHost}:${apiPort}/api`;
 };
 
-export const fetchNotebooks = async (): Promise<NotebookResponse[]> => {
+export const fetchNotebooks = async (): Promise<NotebookData[]> => {
   try {
     const res = await fetch(`${apiUrl()}/notebooks`, {});
     return res.json();
@@ -18,7 +17,7 @@ export const fetchNotebooks = async (): Promise<NotebookResponse[]> => {
 
 export const fetchNotebook = async (
   notebookId: string,
-): Promise<NotebookResponse> => {
+): Promise<NotebookData> => {
   try {
     const res = await fetch(`${apiUrl()}/notebooks/${notebookId}`, {});
     return res.json();
@@ -30,7 +29,7 @@ export const fetchNotebook = async (
 export const saveNotebook = async (
   notebookId: string,
   data: string,
-): Promise<NotebookResponse> => {
+): Promise<NotebookData> => {
   try {
     const res = await fetch(`${apiUrl()}/notebooks/${notebookId}`, {
       method: "PUT",
@@ -39,8 +38,7 @@ export const saveNotebook = async (
         "Content-Type": "application/json",
       },
     });
-    var result: NotebookResponse = await res.json();
-    return result;
+    return res.json();
   } catch (error) {
     throw error;
   }

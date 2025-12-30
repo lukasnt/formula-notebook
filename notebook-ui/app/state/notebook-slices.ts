@@ -1,16 +1,19 @@
-import type { NotebookData } from "~/components/notebook/Notebook";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { CellData } from "~/components/notebook/Cell";
+
 import { NULL_UUID } from "~/components/notebook/AddCellButton";
-import type { FormulaProps } from "~/components/formulas/Formula";
-import { emptyFormula, initialCellFormula } from "~/state/formula-const";
-import { insertFormulaAt } from "~/state/formula-utils";
+import { emptyFormula } from "~/state/formula-const";
+import { insertFormulaAt, replaceFormulaAt } from "~/state/formula-utils";
 import { findCell } from "~/state/cell-utils";
 import type { WritableDraft } from "immer";
+import type {
+  CellData,
+  FormulaData,
+  NotebookData,
+} from "~/api/types/notebook-data";
 
 export interface NotebookState extends NotebookData {
   selectedCell: string;
-  selectedFormula: FormulaProps;
+  selectedFormula: FormulaData;
 }
 
 const initialState: NotebookState = {
@@ -61,18 +64,25 @@ export const notebookSlice = createSlice({
         cell.textContent = action.payload.textContent;
       }
     },
-    setSelectedFormula: (state, action: PayloadAction<FormulaProps>) => {
+    setSelectedFormula: (state, action: PayloadAction<FormulaData>) => {
       state.selectedFormula = action.payload;
     },
     setSelectedCell: (state, action: PayloadAction<string>) => {
       state.selectedCell = action.payload;
     },
-    insertAtSelected: (state, action: PayloadAction<FormulaProps>) => {
+    insertAtSelected: (state, action: PayloadAction<FormulaData>) => {
       let cell = findCell(
         state,
         state.selectedCell as string,
       ) as WritableDraft<CellData>;
       insertFormulaAt(state, cell, action.payload);
+    },
+    replaceAtSelected: (state, action: PayloadAction<FormulaData>) => {
+      let cell = findCell(
+        state,
+        state.selectedCell as string,
+      ) as WritableDraft<CellData>;
+      replaceFormulaAt(state, cell, action.payload);
     },
   },
 });
@@ -87,5 +97,6 @@ export const {
   setSelectedFormula,
   setSelectedCell,
   insertAtSelected,
+  replaceAtSelected,
 } = notebookSlice.actions;
 export default notebookSlice.reducer;

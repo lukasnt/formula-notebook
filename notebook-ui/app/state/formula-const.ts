@@ -1,4 +1,4 @@
-import type { FormulaProps } from "~/components/formulas/Formula";
+import type { FormulaData } from "~/api/types/notebook-data";
 
 export const emptyFormula = {
   id: "",
@@ -6,7 +6,7 @@ export const emptyFormula = {
   inputs: [],
 };
 
-export const testInputs: FormulaProps[] = [
+export const testInputs: FormulaData[] = [
   {
     id: "1",
     operator: "PLUS",
@@ -65,10 +65,9 @@ export const testInputs: FormulaProps[] = [
   },
 ];
 
-export const initialCellFormula: FormulaProps = {
+export const initialCellFormula: FormulaData = {
   cellId: "",
   id: "0",
   operator: "PLUS",
   inputs: testInputs,
 };
-

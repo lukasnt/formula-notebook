@@ -1,8 +1,6 @@
 import "./styles/notebook-page.css";
 import Sidebar from "~/components/sidebar/Sidebar";
-import Notebook, { type NotebookData } from "~/components/notebook/Notebook";
 import { fetchNotebook } from "~/api/services/notebook-service";
-import { toNotebook } from "~/api/types/map-response";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { initNotebook } from "~/state/notebook-slices";
@@ -11,9 +9,11 @@ import {
   executeAction,
   type NotebookAction,
 } from "~/routes/actions/notebook-actions";
+import type { NotebookData } from "~/api/types/notebook-data";
+import Notebook from "~/components/notebook/Notebook";
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const data: NotebookData = toNotebook(await fetchNotebook(params.id));
+  const data: NotebookData = await fetchNotebook(params.id);
   return {
     notebook: data,
   };

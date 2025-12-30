@@ -14,21 +14,9 @@ import { useLoaderData } from "react-router";
 import { editCellText } from "~/state/notebook-slices";
 import { useDispatch } from "react-redux";
 import FormulaArea from "~/components/formulas/FormulaArea";
-import type { FormulaProps } from "~/components/formulas/Formula";
+import type { CellData } from "~/api/types/notebook-data";
 
-export interface CellData {
-  notebookId: string;
-  cellId: string;
-  updated?: string;
-  symbol?: string;
-  formula?: FormulaProps;
-  textContent?: string;
-  evaluated?: { num: number; error: string };
-}
-
-export interface CellProps {
-  notebookId: string;
-  cellId: string;
+export interface CellProps extends CellData {
   onDelete: (cellId: string) => void;
 }
 

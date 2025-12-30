@@ -1,6 +1,5 @@
 import "./sidebar.css";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "~/state/store";
+import { useDispatch } from "react-redux";
 import { ListItemButton, ListItemText } from "@mui/material";
 import { v4 } from "uuid";
 import { insertAtSelected } from "~/state/notebook-slices";
@@ -10,7 +9,10 @@ export interface OperatorButtonProps {
   operator: string;
 }
 
-export default function OperatorButton({ symbol, operator }: OperatorButtonProps) {
+export default function OperatorButton({
+  symbol,
+  operator,
+}: OperatorButtonProps) {
   const dispatch = useDispatch();
 
   return (

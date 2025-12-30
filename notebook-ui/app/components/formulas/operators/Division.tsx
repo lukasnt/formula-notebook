@@ -1,5 +1,4 @@
-import type { FormulaProps } from "~/components/formulas/Formula";
-import Formula from "~/components/formulas/Formula";
+import Formula, { type FormulaProps } from "~/components/formulas/Formula";
 
 export default function Division({ inputs }: FormulaProps) {
   return (

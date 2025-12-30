@@ -19,7 +19,7 @@ export default function FormulaArea({ cellId }: FormulaAreaProps) {
   const selectedFormula = useSelector(
     (state: RootState) => state.notebook.selectedFormula,
   );
-  
+
   const [formula, setFormula] = useState(
     cell?.formula ? cell.formula : initialCellFormula,
   );
@@ -39,7 +39,7 @@ export default function FormulaArea({ cellId }: FormulaAreaProps) {
         {...formula}
         selected={{
           id: selectedFormula.id,
-          depth: selectedFormula.depth || 0,
+          depth: 0,
         }}
       />
     </div>

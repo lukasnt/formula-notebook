@@ -2,7 +2,7 @@ import { Button, Typography } from "@mui/material";
 
 import "./notebook.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { type CellData } from "~/components/notebook/Cell";
+import type { CellData } from "~/api/types/notebook-data";
 
 export interface AddCellButtonProps {
   notebookId: string;
@@ -15,7 +15,6 @@ export default function AddCellButton({
   notebookId,
   onAddCell,
 }: AddCellButtonProps) {
-
   const handleAddCell = async () => {
     let newCell: CellData = {
       notebookId: notebookId,

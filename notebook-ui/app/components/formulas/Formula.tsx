@@ -3,18 +3,16 @@ import "./formula.css";
 import FormulaOperator from "~/components/formulas/operators/FormulaOperator";
 import { useDispatch } from "react-redux";
 import { setSelectedCell, setSelectedFormula } from "~/state/notebook-slices";
+import type { FormulaData } from "~/api/types/notebook-data";
+import { onlyData } from "~/state/formula-utils";
 
 export interface Selected {
   id: string;
   depth: number;
 }
 
-export interface FormulaProps {
-  cellId?: string;
-  id: string;
-  operator: string;
-  inputs: FormulaProps[];
-  value?: { num?: number; error?: string };
+export interface FormulaProps extends FormulaData {
+  inputs: FormulaData[];
   depth?: number;
   hovered?: Selected;
   setHovered?: (newHovered: Selected) => void;
@@ -65,7 +63,7 @@ export default function Formula(props: FormulaProps) {
           depth >= props.hovered.depth
         ) {
           props.setSelected({ id: props.id, depth: depth });
-          dispatch(setSelectedFormula(props));
+          dispatch(setSelectedFormula(onlyData(props)));
           dispatch(setSelectedCell(props.cellId as string));
         }
       }}
@@ -73,7 +71,7 @@ export default function Formula(props: FormulaProps) {
       <FormulaOperator
         {...props}
         depth={depth + 1}
-        inputs={props.inputs.map((input: FormulaProps) => {
+        inputs={props.inputs.map((input: FormulaData) => {
           return {
             ...input,
             cellId: props.cellId,

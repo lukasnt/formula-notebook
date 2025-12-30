@@ -1,7 +1,6 @@
 import { Paper } from "@mui/material";
 
 import "./notebook.css";
-import Cell, { type CellData } from "~/components/notebook/Cell";
 import { useDispatch } from "react-redux";
 import { addCell, deleteCell, initCell } from "~/state/notebook-slices";
 import { useFetcher, useLoaderData } from "react-router";
@@ -14,20 +13,13 @@ import {
 import NotebookTitle from "~/components/notebook/NotebookTitle";
 import type { loader } from "~/routes/notebook";
 import AddCellButton from "~/components/notebook/AddCellButton";
-
-export interface NotebookData {
-  notebookId: string;
-  title: string;
-  created: string;
-  modified: string;
-  cells: CellData[];
-  cellCount: number;
-}
+import type { CellData } from "~/api/types/notebook-data";
+import Cell from "~/components/notebook/Cell";
 
 export default function Notebook() {
   const { notebook } = useLoaderData<typeof loader>();
   const dispatch = useDispatch();
-  const fetcher = useFetcher<NotebookAction>( { key: notebook.notebookId });
+  const fetcher = useFetcher<NotebookAction>({ key: notebook.notebookId });
   const [cellIds, setCellIds] = useState<string[]>([]);
 
   useEffect(() => {
