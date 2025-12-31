@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import TabUnselectedIcon from "@mui/icons-material/TabUnselected";
 import { useDispatch } from "react-redux";
-import { emptyFormula } from "~/state/formula-const";
+import { nullFormula } from "~/state/formula-const";
 import { setSelectedFormula } from "~/state/notebook-slices";
 
 export default function UnselectButton() {
@@ -15,7 +15,7 @@ export default function UnselectButton() {
   return (
     <ListItemButton
       onClick={(e) => {
-        dispatch(setSelectedFormula(emptyFormula));
+        dispatch(setSelectedFormula(nullFormula));
       }}
     >
       <ListItemText>

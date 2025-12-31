@@ -56,6 +56,12 @@ export const modifyFormulaAt = (
   let stack = [newRoot];
   let current = newRoot;
 
+  // Check if formula is null, and if so, replace with new formula directly
+  if (!cell.formula) {
+    cell.formula = { ...newFormula };
+    return;
+  }
+
   // Check if root is the selected, and if so, replace with new formula directly
   if (newRoot.id === state.selectedFormula.id) {
     newRoot = modify(newRoot, newFormula);

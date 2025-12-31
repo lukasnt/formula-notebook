@@ -1,4 +1,4 @@
-import "./notebook.css";
+import "./cell.css";
 import {
   Button,
   MenuItem,
@@ -10,11 +10,16 @@ import {
 } from "@mui/material";
 import { Delete, PlayArrow } from "@mui/icons-material";
 import { type ChangeEvent, useEffect, useState } from "react";
-import { useLoaderData } from "react-router";
+import { useFetcher, useLoaderData } from "react-router";
 import { editCellText } from "~/state/notebook-slices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FormulaArea from "~/components/formulas/FormulaArea";
 import type { CellData } from "~/api/types/notebook-data";
+import {
+  type NotebookAction,
+  RUN_CELL,
+} from "~/routes/actions/notebook-actions";
+import { selectCell } from "~/state/selectors";
 
 export interface CellProps extends CellData {
   onDelete: (cellId: string) => void;
@@ -22,9 +27,17 @@ export interface CellProps extends CellData {
 
 export default function Cell({ notebookId, cellId, onDelete }: CellProps) {
   const { notebook } = useLoaderData();
+  const fetcher = useFetcher<NotebookAction>();
+  const cellData = useSelector(selectCell(cellId));
   const [result, setResult] = useState<number | undefined>();
   const [textValue, setTextValue] = useState<string | undefined>();
-  const [cellType, setCellType] = useState<string>("text");
+  const [cellType, setCellType] = useState<string>(
+    cellData?.formula ||
+      cellData?.textContent == undefined ||
+      cellData?.textContent.length == 0
+      ? "formula"
+      : "text",
+  );
   const dispatch = useDispatch();
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +49,16 @@ export default function Cell({ notebookId, cellId, onDelete }: CellProps) {
     setCellType(e.target.value);
   };
 
-  const handleRunCell = () => {};
+  const handleRunCell = () => {
+    fetcher.submit(
+      {
+        cellId: cellId,
+        cell: JSON.stringify(cellData),
+        actionType: RUN_CELL,
+      },
+      { method: "PUT" },
+    );
+  };
 
   const handleDeleteCell = () => {
     onDelete(cellId);

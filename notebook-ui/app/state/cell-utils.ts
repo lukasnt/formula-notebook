@@ -1,7 +1,7 @@
 import type { WritableDraft } from "immer";
 import type { NotebookState } from "~/state/notebook-slices";
 import type { CellData } from "~/api/types/notebook-data";
-import type { CellProps } from "~/components/notebook/Cell";
+import type { CellProps } from "~/components/cell/Cell";
 
 export const onlyData = (props: CellProps): CellData => {
   return {

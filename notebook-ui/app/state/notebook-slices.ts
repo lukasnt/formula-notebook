@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import { NULL_UUID } from "~/components/notebook/AddCellButton";
-import { emptyFormula } from "~/state/formula-const";
+import { nullFormula } from "~/state/formula-const";
 import { insertFormulaAt, replaceFormulaAt } from "~/state/formula-utils";
 import { findCell } from "~/state/cell-utils";
 import type { WritableDraft } from "immer";
@@ -24,7 +24,7 @@ const initialState: NotebookState = {
   cells: [],
   cellCount: 0,
   selectedCell: "",
-  selectedFormula: emptyFormula,
+  selectedFormula: nullFormula,
 };
 
 export const notebookSlice = createSlice({

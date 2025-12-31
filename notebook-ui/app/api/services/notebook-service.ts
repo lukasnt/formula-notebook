@@ -78,3 +78,25 @@ export const deleteCell = async (
     throw error;
   }
 };
+
+export const runCell = async (
+  notebookId: string,
+  cellId: string,
+  data: string,
+): Promise<CellData> => {
+  try {
+    const res = await fetch(
+      `${apiUrl()}/notebooks/${notebookId}/cell/${cellId}`,
+      {
+        method: "PUT",
+        body: data,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    return await res.json();
+  } catch (error) {
+    throw error;
+  }
+};

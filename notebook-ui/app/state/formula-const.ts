@@ -1,6 +1,25 @@
 import type { FormulaData } from "~/api/types/notebook-data";
+import { v4 } from "uuid";
 
-export const emptyFormula = {
+export const createEmptyConst = (): FormulaData => {
+  return {
+    id: v4(),
+    operator: "EMPTY",
+    value: { num: 20 },
+    inputs: [],
+  };
+};
+
+export const createEmptyFormula = (): FormulaData => {
+  return {
+    id: v4(),
+    operator: "EMPTY",
+    value: { num: 20 },
+    inputs: [],
+  };
+};
+
+export const nullFormula: FormulaData = {
   id: "",
   operator: "",
   inputs: [],
@@ -65,7 +84,7 @@ export const testInputs: FormulaData[] = [
   },
 ];
 
-export const initialCellFormula: FormulaData = {
+export const testFormula: FormulaData = {
   cellId: "",
   id: "0",
   operator: "PLUS",

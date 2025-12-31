@@ -14,7 +14,7 @@ import NotebookTitle from "~/components/notebook/NotebookTitle";
 import type { loader } from "~/routes/notebook";
 import AddCellButton from "~/components/notebook/AddCellButton";
 import type { CellData } from "~/api/types/notebook-data";
-import Cell from "~/components/notebook/Cell";
+import Cell from "~/components/cell/Cell";
 
 export default function Notebook() {
   const { notebook } = useLoaderData<typeof loader>();

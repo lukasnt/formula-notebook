@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "~/state/store";
 import { useEffect, useState } from "react";
 import { setSelectedCell } from "~/state/notebook-slices";
-import { initialCellFormula } from "~/state/formula-const";
+import { createEmptyFormula, testFormula } from "~/state/formula-const";
 
 export interface FormulaAreaProps {
   cellId: string;
@@ -21,11 +21,11 @@ export default function FormulaArea({ cellId }: FormulaAreaProps) {
   );
 
   const [formula, setFormula] = useState(
-    cell?.formula ? cell.formula : initialCellFormula,
+    cell?.formula ? cell.formula : createEmptyFormula(),
   );
 
   useEffect(() => {
-    setFormula(cell?.formula ? cell.formula : initialCellFormula);
+    setFormula(cell?.formula ? cell.formula : createEmptyFormula());
   }, [cell]);
 
   return (

@@ -7,7 +7,15 @@ export default function Minus(props: FormulaProps) {
     >
       <Formula {...props.inputs[0]} />
       <span>-</span>
-      <Formula {...props.inputs[1]} />
+      {props.inputs[1].inputs.length >= 2 ? (
+        <>
+          <span>(</span>
+          <Formula {...props.inputs[1]} />
+          <span>)</span>
+        </>
+      ) : (
+        <Formula {...props.inputs[1]} />
+      )}
     </span>
   );
 }
