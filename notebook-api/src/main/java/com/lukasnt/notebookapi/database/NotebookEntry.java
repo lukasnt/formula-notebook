@@ -8,6 +8,7 @@ public record NotebookEntry(
     UUID notebookId,
     String title,
     ZonedDateTime created,
-    ZonedDateTime modified
+    ZonedDateTime modified,
+    Integer cellCount
 ) {
 }

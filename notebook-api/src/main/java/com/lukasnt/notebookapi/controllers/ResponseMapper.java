@@ -20,6 +20,8 @@ public class ResponseMapper {
             notebook.getId(),
             notebook.getTitle(),
             notebook.getCreated(),
+            notebook.getModified(),
+            notebook.getCellCount(),
             notebook.getCells().stream()
                 .map(ResponseMapper::mapCell)
                 .toList()

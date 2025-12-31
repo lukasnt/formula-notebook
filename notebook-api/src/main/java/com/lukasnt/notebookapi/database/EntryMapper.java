@@ -15,7 +15,7 @@ import static com.lukasnt.notebookapi.controllers.ResponseMapper.mapOperator;
 public class EntryMapper {
 
     public static Notebook toNotebook(NotebookEntry notebookEntry) {
-        return new Notebook(notebookEntry.notebookId(), notebookEntry.title(), notebookEntry.created());
+        return new Notebook(notebookEntry.notebookId(), notebookEntry.title(), notebookEntry.created(), notebookEntry.modified(), notebookEntry.cellCount());
     }
 
     public static Notebook toNotebook(NotebookEntry notebookEntry, List<CellEntry> cellEntries, List<FormulaEntry> formulaEntries) {
@@ -25,6 +25,7 @@ public class EntryMapper {
             notebookEntry.notebookId(),
             notebookEntry.title(),
             notebookEntry.created(),
+            notebookEntry.modified(),
             cellEntries.stream()
                 .map(cellEntry -> toCell(cellEntry, formulasByCell.getOrDefault(cellEntry.cellId(), Collections.emptyList())))
                 .toList()
@@ -65,7 +66,8 @@ public class EntryMapper {
             notebook.getId(),
             notebook.getTitle(),
             notebook.getCreated(),
-            notebook.getModified()
+            notebook.getModified(),
+            notebook.getCellCount()
         );
     }
 

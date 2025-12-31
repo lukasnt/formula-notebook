@@ -66,6 +66,7 @@ public class PostgresNotebookRepository implements NotebookRepository {
         return null;
     }
 
+    @Transactional
     @Override
     public CellEntry insertCell(CellEntry cell) {
         int id = jdbcTemplate.update("INSERT into cells (cell_id, notebook_id, updated, text_content, evaluated) VALUES (?, ?, ?, ?, ?)",
@@ -75,14 +76,17 @@ public class PostgresNotebookRepository implements NotebookRepository {
             cell.textContent(),
             cell.evaluated()
         );
+        var updateSql = "UPDATE notebooks SET cell_count = cell_count + 1 WHERE notebook_id = ?";
+        jdbcTemplate.update(updateSql, cell.notebookId());
         if (id > 0) {
             return cell;
         }
         return null;
     }
 
+    @Transactional
     @Override
-    public List<CellEntry> insertCells(List<CellEntry> cells) {
+    public List<CellEntry> insertCells(String notebookId, List<CellEntry> cells) {
         var sql = "INSERT INTO cells (cell_id, notebook_id, symbol, updated, text_content, formula, evaluated) VALUES (?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, cells, cells.size(), (ps,cell) -> {
             ps.setObject(1, cell.cellId());
@@ -93,6 +97,8 @@ public class PostgresNotebookRepository implements NotebookRepository {
             ps.setObject(6, cell.formula());
             ps.setBigDecimal(7, cell.evaluated());
         });
+        var updateSql = "UPDATE notebooks SET cell_count = cell_count + ? WHERE notebook_id = ?";
+        jdbcTemplate.update(updateSql, cells.size(), UUID.fromString(notebookId));
         return cells;
     }
 
@@ -158,7 +164,7 @@ public class PostgresNotebookRepository implements NotebookRepository {
     public NotebookEntry deleteCell(CellEntry cell) {
         var deleteSql = "DELETE FROM cells WHERE cell_id = ?";
         jdbcTemplate.update(deleteSql, cell.cellId());
-        var updateSql = "UPDATE notebooks SET modified = now() WHERE notebook_id = ?";
+        var updateSql = "UPDATE notebooks SET modified = now(), cell_count = cell_count - 1 WHERE notebook_id = ?";
         jdbcTemplate.update(updateSql, cell.notebookId());
         return this.getNotebook(String.valueOf(cell.notebookId()));
     }
@@ -170,7 +176,8 @@ public class PostgresNotebookRepository implements NotebookRepository {
                 toUUID(rs.getString("notebook_id")),
                 rs.getString("title"),
                 toZonedDateTime(rs.getTimestamp("created")),
-                toZonedDateTime(rs.getTimestamp("modified"))
+                toZonedDateTime(rs.getTimestamp("modified")),
+                rs.getInt("cell_count")
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);

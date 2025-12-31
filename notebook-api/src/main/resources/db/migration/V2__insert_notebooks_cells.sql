@@ -1,8 +1,8 @@
-INSERT INTO notebooks (notebook_id, title, modified)
-    VALUES ('083ba821-16f8-42b2-b216-8e5ba6abb8be', 'Assignment 1', current_timestamp),
-           ('335dd499-2c1c-4a51-bb1e-cf933d3761aa', 'Assignment 2 - Problem A', current_timestamp),
-           ('dba139ce-fa15-4f5b-9d3f-adbfa91ddc79', 'Assignment 2 - Problem B', current_timestamp),
-           ('2095251b-6f83-4404-80c6-2691ff4d0a4d', 'Testing', current_timestamp);
+INSERT INTO notebooks (notebook_id, title, modified, cell_count)
+    VALUES ('083ba821-16f8-42b2-b216-8e5ba6abb8be', 'Assignment 1', current_timestamp, 1),
+           ('335dd499-2c1c-4a51-bb1e-cf933d3761aa', 'Assignment 2 - Problem A', current_timestamp, 4),
+           ('dba139ce-fa15-4f5b-9d3f-adbfa91ddc79', 'Assignment 2 - Problem B', current_timestamp, 2),
+           ('2095251b-6f83-4404-80c6-2691ff4d0a4d', 'Testing', current_timestamp, 1);
 
 INSERT INTO cells (cell_id, notebook_id, symbol, updated, text_content, evaluated)
     VALUES ('05b55727-c64e-4fc2-8de6-04beb1e64d0c', '083ba821-16f8-42b2-b216-8e5ba6abb8be', '1', current_timestamp, 'Assignment 1', 100.0),

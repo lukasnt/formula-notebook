@@ -17,6 +17,7 @@ public class RequestMapper {
             notebookData.notebookId(),
             notebookData.title(),
             notebookData.created(),
+            notebookData.modified(),
             notebookData.cells().stream().map(RequestMapper::mapCell).toList()
         );
     }
@@ -33,7 +34,6 @@ public class RequestMapper {
     }
 
     public static Formula mapFormulaTree(FormulaTree formulaTree) {
-        IO.println(formulaTree);
         var id = Optional.ofNullable(formulaTree).map(FormulaTree::id).orElse(null);
         var input = Optional.ofNullable(formulaTree).map(FormulaTree::inputs).orElse(Collections.emptyList());
         var mappedInput = input.stream()

@@ -8,5 +8,7 @@ public record NotebookData(
     UUID notebookId,
     String title,
     ZonedDateTime created,
+    ZonedDateTime modified,
+    Integer cellCount,
     List<NotebookCell> cells
 ) { }

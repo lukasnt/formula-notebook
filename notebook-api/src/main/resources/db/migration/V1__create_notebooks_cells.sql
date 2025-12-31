@@ -3,7 +3,8 @@ CREATE TABLE notebooks (
     notebook_id UUID UNIQUE NOT NULL DEFAULT gen_random_uuid(),
     title VARCHAR(255) NOT NULL,
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified TIMESTAMP
+    modified TIMESTAMP,
+    cell_count INTEGER
 );
 
 CREATE TABLE cells (

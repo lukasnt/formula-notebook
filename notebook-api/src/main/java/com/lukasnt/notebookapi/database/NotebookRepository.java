@@ -11,7 +11,7 @@ public interface NotebookRepository {
 
     NotebookEntry insertNotebook(NotebookEntry notebook);
     CellEntry insertCell(CellEntry cell);
-    List<CellEntry> insertCells(List<CellEntry> cell);
+    List<CellEntry> insertCells(String notebookId, List<CellEntry> cell);
     List<FormulaEntry> insertFormulas(List<FormulaEntry> formulas);
 
     NotebookEntry replaceNotebook(NotebookEntry notebook);

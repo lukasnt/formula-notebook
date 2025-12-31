@@ -19,7 +19,7 @@ public class NotebookController {
 
     @GetMapping("/test")
     public NotebookData test() {
-        return new NotebookData(UUID.randomUUID(), "Test", ZonedDateTime.now(), List.of(
+        return new NotebookData(UUID.randomUUID(), "Test", ZonedDateTime.now(), ZonedDateTime.now(), 1, List.of(
             new NotebookCell(UUID.randomUUID(), UUID.randomUUID(), "a", ZonedDateTime.now(),
                 new FormulaTree("1", OperatorID.PLUS, List.of(
                     new FormulaTree("2", OperatorID.CONSTANT, null, new Evaluated(BigDecimal.ONE, null)),

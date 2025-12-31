@@ -36,7 +36,7 @@ public class NotebookService {
 
         List<CellEntry> cellEntries = notebook.getCells().stream()
             .map(EntryMapper::toCellEntry).toList();
-        repository.insertCells(cellEntries);
+        repository.insertCells(String.valueOf(notebook.getId()), cellEntries);
 
         List<FormulaEntry> formulaEntries = new ArrayList<>();
         for (Cell cell : notebook.getCells()) {
@@ -69,7 +69,6 @@ public class NotebookService {
     public NotebookCell replaceEvaluateCell(String notebookId, NotebookCell cellData) {
         Notebook notebook = this.getNotebook(notebookId);
         Cell cell = RequestMapper.mapCell(cellData);
-        cell.getFormula().collectSubFormulas().forEach(formula -> IO.println(formula.getOperator().notation()));
         notebook.replaceCellFormula(String.valueOf(cell.getId()), cell.getFormula());
 
         Cell evaluated = notebook.evaluateCell(String.valueOf(cell.getId()));

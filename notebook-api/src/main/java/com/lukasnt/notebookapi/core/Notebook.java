@@ -9,20 +9,23 @@ import java.util.function.Consumer;
 public class Notebook {
 
     private final UUID id;
-    private final ZonedDateTime created;
     private final String title;
-    private final LinkedHashMap<UUID, Cell> cells;
+    private final ZonedDateTime created;
     private ZonedDateTime modified;
+    private final int initCellCount;
+    private final LinkedHashMap<UUID, Cell> cells;
 
-    public Notebook(UUID id, String title, ZonedDateTime created) {
+    public Notebook(UUID id, String title, ZonedDateTime created, ZonedDateTime modified, int initCellCount) {
         this.id = id;
         this.title = title;
         this.created = created;
+        this.modified = modified;
+        this.initCellCount = initCellCount;
         this.cells = new LinkedHashMap<>();
     }
 
-    public Notebook(UUID id, String title, ZonedDateTime created, List<Cell> cells) {
-        this(id, title, created);
+    public Notebook(UUID id, String title, ZonedDateTime created, ZonedDateTime modified, List<Cell> cells) {
+        this(id, title, created, modified, cells.size());
         cells.forEach(cell -> this.cells.put(cell.getId(), cell));
     }
 
@@ -85,6 +88,14 @@ public class Notebook {
 
     public ZonedDateTime getCreated() {
         return created;
+    }
+
+    public int getCellCount() {
+        if (cells.isEmpty()) {
+            return initCellCount;
+        } else {
+            return cells.size();
+        }
     }
 
     public List<Cell> getCells() {
