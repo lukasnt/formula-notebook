@@ -1,8 +1,9 @@
 import "./sidebar.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ListItemButton, ListItemText } from "@mui/material";
 import { v4 } from "uuid";
 import { insertAtSelected } from "~/state/notebook-slices";
+import useGlobalKeyPress from "~/hooks/global-key-press";
 
 export interface OperatorButtonProps {
   symbol: string;
@@ -14,26 +15,35 @@ export default function OperatorButton({
   operator,
 }: OperatorButtonProps) {
   const dispatch = useDispatch();
+  const selectedFormula = useSelector(
+    (state: any) => state.notebook.selectedFormula,
+  );
+
+  const insertFormula = (operator: string) => {
+    if (selectedFormula) {
+      dispatch(
+        insertAtSelected({
+          id: v4(),
+          operator: operator,
+          inputs: [
+            {
+              id: v4(),
+              operator: "EMPTY",
+              value: { num: 20 },
+              inputs: [],
+            },
+          ],
+        }),
+      );
+    }
+  };
+
+  useGlobalKeyPress([symbol], (e) => {
+    insertFormula(operator);
+  });
 
   return (
-    <ListItemButton
-      onClick={() => {
-        dispatch(
-          insertAtSelected({
-            id: v4(),
-            operator: operator,
-            inputs: [
-              {
-                id: v4(),
-                operator: "EMPTY",
-                value: { num: 20 },
-                inputs: [],
-              },
-            ],
-          }),
-        );
-      }}
-    >
+    <ListItemButton onClick={() => insertFormula(operator)}>
       <ListItemText primary={symbol} />
     </ListItemButton>
   );

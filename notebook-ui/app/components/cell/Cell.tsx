@@ -8,18 +8,15 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Delete, PlayArrow } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 import { type ChangeEvent, useEffect, useState } from "react";
-import { useFetcher, useLoaderData } from "react-router";
+import { useLoaderData } from "react-router";
 import { editCellText } from "~/state/notebook-slices";
 import { useDispatch, useSelector } from "react-redux";
 import FormulaArea from "~/components/formulas/FormulaArea";
 import type { CellData } from "~/api/types/notebook-data";
-import {
-  type NotebookAction,
-  RUN_CELL,
-} from "~/routes/actions/notebook-actions";
 import { selectCell } from "~/state/selectors";
+import RunCellButton from "~/components/cell/RunCellButton";
 
 export interface CellProps extends CellData {
   onDelete: (cellId: string) => void;
@@ -27,7 +24,6 @@ export interface CellProps extends CellData {
 
 export default function Cell({ notebookId, cellId, onDelete }: CellProps) {
   const { notebook } = useLoaderData();
-  const fetcher = useFetcher<NotebookAction>();
   const cellData = useSelector(selectCell(cellId));
   const [result, setResult] = useState<number | undefined>();
   const [textValue, setTextValue] = useState<string | undefined>();
@@ -49,17 +45,6 @@ export default function Cell({ notebookId, cellId, onDelete }: CellProps) {
     setCellType(e.target.value);
   };
 
-  const handleRunCell = () => {
-    fetcher.submit(
-      {
-        cellId: cellId,
-        cell: JSON.stringify(cellData),
-        actionType: RUN_CELL,
-      },
-      { method: "PUT" },
-    );
-  };
-
   const handleDeleteCell = () => {
     onDelete(cellId);
   };
@@ -79,14 +64,7 @@ export default function Cell({ notebookId, cellId, onDelete }: CellProps) {
       <div className={"cell-header-container"}>
         <div className={"cell-header-left"}>
           <span className={"cell-header-left-element"}>
-            <Button
-              size={"small"}
-              variant={"text"}
-              color={"inherit"}
-              onClick={handleRunCell}
-            >
-              <PlayArrow fontSize={"small"} />
-            </Button>
+            <RunCellButton {...(cellData as CellData)} />
           </span>
           <span className={"cell-header-left-element"}>
             <Select

@@ -8,9 +8,14 @@ import TabUnselectedIcon from "@mui/icons-material/TabUnselected";
 import { useDispatch } from "react-redux";
 import { nullFormula } from "~/state/formula-const";
 import { setSelectedFormula } from "~/state/notebook-slices";
+import useGlobalKeyPress from "~/hooks/global-key-press";
 
 export default function UnselectButton() {
   const dispatch = useDispatch();
+
+  useGlobalKeyPress(["Escape"], (e) => {
+    dispatch(setSelectedFormula(nullFormula));
+  })
 
   return (
     <ListItemButton
