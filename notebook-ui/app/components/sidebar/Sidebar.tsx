@@ -22,22 +22,14 @@ import type { RootState } from "~/state/store";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UnselectButton from "~/components/sidebar/UnselectButton";
 import OperatorButton from "~/components/sidebar/OperatorButton";
+import FormulaOptions from "~/components/sidebar/FormulaOptions";
+import MathematicsLibrary from "~/components/sidebar/MathematicsLibrary";
 
 export default function Sidebar() {
-  const [openArithmetic, setOpenArithmetic] = useState(false);
-  const [openFunctions, setOpenFunctions] = useState(false);
 
   const selectedFormula = useSelector(
     (state: RootState) => state.notebook.selectedFormula,
   );
-
-  const handleClickOpenArithmetic = () => {
-    setOpenArithmetic(!openArithmetic);
-  };
-
-  const handleClickOpenFunctions = () => {
-    setOpenFunctions(!openFunctions);
-  };
 
   return (
     <Paper variant={"elevation"} className={"sidebar-container"}>
@@ -71,63 +63,11 @@ export default function Sidebar() {
         </List>
       </List>
       {selectedFormula.id != "" && (
-        <List
-          subheader={
-            <ListSubheader component="div">Formula options</ListSubheader>
-          }
-        >
-          <List sx={{ pl: 4 }}>
-            <UnselectButton />
-            <ListItemButton>
-              <ListItemText>
-                <Typography variant={"subtitle2"} component="div">
-                  Delete
-                </Typography>
-              </ListItemText>
-              <ListItemIcon>
-                <DeleteIcon htmlColor={"black"} />
-              </ListItemIcon>
-            </ListItemButton>
-          </List>
-        </List>
+        <>
+          <FormulaOptions />
+          <MathematicsLibrary />
+        </>
       )}
-      <List
-        subheader={
-          <ListSubheader component="div">Mathematical library</ListSubheader>
-        }
-      >
-        <ListItemButton onClick={handleClickOpenArithmetic}>
-          <ListItemIcon>
-            <CalculateIcon />
-          </ListItemIcon>
-          <ListItemText primary="Arithmetic" />
-          {openArithmetic ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={openArithmetic}>
-          <List sx={{ pl: 4 }}>
-            <OperatorButton symbol="+" operator="PLUS" />
-            <OperatorButton symbol="-" operator="MINUS" />
-            <OperatorButton symbol="/" operator="DIVISION" />
-          </List>
-        </Collapse>
-        <ListItemButton onClick={handleClickOpenFunctions}>
-          <ListItemIcon>
-            <FunctionsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Functions" />
-          {openFunctions ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={openFunctions}>
-          <List sx={{ pl: 4 }}>
-            <ListItemButton>
-              <ListItemText primary={"exp()"} />
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemText primary={"ln()"} />
-            </ListItemButton>
-          </List>
-        </Collapse>
-      </List>
       <div style={{ height: 100 }}></div>
     </Paper>
   );

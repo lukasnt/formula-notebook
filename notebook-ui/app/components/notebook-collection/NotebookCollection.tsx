@@ -13,6 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import BookIcon from "@mui/icons-material/Book";
 import { useNavigate } from "react-router";
 import type { NotebookData } from "~/api/types/notebook-data";
+import { formatDistance } from "date-fns";
 
 interface NotebookCollectionProps {
   notebooks: NotebookData[];
@@ -22,6 +23,10 @@ export default function NotebookCollection({
   notebooks,
 }: NotebookCollectionProps) {
   const navigate = useNavigate();
+
+  const formatDate = (date: Date) => {
+    return formatDistance(date, new Date(), { addSuffix: true });
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -41,13 +46,13 @@ export default function NotebookCollection({
                 <Typography variant={"h6"}>{notebook.title}</Typography>
               </TableCell>
               <TableCell>
-                {"Created " + new Date(notebook.created).toDateString()}
+                {"Created " + formatDate(new Date(notebook.created))}
               </TableCell>
               <TableCell>
-                {"Modified " + new Date(notebook.modified).toDateString()}
+                {"Modified " + formatDate(new Date(notebook.modified))}
               </TableCell>
               <TableCell>{notebook.cellCount + " cells"}</TableCell>
-              <TableCell>
+              <TableCell onClick={(e) => e.stopPropagation()}>
                 <IconButton>
                   <DeleteIcon />
                 </IconButton>
