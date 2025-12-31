@@ -27,7 +27,9 @@ export default function RunCellButton(data: CellData) {
     );
   };
 
-  useGlobalKeyPress(["Shift", "Enter"], () => {
+  useGlobalKeyPress(
+    ["Shift", "Enter"],
+    () => {
       if (data.cellId === selectedCell) {
         handleRunCell();
       }

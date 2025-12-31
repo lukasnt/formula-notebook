@@ -15,7 +15,7 @@ export default function UnselectButton() {
 
   useGlobalKeyPress(["Escape"], (e) => {
     dispatch(setSelectedFormula(nullFormula));
-  })
+  });
 
   return (
     <ListItemButton

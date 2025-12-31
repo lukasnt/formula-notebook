@@ -29,6 +29,7 @@ export default function FormulaField() {
               paddingTop: 0,
               textAlign: "center",
               fontSize: 25,
+              fontFamily: "Latin Modern Math",
             },
           },
         }}

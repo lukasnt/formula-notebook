@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "~/state/store";
 import { useEffect, useState } from "react";
 import { setSelectedCell } from "~/state/notebook-slices";
-import { createEmptyFormula, testFormula } from "~/state/formula-const";
+import { createEmptyFormula } from "~/state/formula-const";
+import "./formula.css";
 
 export interface FormulaAreaProps {
   cellId: string;
@@ -30,7 +31,7 @@ export default function FormulaArea({ cellId }: FormulaAreaProps) {
 
   return (
     <div
-      style={{ fontSize: 25 }}
+      style={{ fontSize: 25, fontFamily: "Latin Modern Math" }}
       onClick={() => {
         dispatch(setSelectedCell(cellId));
       }}

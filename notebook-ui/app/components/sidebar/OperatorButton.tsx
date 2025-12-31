@@ -43,8 +43,13 @@ export default function OperatorButton({
   });
 
   return (
-    <ListItemButton onClick={() => insertFormula(operator)}>
-      <ListItemText primary={symbol} />
+    <ListItemButton
+      onClick={() => insertFormula(operator)}
+      style={{ textAlign: "center" }}
+    >
+      <ListItemText>
+        <span style={{ fontSize: 18 }}>{symbol}</span>
+      </ListItemText>
     </ListItemButton>
   );
 }

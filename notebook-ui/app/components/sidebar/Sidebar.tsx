@@ -1,5 +1,4 @@
 import {
-  Collapse,
   List,
   ListItemButton,
   ListItemIcon,
@@ -10,23 +9,15 @@ import {
 } from "@mui/material";
 
 import "./sidebar.css";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import CalculateIcon from "@mui/icons-material/Calculate";
-import FunctionsIcon from "@mui/icons-material/Functions";
 import FastForwardIcon from "@mui/icons-material/FastForward";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
-import { useState } from "react";
 import SaveButton from "~/components/sidebar/SaveButton";
 import { useSelector } from "react-redux";
 import type { RootState } from "~/state/store";
-import DeleteIcon from "@mui/icons-material/Delete";
-import UnselectButton from "~/components/sidebar/UnselectButton";
-import OperatorButton from "~/components/sidebar/OperatorButton";
 import FormulaOptions from "~/components/sidebar/FormulaOptions";
 import MathematicsLibrary from "~/components/sidebar/MathematicsLibrary";
 
 export default function Sidebar() {
-
   const selectedFormula = useSelector(
     (state: RootState) => state.notebook.selectedFormula,
   );

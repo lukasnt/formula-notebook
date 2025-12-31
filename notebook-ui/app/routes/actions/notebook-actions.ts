@@ -26,14 +26,14 @@ export const executeAction = async (
     case ADD_CELL:
       return {
         actionType: actionType,
-        cellData: await postCell(notebookId, formData.get("cell") as string)
+        cellData: await postCell(notebookId, formData.get("cell") as string),
       };
     case DELETE_CELL:
       return {
         actionType: actionType,
         cellData: await deleteCell(
           notebookId,
-          formData.get("cellId") as string
+          formData.get("cellId") as string,
         ),
       };
     case SAVE_NOTEBOOK:
@@ -41,7 +41,7 @@ export const executeAction = async (
         actionType: actionType,
         notebookData: await saveNotebook(
           notebookId,
-          formData.get("notebook") as string
+          formData.get("notebook") as string,
         ),
       };
     case RUN_CELL:
@@ -50,7 +50,7 @@ export const executeAction = async (
         cellData: await runCell(
           notebookId,
           formData.get("cellId") as string,
-          formData.get("cell") as string
+          formData.get("cell") as string,
         ),
       };
     default:

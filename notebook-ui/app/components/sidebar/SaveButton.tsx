@@ -22,7 +22,10 @@ export default function SaveButton() {
 
   const handleSaveNotebook = () => {
     fetcher.submit(
-      { notebook: JSON.stringify(onlyData(notebook)), actionType: SAVE_NOTEBOOK },
+      {
+        notebook: JSON.stringify(onlyData(notebook)),
+        actionType: SAVE_NOTEBOOK,
+      },
       { method: "POST" },
     );
   };
