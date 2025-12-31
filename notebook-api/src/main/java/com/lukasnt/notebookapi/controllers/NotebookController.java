@@ -1,11 +1,7 @@
 package com.lukasnt.notebookapi.controllers;
 
 import com.lukasnt.notebookapi.core.NotebookService;
-import com.lukasnt.notebookapi.models.OperatorID;
-import com.lukasnt.notebookapi.models.Evaluated;
-import com.lukasnt.notebookapi.models.FormulaTree;
-import com.lukasnt.notebookapi.models.NotebookCell;
-import com.lukasnt.notebookapi.models.NotebookData;
+import com.lukasnt.notebookapi.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,11 +46,6 @@ public class NotebookController {
         return notebookService.saveNotebook(notebook);
     }
 
-    @GetMapping("/{id}/cell/{cellId}")
-    public NotebookCell evaluateCell(@PathVariable String id, @PathVariable String cellId) {
-        return ResponseMapper.mapCell(notebookService.getNotebook(id).evaluateCell(cellId));
-    }
-
     @PostMapping("/{id}/cell")
     public NotebookCell createCell(@PathVariable String id) {
         return notebookService.createCell(id);
@@ -66,10 +57,8 @@ public class NotebookController {
     }
 
     @PutMapping("/{id}/cell/{cellId}")
-    public NotebookCell replaceCellFormula(@PathVariable String id, @PathVariable String cellId, @RequestBody FormulaTree formula) {
-        var cell = notebookService.getNotebook(id)
-            .replaceCellFormula(cellId, RequestMapper.mapFormulaTree(formula));
-        return ResponseMapper.mapCell(cell);
+    public NotebookCell replaceEvaluateCell(@PathVariable String id, @PathVariable String cellId, @RequestBody NotebookCell cell) {
+        return notebookService.replaceEvaluateCell(id, cell);
     }
 
 }

@@ -125,9 +125,22 @@ public class PostgresNotebookRepository implements NotebookRepository {
         return notebook;
     }
 
+    @Transactional
     @Override
     public CellEntry replaceCell(CellEntry cell) {
-        return null;
+        var deleteSql = "DELETE FROM cells WHERE cell_id = ?";
+        jdbcTemplate.update(deleteSql, cell.cellId());
+        var insertSql = "INSERT into cells (cell_id, notebook_id, symbol, updated, text_content, formula, evaluated) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(insertSql,
+            cell.cellId(),
+            cell.notebookId(),
+            cell.symbol(),
+            java.sql.Timestamp.from(cell.updated().toInstant()),
+            cell.textContent(),
+            cell.formula(),
+            cell.evaluated()
+        );
+        return cell;
     }
 
     @Override

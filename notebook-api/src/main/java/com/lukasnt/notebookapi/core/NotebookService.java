@@ -66,6 +66,23 @@ public class NotebookService {
         return ResponseMapper.mapCell(cell);
     }
 
+    public NotebookCell replaceEvaluateCell(String notebookId, NotebookCell cellData) {
+        Notebook notebook = this.getNotebook(notebookId);
+        Cell cell = RequestMapper.mapCell(cellData);
+        cell.getFormula().collectSubFormulas().forEach(formula -> IO.println(formula.getOperator().notation()));
+        notebook.replaceCellFormula(String.valueOf(cell.getId()), cell.getFormula());
+
+        Cell evaluated = notebook.evaluateCell(String.valueOf(cell.getId()));
+        repository.replaceCell(EntryMapper.toCellEntry(evaluated));
+
+        var subFormulas = evaluated.getFormula().collectSubFormulas().stream()
+            .map(formula -> EntryMapper.toFormulaEntry(formula, String.valueOf(cell.getId())))
+            .toList();
+        repository.insertFormulas(subFormulas);
+
+        return ResponseMapper.mapCell(evaluated);
+    }
+
     public Notebook getNotebook(String id) throws IllegalArgumentException {
         if (notebookCache.containsKey(id)) {
             return notebookCache.get(id);
