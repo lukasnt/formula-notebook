@@ -6,5 +6,7 @@ public enum OperatorID {
     MINUS,
     MULTIPLICATION,
     DIVISION,
-    LOGARITHM
+    LOGARITHM,
+    SQUARED,
+    POWER
 }

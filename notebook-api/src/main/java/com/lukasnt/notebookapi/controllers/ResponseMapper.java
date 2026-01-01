@@ -64,6 +64,8 @@ public class ResponseMapper {
             case Multiplication _ -> OperatorID.MULTIPLICATION;
             case Division _       -> OperatorID.DIVISION;
             case Logarithm _      -> OperatorID.LOGARITHM;
+            case Squared _        -> OperatorID.SQUARED;
+            case Power _          -> OperatorID.POWER;
             default               -> OperatorID.CONSTANT;
         };
     }

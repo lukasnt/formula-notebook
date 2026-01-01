@@ -15,7 +15,9 @@ public record OperatorInfo(
         info(OperatorID.MINUS, OperatorType.BINARY, Minus.operator().notation()),
         info(OperatorID.MULTIPLICATION, OperatorType.BINARY, Multiplication.operator().notation()),
         info(OperatorID.DIVISION, OperatorType.BINARY, Division.operator().notation()),
-        info(OperatorID.LOGARITHM, OperatorType.UNARY, Logarithm.operator().notation())
+        info(OperatorID.LOGARITHM, OperatorType.UNARY, Logarithm.operator().notation()),
+        info(OperatorID.SQUARED, OperatorType.UNARY, Squared.operator().notation()),
+        info(OperatorID.POWER, OperatorType.BINARY, Power.operator().notation())
     );
 
     public static List<OperatorInfo> operators() {

@@ -61,6 +61,8 @@ public class RequestMapper {
             case OperatorID.MULTIPLICATION -> Multiplication.operator();
             case OperatorID.DIVISION       -> Division.operator();
             case OperatorID.LOGARITHM      -> Logarithm.operator();
+            case OperatorID.SQUARED        -> Squared.operator();
+            case OperatorID.POWER          -> Power.operator();
             case null                      -> Constant.of(BigDecimal.ZERO);
         };
     }
