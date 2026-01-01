@@ -1,6 +1,6 @@
 import FormulaField from "~/components/formulas/FormulaField";
 
-export default function Empty() {
+export default function Input() {
   return (
     <span
       style={{ display: "flex", flexDirection: "row", alignItems: "center" }}

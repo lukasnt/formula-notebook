@@ -31,7 +31,11 @@ export default function FormulaArea({ cellId }: FormulaAreaProps) {
 
   return (
     <div
-      style={{ fontSize: 25, fontFamily: "Latin Modern Math" }}
+      style={{
+        fontSize: 25,
+        fontFamily: "Latin Modern Math",
+        fontWeight: "bold",
+      }}
       onClick={() => {
         dispatch(setSelectedCell(cellId));
       }}

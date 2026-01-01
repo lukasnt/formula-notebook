@@ -4,7 +4,7 @@ import Division from "~/components/formulas/operators/Division";
 import React from "react";
 import type { FormulaProps } from "~/components/formulas/Formula";
 import Minus from "~/components/formulas/operators/Minus";
-import Empty from "~/components/formulas/operators/Empty";
+import Input from "~/components/formulas/operators/Input";
 
 export default function FormulaOperator(props: FormulaProps) {
   switch (props.operator) {
@@ -17,6 +17,6 @@ export default function FormulaOperator(props: FormulaProps) {
     case "DIVISION":
       return <Division {...props} />;
     default:
-      return <Empty />;
+      return <Input />;
   }
 }

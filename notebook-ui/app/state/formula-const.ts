@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 export const createEmptyConst = (): FormulaData => {
   return {
     id: v4(),
-    operator: "EMPTY",
+    operator: "INPUT",
     value: { num: 20 },
     inputs: [],
   };
@@ -13,7 +13,7 @@ export const createEmptyConst = (): FormulaData => {
 export const createEmptyFormula = (): FormulaData => {
   return {
     id: v4(),
-    operator: "EMPTY",
+    operator: "INPUT",
     value: { num: 20 },
     inputs: [],
   };

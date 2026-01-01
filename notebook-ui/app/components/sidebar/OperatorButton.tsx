@@ -1,18 +1,20 @@
 import "./sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { ListItemButton, ListItemText } from "@mui/material";
+import { Button, ListItemText } from "@mui/material";
 import { v4 } from "uuid";
 import { insertAtSelected } from "~/state/notebook-slices";
 import useGlobalKeyPress from "~/hooks/global-key-press";
 
 export interface OperatorButtonProps {
-  symbol: string;
   operator: string;
+  symbol: string;
+  keybind?: string;
 }
 
 export default function OperatorButton({
-  symbol,
   operator,
+  symbol,
+  keybind,
 }: OperatorButtonProps) {
   const dispatch = useDispatch();
   const selectedFormula = useSelector(
@@ -28,7 +30,7 @@ export default function OperatorButton({
           inputs: [
             {
               id: v4(),
-              operator: "EMPTY",
+              operator: "INPUT",
               value: { num: 20 },
               inputs: [],
             },
@@ -38,18 +40,35 @@ export default function OperatorButton({
     }
   };
 
-  useGlobalKeyPress([symbol], (e) => {
+  useGlobalKeyPress([keybind || ""], (e) => {
     insertFormula(operator);
   });
 
   return (
-    <ListItemButton
+    <Button
       onClick={() => insertFormula(operator)}
-      style={{ textAlign: "center" }}
+      style={{
+        textAlign: "center",
+        textTransform: "none",
+        height: 40,
+        width: 40,
+        marginLeft: 2,
+        marginRight: 2,
+        fontWeight: "bold",
+      }}
+      variant="outlined"
+      color="inherit"
     >
-      <ListItemText>
-        <span style={{ fontSize: 18 }}>{symbol}</span>
-      </ListItemText>
-    </ListItemButton>
+        <span
+          style={{
+            fontSize: 20,
+            fontFamily: "Latin Modern Math",
+            fontWeight: "bold",
+            textAlign: "center"
+          }}
+        >
+          {symbol}
+        </span>
+    </Button>
   );
 }
