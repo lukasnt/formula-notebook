@@ -1,10 +1,9 @@
 import FormulaField from "~/components/formulas/FormulaField";
+import "./operator.css";
 
 export default function Input() {
   return (
-    <span
-      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-    >
+    <span className="row-operator">
       <FormulaField />
     </span>
   );

@@ -1,20 +1,21 @@
 import Formula, { type FormulaProps } from "~/components/formulas/Formula";
+import { containsMultipleFormulas } from "~/state/formula-utils";
+import Brackets from "~/components/formulas/operators/Brackets";
+import "./operator.css"
 
-export default function Minus(props: FormulaProps) {
+export default function Minus({ inputs }: FormulaProps) {
   return (
-    <span
-      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-    >
-      <Formula {...props.inputs[0]} />
+    <span className="row-operator">
+      <Formula {...inputs[0]} />
       <span>-</span>
-      {props.inputs[1].inputs.length >= 2 ? (
+      {containsMultipleFormulas(inputs[1]) ? (
         <>
-          <span>(</span>
-          <Formula {...props.inputs[1]} />
-          <span>)</span>
+          <Brackets>
+            <Formula {...inputs[1]} />
+          </Brackets>
         </>
       ) : (
-        <Formula {...props.inputs[1]} />
+        <Formula {...inputs[1]} />
       )}
     </span>
   );

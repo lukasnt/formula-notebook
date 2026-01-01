@@ -80,7 +80,7 @@ export default function MathematicsLibrary() {
   };
 
   const handleClickOpenConstants = () => {
-    setOpenConstants(!openArithmetic);
+    setOpenConstants(!openConstants);
   };
 
   const handleClickOpenFunctions = () => {
@@ -140,9 +140,9 @@ export default function MathematicsLibrary() {
           <FunctionsIcon />
         </ListItemIcon>
         <ListItemText primary="Functions" />
-        {openConstants ? <ExpandLess /> : <ExpandMore />}
+        {openFunctions ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={openConstants}>
+      <Collapse in={openFunctions}>
         <List sx={{ pl: 1 }}>
           {createOperatorListItems(FUNCTIONS_OPERATORS)}
         </List>

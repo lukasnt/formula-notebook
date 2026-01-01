@@ -1,13 +1,12 @@
 import Formula, { type FormulaProps } from "~/components/formulas/Formula";
+import "./operator.css";
 
-export default function Plus(props: FormulaProps) {
+export default function Plus({ inputs }: FormulaProps) {
   return (
-    <span
-      style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-    >
-      <Formula {...props.inputs[0]} />
+    <span className="row-operator">
+      <Formula {...inputs[0]} />
       <span>+</span>
-      <Formula {...props.inputs[1]} />
+      <Formula {...inputs[1]} />
     </span>
   );
 }
