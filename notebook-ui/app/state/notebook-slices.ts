@@ -2,7 +2,11 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import { NULL_UUID } from "~/components/notebook/AddCellButton";
 import { nullFormula } from "~/state/formula-const";
-import { insertFormulaAt, replaceFormulaAt } from "~/state/formula-utils";
+import {
+  insertFormulaAt,
+  removeFormulaAt,
+  replaceFormulaAt,
+} from "~/state/formula-utils";
 import { findCell } from "~/state/cell-utils";
 import type { WritableDraft } from "immer";
 import type {
@@ -84,6 +88,13 @@ export const notebookSlice = createSlice({
       ) as WritableDraft<CellData>;
       replaceFormulaAt(state, cell, action.payload);
     },
+    removeSelected: (state) => {
+      let cell = findCell(
+        state,
+        state.selectedCell as string,
+      ) as WritableDraft<CellData>;
+      removeFormulaAt(state, cell);
+    }
   },
 });
 
@@ -98,5 +109,6 @@ export const {
   setSelectedCell,
   insertAtSelected,
   replaceAtSelected,
+  removeSelected,
 } = notebookSlice.actions;
 export default notebookSlice.reducer;

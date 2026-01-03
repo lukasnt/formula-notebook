@@ -1,12 +1,26 @@
 import Formula, { type FormulaProps } from "~/components/formulas/Formula";
 import "./operator.css";
+import { containsMultipleFormulas } from "~/state/formula-utils";
+import Brackets from "~/components/formulas/operators/Brackets";
 
 export default function Multiplication({ inputs }: FormulaProps) {
   return (
     <span className="row-operator">
-      <Formula {...inputs[0]} />
+      {containsMultipleFormulas(inputs[0]) ? (
+        <Brackets>
+          <Formula {...inputs[0]} />
+        </Brackets>
+      ) : (
+        <Formula {...inputs[0]} />
+      )}
       <span>×</span>
-      <Formula {...inputs[1]} />
+      {containsMultipleFormulas(inputs[1]) ? (
+        <Brackets>
+          <Formula {...inputs[1]} />
+        </Brackets>
+      ) : (
+        <Formula {...inputs[1 ]} />
+      )}
     </span>
   );
 }

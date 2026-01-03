@@ -6,7 +6,6 @@ import type { FormulaProps } from "~/components/formulas/Formula";
 import Minus from "~/components/formulas/operators/Minus";
 import Input from "~/components/formulas/operators/Input";
 import Multiplication from "~/components/formulas/operators/Multiplication";
-import Squared from "~/components/formulas/operators/Squared";
 import Power from "~/components/formulas/operators/Power";
 
 export default function FormulaOperator(props: FormulaProps) {

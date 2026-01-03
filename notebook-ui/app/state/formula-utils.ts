@@ -2,6 +2,7 @@ import type { WritableDraft } from "immer";
 import type { NotebookState } from "~/state/notebook-slices";
 import type { CellData, FormulaData } from "~/api/types/notebook-data";
 import type { FormulaProps } from "~/components/formulas/Formula";
+import { createEmptyFormula } from "~/state/formula-const";
 
 export const onlyData = (props: FormulaProps): FormulaData => {
   return {
@@ -24,7 +25,7 @@ export const containsMultipleFormulas = (
     }
   }
   return false;
-}
+};
 
 export const insertFormulaAt = (
   state: WritableDraft<NotebookState>,
@@ -99,6 +100,74 @@ export const modifyFormulaAt = (
     }
     // Make a copy of the inputs to ensure state change is triggered
     current.inputs = [...newInputs];
+  }
+  cell.formula = newRoot;
+};
+
+export const removeFormulaAt = (
+  state: WritableDraft<NotebookState>,
+  cell: WritableDraft<CellData>,
+) => {
+  let newRoot = { ...(cell.formula as FormulaData) };
+  let stack = [newRoot];
+  let parent = newRoot;
+  const removeId = state.selectedFormula.id;
+  let selectedParent: FormulaData | null = null;
+
+  // Check if root is the selected, and if so, replace with empty formula
+  if (newRoot.id === removeId) {
+    newRoot = createEmptyFormula();
+  }
+
+  // Check if selected is directly in the root inputs
+  let newInputs: FormulaData[] = [];
+  for (const input of parent.inputs) {
+    if (input.id === removeId) {
+      selectedParent = parent;
+    }
+    newInputs.push(input);
+  }
+  if (selectedParent) {
+    // Remove the selected formula by promoting its inputs to the parent
+    newInputs = [...newInputs].filter(
+      (input) => input.id !== removeId && input.id !== selectedParent?.id,
+    );
+    state.selectedFormula = newInputs[newInputs.length - 1];
+    cell.formula = newInputs[newInputs.length - 1];
+    return;
+  }
+
+  // Traverse tree until finding selected and remove it
+  while (stack.length > 0) {
+    parent = stack.pop() as FormulaData;
+    let newInputs: FormulaData[] = [];
+    // Check if any child of the inputs of parent is the selected
+    for (const input of parent.inputs) {
+      let childInputs: FormulaData[] = [];
+      for (const child of input.inputs) {
+        if (child.id === removeId) {
+          selectedParent = input;
+        }
+        childInputs.push(child);
+      }
+      // If the selected's parent is this input, promote its children
+      if (selectedParent === input) {
+        newInputs = newInputs.concat(childInputs);
+      }
+      stack.push(input);
+      newInputs.push(input);
+    }
+    if (selectedParent) {
+      // Remove the selected formula by promoting its inputs to the parent
+      newInputs = [...newInputs].filter(
+        (input) => input.id !== removeId && input.id !== selectedParent?.id,
+      );
+      state.selectedFormula = newInputs[newInputs.length - 1];
+      parent.inputs = [...newInputs];
+      break;
+    }
+    // Make a copy of the inputs to ensure state change is triggered
+    parent.inputs = [...newInputs];
   }
   cell.formula = newRoot;
 };
