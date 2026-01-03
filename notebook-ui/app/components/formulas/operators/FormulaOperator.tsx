@@ -7,6 +7,8 @@ import Minus from "~/components/formulas/operators/Minus";
 import Input from "~/components/formulas/operators/Input";
 import Multiplication from "~/components/formulas/operators/Multiplication";
 import Power from "~/components/formulas/operators/Power";
+import Ln from "~/components/formulas/operators/Ln";
+import Pi from "~/components/formulas/operators/Pi";
 
 export default function FormulaOperator(props: FormulaProps) {
   switch (props.operator) {
@@ -22,6 +24,10 @@ export default function FormulaOperator(props: FormulaProps) {
       return <Division {...props} />;
     case "POWER":
       return <Power {...props} />;
+    case "LN":
+      return <Ln {...props} />;
+    case "PI":
+      return <Pi {...props} />;
     default:
       return <Input />;
   }

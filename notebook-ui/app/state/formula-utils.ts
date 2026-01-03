@@ -3,6 +3,7 @@ import type { NotebookState } from "~/state/notebook-slices";
 import type { CellData, FormulaData } from "~/api/types/notebook-data";
 import type { FormulaProps } from "~/components/formulas/Formula";
 import { createEmptyFormula } from "~/state/formula-const";
+import { insertOperator } from "~/components/formulas/operators/operators";
 
 export const onlyData = (props: FormulaProps): FormulaData => {
   return {
@@ -37,10 +38,7 @@ export const insertFormulaAt = (
     cell,
     newFormula,
     (old: FormulaData, newData: FormulaData): FormulaData => {
-      return {
-        ...newData,
-        inputs: [{ ...old }, ...newData.inputs],
-      };
+      return insertOperator(old, newData);
     },
   );
 };
@@ -91,7 +89,7 @@ export const modifyFormulaAt = (
       if (input.id === state.selectedFormula.id) {
         const inserted = modify(input, newFormula);
         newInputs.push(inserted);
-        state.selectedFormula = newFormula.inputs[0] || inserted;
+        state.selectedFormula = inserted.inputs[1] || inserted.inputs[0] || inserted;
       } else {
         newInputs.push(input);
       }
@@ -162,6 +160,9 @@ export const removeFormulaAt = (
       newInputs = [...newInputs].filter(
         (input) => input.id !== removeId && input.id !== selectedParent?.id,
       );
+      if (newInputs.length <= 1) {
+        newInputs.push(createEmptyFormula());
+      }
       state.selectedFormula = newInputs[newInputs.length - 1];
       parent.inputs = [...newInputs];
       break;
