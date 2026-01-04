@@ -1,5 +1,5 @@
 import Formula, { type FormulaProps } from "~/components/formulas/Formula";
-import Brackets from "~/components/formulas/operators/Brackets";
+import Brackets from "~/components/operators/Brackets";
 import "./operator.css";
 
 export default function Ln({ inputs }: FormulaProps) {

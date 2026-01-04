@@ -1,6 +1,6 @@
 import Formula, { type FormulaProps } from "~/components/formulas/Formula";
 import { containsMultipleFormulas } from "~/state/formula-utils";
-import Brackets from "~/components/formulas/operators/Brackets";
+import Brackets from "~/components/operators/Brackets";
 import "./operator.css"
 
 export default function Minus({ inputs }: FormulaProps) {

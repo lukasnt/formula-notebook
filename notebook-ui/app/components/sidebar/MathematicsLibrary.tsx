@@ -19,7 +19,7 @@ import {
   ARITHMETIC_OPERATORS,
   CONSTANT_OPERATORS,
   FUNCTIONS_OPERATORS,
-} from "~/components/formulas/operators/operators";
+} from "~/components/operators/operators";
 
 export default function MathematicsLibrary() {
   const [openArithmetic, setOpenArithmetic] = useState(true);

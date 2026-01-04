@@ -29,7 +29,20 @@ export const ARITHMETIC_OPERATORS: Operator[] = [
       ],
     },
   },
-  { operator: "CUBED", type: "unary", symbol: "x³", keybind: "***" },
+  {
+    operator: "CUBED",
+    type: "unary",
+    symbol: "x³",
+    keybind: "***",
+    composite: {
+      id: "",
+      operator: "POWER",
+      inputs: [
+        { id: "", operator: "INPUT", inputs: [] },
+        { id: "", operator: "CONSTANT", inputs: [], value: { num: 3 } },
+      ],
+    },
+  },
   { operator: "POWER", type: "binary", symbol: "xª", keybind: "^" },
   { operator: "SQRT", type: "unary", symbol: "✓x", keybind: "r" },
   { operator: "CUBE_ROOT", type: "unary", symbol: "∛x", keybind: "shift+c" },

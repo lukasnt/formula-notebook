@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./formula.css";
-import FormulaOperator from "~/components/formulas/operators/FormulaOperator";
+import FormulaOperator from "~/components/formulas/FormulaOperator";
 import { useDispatch } from "react-redux";
 import { setSelectedCell, setSelectedFormula } from "~/state/notebook-slices";
 import type { FormulaData } from "~/api/types/notebook-data";

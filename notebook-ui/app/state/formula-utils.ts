@@ -3,7 +3,7 @@ import type { NotebookState } from "~/state/notebook-slices";
 import type { CellData, FormulaData } from "~/api/types/notebook-data";
 import type { FormulaProps } from "~/components/formulas/Formula";
 import { createEmptyFormula } from "~/state/formula-const";
-import { insertOperator } from "~/components/formulas/operators/operators";
+import { insertOperator } from "~/components/operators/operators";
 import { v4 } from "uuid";
 
 export const onlyData = (props: FormulaProps): FormulaData => {

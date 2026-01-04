@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import { replaceAtSelected } from "~/state/notebook-slices";
 import useGlobalKeyPress from "~/hooks/global-key-press";
-import { createInputFormula } from "~/components/formulas/operators/operators";
+import { createInputFormula } from "~/components/operators/operators";
 
 export interface OperatorButtonProps {
   operator: string;

@@ -1,7 +1,7 @@
 import Formula, { type FormulaProps } from "~/components/formulas/Formula";
 import "./operator.css";
 import { containsMultipleFormulas } from "~/state/formula-utils";
-import Brackets from "~/components/formulas/operators/Brackets";
+import Brackets from "~/components/operators/Brackets";
 
 export default function Multiplication({ inputs }: FormulaProps) {
   return (

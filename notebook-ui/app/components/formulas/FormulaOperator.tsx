@@ -1,19 +1,19 @@
-import Constant from "~/components/formulas/operators/Constant";
-import Plus from "~/components/formulas/operators/Plus";
-import Division from "~/components/formulas/operators/Division";
+import Constant from "~/components/operators/Constant";
+import Plus from "~/components/operators/Plus";
+import Division from "~/components/operators/Division";
 import React from "react";
 import type { FormulaProps } from "~/components/formulas/Formula";
-import Minus from "~/components/formulas/operators/Minus";
-import Input from "~/components/formulas/operators/Input";
-import Multiplication from "~/components/formulas/operators/Multiplication";
-import Power from "~/components/formulas/operators/Power";
-import Ln from "~/components/formulas/operators/Ln";
-import Pi from "~/components/formulas/operators/Pi";
-import Euler from "~/components/formulas/operators/Euler";
-import GoldenRatio from "~/components/formulas/operators/GoldenRatio";
-import Tau from "~/components/formulas/operators/Tau";
-import Sqrt from "./Sqrt";
-import CubeRoot from "~/components/formulas/operators/CubeRoot";
+import Minus from "~/components/operators/Minus";
+import Input from "~/components/operators/Input";
+import Multiplication from "~/components/operators/Multiplication";
+import Power from "~/components/operators/Power";
+import Ln from "~/components/operators/Ln";
+import Pi from "~/components/operators/Pi";
+import Euler from "~/components/operators/Euler";
+import GoldenRatio from "~/components/operators/GoldenRatio";
+import Tau from "~/components/operators/Tau";
+import Sqrt from "~/components/operators/Sqrt";
+import CubeRoot from "~/components/operators/CubeRoot";
 
 export default function FormulaOperator(props: FormulaProps) {
   switch (props.operator) {
