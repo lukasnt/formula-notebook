@@ -19,13 +19,7 @@ export const containsMultipleFormulas = (
   formula: FormulaData | null,
 ): boolean => {
   if (!formula) return false;
-  if (formula.inputs.length > 1) return true;
-  for (const input of formula.inputs) {
-    if (containsMultipleFormulas(input)) {
-      return true;
-    }
-  }
-  return false;
+  return formula.inputs.length > 1;
 };
 
 export const insertFormulaAt = (
