@@ -30,8 +30,8 @@ export const ARITHMETIC_OPERATORS: Operator[] = [
 
 export const CONSTANT_OPERATORS: Operator[] = [
   { operator: "PI", type: "nullary", symbol: "π", keybind: "p" },
-  { operator: "EULER_NUMBER", type: "nullary", symbol: "e", keybind: "e" },
-  { operator: "GOLDEN_RATIO", type: "nullary", symbol: "φ", keybind: "g" },
+  { operator: "E", type: "nullary", symbol: "e", keybind: "e" },
+  { operator: "GR", type: "nullary", symbol: "φ", keybind: "g" },
   { operator: "TAU", symbol: "τ", type: "nullary", keybind: "t" },
   { operator: "INFINITY", type: "nullary", symbol: "∞", keybind: "shift+8" }
 ];
