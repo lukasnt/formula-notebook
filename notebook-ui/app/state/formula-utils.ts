@@ -4,6 +4,7 @@ import type { CellData, FormulaData } from "~/api/types/notebook-data";
 import type { FormulaProps } from "~/components/formulas/Formula";
 import { createEmptyFormula } from "~/state/formula-const";
 import { insertOperator } from "~/components/formulas/operators/operators";
+import { v4 } from "uuid";
 
 export const onlyData = (props: FormulaProps): FormulaData => {
   return {
@@ -21,6 +22,14 @@ export const containsMultipleFormulas = (
   if (!formula) return false;
   return formula.inputs.length > 1;
 };
+
+export const attachIds = (formula: FormulaData): FormulaData => {
+  return {
+    ...formula,
+    id: v4(),
+    inputs: formula.inputs.map((input) => attachIds(input)),
+  };
+}
 
 export const insertFormulaAt = (
   state: WritableDraft<NotebookState>,
@@ -71,7 +80,7 @@ export const modifyFormulaAt = (
   // Check if root is the selected, and if so, replace with new formula directly
   if (newRoot.id === state.selectedFormula.id) {
     newRoot = modify(newRoot, newFormula);
-    state.selectedFormula = newFormula.inputs[0] || newRoot;
+    state.selectedFormula = newFormula.inputs[1] || newFormula.inputs[0] || newRoot;
   }
 
   // Traverse tree until finding selected and insert new formula

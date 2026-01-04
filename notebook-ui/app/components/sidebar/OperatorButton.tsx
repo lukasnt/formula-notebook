@@ -1,9 +1,9 @@
 import "./sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, ListItemText } from "@mui/material";
-import { v4 } from "uuid";
-import { insertAtSelected } from "~/state/notebook-slices";
+import { Button } from "@mui/material";
+import { replaceAtSelected } from "~/state/notebook-slices";
 import useGlobalKeyPress from "~/hooks/global-key-press";
+import { createInputFormula } from "~/components/formulas/operators/operators";
 
 export interface OperatorButtonProps {
   operator: string;
@@ -24,18 +24,7 @@ export default function OperatorButton({
   const insertFormula = (operator: string) => {
     if (selectedFormula) {
       dispatch(
-        insertAtSelected({
-          id: v4(),
-          operator: operator,
-          inputs: [
-            {
-              id: v4(),
-              operator: "INPUT",
-              value: { num: 20 },
-              inputs: [],
-            },
-          ],
-        }),
+        replaceAtSelected(createInputFormula(selectedFormula, operator)),
       );
     }
   };
@@ -59,16 +48,16 @@ export default function OperatorButton({
       variant="outlined"
       color="inherit"
     >
-        <span
-          style={{
-            fontSize: 20,
-            fontFamily: "Latin Modern Math",
-            fontWeight: "bold",
-            textAlign: "center"
-          }}
-        >
-          {symbol}
-        </span>
+      <span
+        style={{
+          fontSize: 20,
+          fontFamily: "Latin Modern Math",
+          fontWeight: "bold",
+          textAlign: "center",
+        }}
+      >
+        {symbol}
+      </span>
     </Button>
   );
 }

@@ -1,4 +1,6 @@
 import type { FormulaData } from "~/api/types/notebook-data";
+import { v4 } from "uuid";
+import { attachIds } from "~/state/formula-utils";
 
 export interface Operator {
   operator: string;
@@ -13,12 +15,43 @@ export const ARITHMETIC_OPERATORS: Operator[] = [
   { operator: "MINUS", type: "binary", symbol: "-", keybind: "-" },
   { operator: "MULTIPLICATION", type: "binary", symbol: "×", keybind: "*" },
   { operator: "DIVISION", type: "binary", symbol: "÷", keybind: "/" },
-  { operator: "SQUARED", type: "unary", symbol: "x²", keybind: "**" },
+  {
+    operator: "SQUARED",
+    type: "binary",
+    symbol: "x²",
+    keybind: "**",
+    composite: {
+      id: "",
+      operator: "POWER",
+      inputs: [
+        { id: "", operator: "INPUT", inputs: [] },
+        { id: "", operator: "CONSTANT", inputs: [], value: { num: 2 } },
+      ],
+    },
+  },
   { operator: "CUBED", type: "unary", symbol: "x³", keybind: "***" },
   { operator: "POWER", type: "binary", symbol: "xª", keybind: "^" },
   { operator: "SQRT", type: "unary", symbol: "✓x", keybind: "r" },
   { operator: "CUBE_ROOT", type: "unary", symbol: "∛x", keybind: "shift+c" },
-  { operator: "INVERSE", type: "unary", symbol: "1/x", keybind: "shift+i" },
+  {
+    operator: "INVERSE",
+    type: "unary",
+    symbol: "1/x",
+    keybind: "shift+i",
+    composite: {
+      id: "",
+      operator: "DIVISION",
+      inputs: [
+        {
+          id: "",
+          operator: "CONSTANT",
+          inputs: [],
+          value: { num: 1 },
+        },
+        { id: "", operator: "INPUT", inputs: [] },
+      ],
+    },
+  },
   { operator: "PERCENTAGE", type: "unary", symbol: "%", keybind: "shift+5" },
   { operator: "ROUND", type: "unary", symbol: "round", keybind: "o" },
   { operator: "FLOOR", type: "unary", symbol: "⌊x⌋", keybind: "f" },
@@ -33,14 +66,27 @@ export const CONSTANT_OPERATORS: Operator[] = [
   { operator: "E", type: "nullary", symbol: "e", keybind: "e" },
   { operator: "GR", type: "nullary", symbol: "φ", keybind: "g" },
   { operator: "TAU", symbol: "τ", type: "nullary", keybind: "t" },
-  { operator: "INFINITY", type: "nullary", symbol: "∞", keybind: "shift+8" }
+  { operator: "INFINITY", type: "nullary", symbol: "∞", keybind: "shift+8" },
 ];
 
 export const FUNCTIONS_OPERATORS: Operator[] = [
   { operator: "LN", type: "unary", symbol: "ln", keybind: "l" },
   { operator: "LOG", type: "unary", symbol: "log", keybind: "shift+l" },
   { operator: "LOG_B", type: "binary", symbol: "logb", keybind: "shift+b" },
-  { operator: "EXP", type: "unary", symbol: "exp", keybind: "shift+e" },
+  {
+    operator: "EXP",
+    type: "unary",
+    symbol: "exp",
+    keybind: "shift+e",
+    composite: {
+      id: "",
+      operator: "POWER",
+      inputs: [
+        { id: "", operator: "E", inputs: [] },
+        { id: "", operator: "INPUT", inputs: [] },
+      ],
+    },
+  },
   { operator: "SQRT_B", type: "binary", symbol: "ª✓x", keybind: "shift+v" },
   { operator: "RAD", type: "unary", symbol: "rad", keybind: "shift+r" },
   { operator: "DEG", type: "unary", symbol: "deg", keybind: "d" },
@@ -77,10 +123,46 @@ const TYPE_MAP: { [key: string]: "nullary" | "unary" | "binary" } =
     {} as { [key: string]: "nullary" | "unary" | "binary" },
   );
 
+const OPERATOR_MAP: { [key: string]: Operator } = ALL_OPERATORS.reduce(
+  (map, op) => {
+    map[op.operator] = op;
+    return map;
+  },
+  {} as { [key: string]: Operator },
+);
+
 export const getTypeOfOperator = (
   operator: string,
 ): "nullary" | "unary" | "binary" | null => {
   return TYPE_MAP[operator] || null;
+};
+
+export const createInputFormula = (
+  existing: FormulaData,
+  operator: string,
+): FormulaData => {
+  if (OPERATOR_MAP[operator]?.composite) {
+    return {
+      ...attachIds(replaceInputs(OPERATOR_MAP[operator]?.composite, existing)),
+    };
+  }
+  return insertOperator(existing, {
+    id: v4(),
+    operator: operator,
+    inputs: [{ id: v4(), operator: "INPUT", inputs: [] }],
+  });
+};
+
+const replaceInputs = (
+  old: FormulaData,
+  newFormula: FormulaData,
+): FormulaData => {
+  return {
+    ...old,
+    inputs: old.inputs.map((inp) =>
+      inp.operator === "INPUT" ? { ...newFormula } : inp,
+    ),
+  };
 };
 
 export const insertOperator = (
