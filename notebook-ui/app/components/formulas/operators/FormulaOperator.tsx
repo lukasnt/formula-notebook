@@ -13,6 +13,7 @@ import Euler from "~/components/formulas/operators/Euler";
 import GoldenRatio from "~/components/formulas/operators/GoldenRatio";
 import Tau from "~/components/formulas/operators/Tau";
 import Sqrt from "./Sqrt";
+import CubeRoot from "~/components/formulas/operators/CubeRoot";
 
 export default function FormulaOperator(props: FormulaProps) {
   switch (props.operator) {
@@ -30,6 +31,8 @@ export default function FormulaOperator(props: FormulaProps) {
       return <Power {...props} />;
     case "SQRT":
       return <Sqrt {...props} />;
+    case "CUBE_ROOT":
+      return <CubeRoot {...props} />;
     case "LN":
       return <Ln {...props} />;
     case "PI":
