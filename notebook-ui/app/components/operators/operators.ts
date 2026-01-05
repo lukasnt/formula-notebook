@@ -111,7 +111,6 @@ export const FUNCTIONS_OPERATORS: Operator[] = [
   { operator: "ATAN", type: "unary", symbol: "atan", keybind: "shift+t" },
   { operator: "SINH", type: "unary", symbol: "sinh", keybind: "h" },
   { operator: "COSH", type: "unary", symbol: "cosh", keybind: "shift+h" },
-  { operator: "TANH", type: "unary", symbol: "tanh", keybind: "shift+y" },
   { operator: "SIGNUM", type: "unary", symbol: "sgn", keybind: "shift+g" },
   { operator: "RAND", type: "unary", symbol: "rand", keybind: "shift+r" },
   { operator: "FACT", type: "unary", symbol: "x!", keybind: "!" },
@@ -143,6 +142,10 @@ const OPERATOR_MAP: { [key: string]: Operator } = ALL_OPERATORS.reduce(
   },
   {} as { [key: string]: Operator },
 );
+
+export const getSymbolOfOperator = (operator: string): string | null => {
+  return OPERATOR_MAP[operator]?.symbol || null;
+}
 
 export const getTypeOfOperator = (
   operator: string,

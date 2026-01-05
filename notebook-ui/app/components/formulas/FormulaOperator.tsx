@@ -7,13 +7,13 @@ import Minus from "~/components/operators/Minus";
 import Input from "~/components/operators/Input";
 import Multiplication from "~/components/operators/Multiplication";
 import Power from "~/components/operators/Power";
-import Ln from "~/components/operators/Ln";
 import Pi from "~/components/operators/Pi";
 import Euler from "~/components/operators/Euler";
 import GoldenRatio from "~/components/operators/GoldenRatio";
 import Tau from "~/components/operators/Tau";
 import Sqrt from "~/components/operators/Sqrt";
 import CubeRoot from "~/components/operators/CubeRoot";
+import NamedFunction from "~/components/operators/NamedFunction";
 
 export default function FormulaOperator(props: FormulaProps) {
   switch (props.operator) {
@@ -33,8 +33,22 @@ export default function FormulaOperator(props: FormulaProps) {
       return <Sqrt {...props} />;
     case "CUBE_ROOT":
       return <CubeRoot {...props} />;
+    case "ROUND":
     case "LN":
-      return <Ln {...props} />;
+    case "RAD":
+    case "DEG":
+    case "SIN":
+    case "COS":
+    case "TAN":
+    case "ASIN":
+    case "ACOS":
+    case "ATAN":
+    case "LOG":
+    case "COSH":
+    case "SINH":
+    case "SIGNUM":
+    case "RAND":
+      return <NamedFunction {...props} />;
     case "PI":
       return <Pi {...props} />;
     case "E":
