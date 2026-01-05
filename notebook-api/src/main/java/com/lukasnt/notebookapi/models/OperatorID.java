@@ -8,5 +8,8 @@ public enum OperatorID {
     DIVISION,
     LOGARITHM,
     SQUARED,
-    POWER
+    POWER,
+    PI,
+    E,
+    GR
 }

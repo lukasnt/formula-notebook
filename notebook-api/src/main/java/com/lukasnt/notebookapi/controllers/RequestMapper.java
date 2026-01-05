@@ -63,6 +63,9 @@ public class RequestMapper {
             case OperatorID.LOGARITHM      -> Logarithm.operator();
             case OperatorID.SQUARED        -> Squared.operator();
             case OperatorID.POWER          -> Power.operator();
+            case OperatorID.PI             -> Pi.operator();
+            case OperatorID.E              -> Euler.operator();
+            case OperatorID.GR             -> GoldenRatio.operator();
             case null                      -> Constant.of(BigDecimal.ZERO);
         };
     }

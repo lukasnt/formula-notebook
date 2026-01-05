@@ -4,32 +4,31 @@ import com.lukasnt.notebookapi.core.Formula;
 
 import java.math.BigDecimal;
 
-public class Power implements Operator {
+public class Pi implements Operator {
 
-    public static final Power INSTANCE = new Power();
+    public static final Pi INSTANCE = new Pi();
 
     @Override
     public int arity() {
-        return 2;
+        return 0;
     }
 
     @Override
     public String notation() {
-        return "$1^$2";
+        return "π";
     }
 
     @Override
     public BigDecimal eval(BigDecimal[] args) {
         OperatorUtils.checkArguments(this, args);
-        return BigDecimal.valueOf(Math.pow(args[0].doubleValue(), args[1].doubleValue()));
+        return BigDecimal.valueOf(Math.PI);
     }
 
-    public static Power operator() {
+    public static Pi operator() {
         return INSTANCE;
     }
 
-    public static Formula power(Formula a, Formula b) {
-        return new Formula(operator(), new Formula[]{a, b});
+    public static Formula pi() {
+        return new Formula(new Pi(), new Formula[]{});
     }
-
 }

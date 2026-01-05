@@ -4,32 +4,31 @@ import com.lukasnt.notebookapi.core.Formula;
 
 import java.math.BigDecimal;
 
-public class Power implements Operator {
+public class Euler implements Operator {
 
-    public static final Power INSTANCE = new Power();
+    public static final Euler INSTANCE = new Euler();
 
     @Override
     public int arity() {
-        return 2;
+        return 0;
     }
 
     @Override
     public String notation() {
-        return "$1^$2";
+        return "e";
     }
 
     @Override
     public BigDecimal eval(BigDecimal[] args) {
         OperatorUtils.checkArguments(this, args);
-        return BigDecimal.valueOf(Math.pow(args[0].doubleValue(), args[1].doubleValue()));
+        return BigDecimal.valueOf(Math.E);
     }
 
-    public static Power operator() {
+    public static Euler operator() {
         return INSTANCE;
     }
 
-    public static Formula power(Formula a, Formula b) {
-        return new Formula(operator(), new Formula[]{a, b});
+    public static Formula euler() {
+        return new Formula(new Euler(), new Formula[]{});
     }
-
 }

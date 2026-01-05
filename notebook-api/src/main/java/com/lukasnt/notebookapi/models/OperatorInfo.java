@@ -17,7 +17,10 @@ public record OperatorInfo(
         info(OperatorID.DIVISION, OperatorType.BINARY, Division.operator().notation()),
         info(OperatorID.LOGARITHM, OperatorType.UNARY, Logarithm.operator().notation()),
         info(OperatorID.SQUARED, OperatorType.UNARY, Squared.operator().notation()),
-        info(OperatorID.POWER, OperatorType.BINARY, Power.operator().notation())
+        info(OperatorID.POWER, OperatorType.BINARY, Power.operator().notation()),
+        info(OperatorID.PI, OperatorType.NULLARY, Pi.operator().notation()),
+        info(OperatorID.E, OperatorType.NULLARY, Euler.operator().notation()),
+        info(OperatorID.GR, OperatorType.NULLARY, GoldenRatio.operator().notation())
     );
 
     public static List<OperatorInfo> operators() {
