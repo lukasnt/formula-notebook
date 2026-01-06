@@ -9,6 +9,8 @@ public enum OperatorID {
     LOGARITHM,
     SQUARED,
     POWER,
+    SQRT,
+    CUBE_ROOT,
     PI,
     E,
     GR
