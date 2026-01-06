@@ -68,9 +68,9 @@ export const ARITHMETIC_OPERATORS: Operator[] = [
   { operator: "PERCENTAGE", type: "unary", symbol: "%", keybind: "shift+5" },
   { operator: "ROUND", type: "unary", symbol: "round", keybind: "o" },
   { operator: "FLOOR", type: "unary", symbol: "⌊x⌋", keybind: "f" },
-  { operator: "CEILING", type: "binary", symbol: "⌈x⌉", keybind: "c" },
-  { operator: "MODULO", type: "binary", symbol: "mod", keybind: "%" },
-  { operator: "ABSOLUTE", type: "unary", symbol: "|x|", keybind: "shift+a" },
+  { operator: "CEIL", type: "binary", symbol: "⌈x⌉", keybind: "c" },
+  { operator: "MOD", type: "binary", symbol: "mod", keybind: "%" },
+  { operator: "ABS", type: "unary", symbol: "|x|", keybind: "shift+a" },
   { operator: "NEGATE", type: "unary", symbol: "±x", keybind: "n" },
 ];
 

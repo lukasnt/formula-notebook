@@ -14,6 +14,12 @@ import Tau from "~/components/operators/Tau";
 import Sqrt from "~/components/operators/Sqrt";
 import CubeRoot from "~/components/operators/CubeRoot";
 import NamedFunction from "~/components/operators/NamedFunction";
+import Percentage from "~/components/operators/Percentage";
+import Floor from "~/components/operators/Floor";
+import Ceil from "~/components/operators/Ceil";
+import Absolute from "~/components/operators/Absolute";
+import Negate from "~/components/operators/Negate";
+import Modulo from "../operators/Modulo";
 
 export default function FormulaOperator(props: FormulaProps) {
   switch (props.operator) {
@@ -33,6 +39,18 @@ export default function FormulaOperator(props: FormulaProps) {
       return <Sqrt {...props} />;
     case "CUBE_ROOT":
       return <CubeRoot {...props} />;
+    case "PERCENTAGE":
+      return <Percentage {...props} />;
+    case "FLOOR":
+      return <Floor {...props} />;
+    case "CEIL":
+      return <Ceil {...props} />;
+    case "ABS":
+      return <Absolute {...props} />;
+    case "NEGATE":
+      return <Negate {...props} />;
+    case "MOD":
+      return <Modulo {...props} />;
     case "ROUND":
     case "LN":
     case "RAD":
