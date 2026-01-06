@@ -43,7 +43,7 @@ export default function FormulaArea({ cellId }: FormulaAreaProps) {
       <FormulaRoot
         {...formula}
         selected={{
-          id: selectedFormula.id,
+          id: selectedFormula?.id,
           depth: 0,
         }}
       />

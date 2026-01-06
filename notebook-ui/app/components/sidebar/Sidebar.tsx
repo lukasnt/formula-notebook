@@ -53,7 +53,7 @@ export default function Sidebar() {
           </ListItemButton>
         </List>
       </List>
-      {selectedFormula.id != "" && (
+      {selectedFormula?.id != "" && (
         <>
           <FormulaOptions />
           <MathematicsLibrary />

@@ -31,11 +31,13 @@ export default function OperatorButton({
 
   useGlobalKeyPress([keybind || ""], (e) => {
     insertFormula(operator);
-  });
+  }, { requireAll: true });
 
   return (
     <Button
-      onClick={() => insertFormula(operator)}
+      variant="outlined"
+      color="inherit"
+      type="button"
       style={{
         textAlign: "center",
         textTransform: "none",
@@ -45,8 +47,12 @@ export default function OperatorButton({
         marginRight: 2,
         fontWeight: "bold",
       }}
-      variant="outlined"
-      color="inherit"
+      onClick={(e) => {
+        // Only mouse events
+        if (e.detail != 0) {
+          insertFormula(operator);
+        }
+      }}
     >
       <span
         style={{
