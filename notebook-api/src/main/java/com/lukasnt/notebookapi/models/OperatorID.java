@@ -11,6 +11,9 @@ public enum OperatorID {
     POWER,
     SQRT,
     CUBE_ROOT,
+    ABS,
+    CEIL,
+    FLOOR,
     PI,
     E,
     GR

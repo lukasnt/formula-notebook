@@ -68,6 +68,9 @@ public class ResponseMapper {
             case Power _          -> OperatorID.POWER;
             case SquareRoot _     -> OperatorID.SQRT;
             case CubeRoot _       -> OperatorID.CUBE_ROOT;
+            case Absolute _       -> OperatorID.ABS;
+            case Ceil _           -> OperatorID.CEIL;
+            case Floor _          -> OperatorID.FLOOR;
             case Pi _             -> OperatorID.PI;
             case Euler _          -> OperatorID.E;
             case GoldenRatio _    -> OperatorID.GR;
