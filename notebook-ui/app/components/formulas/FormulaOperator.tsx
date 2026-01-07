@@ -23,21 +23,21 @@ import Modulo from "../operators/Modulo";
 
 export default function FormulaOperator(props: FormulaProps) {
   switch (props.operator) {
-    case "CONSTANT":
+    case "CONST":
       return <Constant {...props} />;
     case "PLUS":
       return <Plus {...props} />;
     case "MINUS":
       return <Minus {...props} />;
-    case "MULTIPLICATION":
+    case "MULT":
       return <Multiplication {...props} />;
-    case "DIVISION":
+    case "DIV":
       return <Division {...props} />;
-    case "POWER":
+    case "POW":
       return <Power {...props} />;
     case "SQRT":
       return <Sqrt {...props} />;
-    case "CUBE_ROOT":
+    case "CUBE_RT":
       return <CubeRoot {...props} />;
     case "PERCENTAGE":
       return <Percentage {...props} />;
@@ -47,7 +47,7 @@ export default function FormulaOperator(props: FormulaProps) {
       return <Ceil {...props} />;
     case "ABS":
       return <Absolute {...props} />;
-    case "NEGATE":
+    case "NEG":
       return <Negate {...props} />;
     case "MOD":
       return <Modulo {...props} />;

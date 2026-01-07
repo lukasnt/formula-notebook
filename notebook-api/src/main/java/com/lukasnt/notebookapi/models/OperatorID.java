@@ -1,16 +1,16 @@
 package com.lukasnt.notebookapi.models;
 
 public enum OperatorID {
-    CONSTANT,
+    CONST,
     PLUS,
     MINUS,
-    MULTIPLICATION,
-    DIVISION,
-    LOGARITHM,
-    SQUARED,
-    POWER,
+    MULT,
+    DIV,
+    LN,
+    SQ,
+    POW,
     SQRT,
-    CUBE_ROOT,
+    CUBE_RT,
     ABS,
     CEIL,
     FLOOR,

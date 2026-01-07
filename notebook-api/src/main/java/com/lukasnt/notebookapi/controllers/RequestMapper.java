@@ -44,7 +44,7 @@ public class RequestMapper {
             .orElse(BigDecimal.ZERO);
         var operatorId = Optional.ofNullable(formulaTree)
             .map(FormulaTree::operator)
-            .orElse(OperatorID.CONSTANT);
+            .orElse(OperatorID.CONST);
         return new Formula(
             id,
             RequestMapper.mapOperator(operatorId, constValue),
@@ -55,23 +55,23 @@ public class RequestMapper {
 
     public static Operator mapOperator(OperatorID operatorId, BigDecimal constValue) {
         return switch (operatorId) {
-            case OperatorID.CONSTANT       -> Constant.of(constValue);
-            case OperatorID.PLUS           -> Plus.operator();
-            case OperatorID.MINUS          -> Minus.operator();
-            case OperatorID.MULTIPLICATION -> Multiplication.operator();
-            case OperatorID.DIVISION       -> Division.operator();
-            case OperatorID.LOGARITHM      -> Logarithm.operator();
-            case OperatorID.SQUARED        -> Squared.operator();
-            case OperatorID.POWER          -> Power.operator();
-            case OperatorID.SQRT           -> SquareRoot.operator();
-            case OperatorID.CUBE_ROOT      -> CubeRoot.operator();
-            case OperatorID.ABS            -> Absolute.operator();
-            case OperatorID.CEIL           -> Ceil.operator();
-            case OperatorID.FLOOR          -> Floor.operator();
-            case OperatorID.PI             -> Pi.operator();
-            case OperatorID.E              -> Euler.operator();
-            case OperatorID.GR             -> GoldenRatio.operator();
-            case null                      -> Constant.of(BigDecimal.ZERO);
+            case OperatorID.CONST   -> Constant.of(constValue);
+            case OperatorID.PLUS    -> Plus.operator();
+            case OperatorID.MINUS   -> Minus.operator();
+            case OperatorID.MULT    -> Multiplication.operator();
+            case OperatorID.DIV     -> Division.operator();
+            case OperatorID.LN      -> Logarithm.operator();
+            case OperatorID.SQ      -> Squared.operator();
+            case OperatorID.POW     -> Power.operator();
+            case OperatorID.SQRT    -> SquareRoot.operator();
+            case OperatorID.CUBE_RT -> CubeRoot.operator();
+            case OperatorID.ABS     -> Absolute.operator();
+            case OperatorID.CEIL    -> Ceil.operator();
+            case OperatorID.FLOOR   -> Floor.operator();
+            case OperatorID.PI      -> Pi.operator();
+            case OperatorID.E       -> Euler.operator();
+            case OperatorID.GR      -> GoldenRatio.operator();
+            case null               -> Constant.of(BigDecimal.ZERO);
         };
     }
 

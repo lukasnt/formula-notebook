@@ -45,7 +45,7 @@ export default function FormulaField() {
             dispatch(
               replaceAtSelected({
                 id: v4(),
-                operator: "CONSTANT",
+                operator: "CONST",
                 value: { num: parseInt(value) },
                 inputs: [],
               }),

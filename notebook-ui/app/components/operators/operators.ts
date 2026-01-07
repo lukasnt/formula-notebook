@@ -13,19 +13,19 @@ export interface Operator {
 export const ARITHMETIC_OPERATORS: Operator[] = [
   { operator: "PLUS", type: "binary", symbol: "+", keybind: "+" },
   { operator: "MINUS", type: "binary", symbol: "-", keybind: "-" },
-  { operator: "MULTIPLICATION", type: "binary", symbol: "×", keybind: "*" },
-  { operator: "DIVISION", type: "binary", symbol: "÷", keybind: "/" },
+  { operator: "MULT", type: "binary", symbol: "×", keybind: "*" },
+  { operator: "DIV", type: "binary", symbol: "÷", keybind: "/" },
   {
-    operator: "SQUARED",
+    operator: "SQ",
     type: "binary",
     symbol: "x²",
     keybind: "**",
     composite: {
       id: "",
-      operator: "POWER",
+      operator: "POW",
       inputs: [
         { id: "", operator: "INPUT", inputs: [] },
-        { id: "", operator: "CONSTANT", inputs: [], value: { num: 2 } },
+        { id: "", operator: "CONST", inputs: [], value: { num: 2 } },
       ],
     },
   },
@@ -36,28 +36,28 @@ export const ARITHMETIC_OPERATORS: Operator[] = [
     keybind: "***",
     composite: {
       id: "",
-      operator: "POWER",
+      operator: "POW",
       inputs: [
         { id: "", operator: "INPUT", inputs: [] },
-        { id: "", operator: "CONSTANT", inputs: [], value: { num: 3 } },
+        { id: "", operator: "CONST", inputs: [], value: { num: 3 } },
       ],
     },
   },
-  { operator: "POWER", type: "binary", symbol: "xª", keybind: "^" },
+  { operator: "POW", type: "binary", symbol: "xª", keybind: "^" },
   { operator: "SQRT", type: "unary", symbol: "✓x", keybind: "r" },
-  { operator: "CUBE_ROOT", type: "unary", symbol: "∛x", keybind: "shift+c" },
+  { operator: "CUBE_RT", type: "unary", symbol: "∛x", keybind: "shift+c" },
   {
-    operator: "INVERSE",
+    operator: "INV",
     type: "unary",
     symbol: "1/x",
     keybind: "shift+i",
     composite: {
       id: "",
-      operator: "DIVISION",
+      operator: "DIV",
       inputs: [
         {
           id: "",
-          operator: "CONSTANT",
+          operator: "CONST",
           inputs: [],
           value: { num: 1 },
         },
@@ -68,10 +68,10 @@ export const ARITHMETIC_OPERATORS: Operator[] = [
   { operator: "PERCENTAGE", type: "unary", symbol: "%", keybind: "shift+5" },
   { operator: "ROUND", type: "unary", symbol: "round", keybind: "o" },
   { operator: "FLOOR", type: "unary", symbol: "⌊x⌋", keybind: "f" },
-  { operator: "CEIL", type: "binary", symbol: "⌈x⌉", keybind: "c" },
+  { operator: "CEIL", type: "unary", symbol: "⌈x⌉", keybind: "c" },
   { operator: "MOD", type: "binary", symbol: "mod", keybind: "%" },
   { operator: "ABS", type: "unary", symbol: "|x|", keybind: "shift+a" },
-  { operator: "NEGATE", type: "unary", symbol: "±x", keybind: "n" },
+  { operator: "NEG", type: "unary", symbol: "±x", keybind: "n" },
 ];
 
 export const CONSTANT_OPERATORS: Operator[] = [
@@ -93,7 +93,7 @@ export const FUNCTIONS_OPERATORS: Operator[] = [
     keybind: "shift+e",
     composite: {
       id: "",
-      operator: "POWER",
+      operator: "POW",
       inputs: [
         { id: "", operator: "E", inputs: [] },
         { id: "", operator: "INPUT", inputs: [] },

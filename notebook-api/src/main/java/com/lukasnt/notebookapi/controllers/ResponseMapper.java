@@ -48,7 +48,7 @@ public class ResponseMapper {
             formula.getId(),
             Optional.ofNullable(formula.getOperator())
                 .map(ResponseMapper::mapOperator)
-                .orElse(OperatorID.CONSTANT),
+                .orElse(OperatorID.CONST),
             Arrays.stream(formula.getInputs()).map(ResponseMapper::mapFormula).toList(),
             new Evaluated(
                 formula.getValue(),
@@ -61,20 +61,20 @@ public class ResponseMapper {
         return switch (operator) {
             case Plus _           -> OperatorID.PLUS;
             case Minus _          -> OperatorID.MINUS;
-            case Multiplication _ -> OperatorID.MULTIPLICATION;
-            case Division _       -> OperatorID.DIVISION;
-            case Logarithm _      -> OperatorID.LOGARITHM;
-            case Squared _        -> OperatorID.SQUARED;
-            case Power _          -> OperatorID.POWER;
+            case Multiplication _ -> OperatorID.MULT;
+            case Division _       -> OperatorID.DIV;
+            case Logarithm _      -> OperatorID.LN;
+            case Squared _        -> OperatorID.SQ;
+            case Power _          -> OperatorID.POW;
             case SquareRoot _     -> OperatorID.SQRT;
-            case CubeRoot _       -> OperatorID.CUBE_ROOT;
+            case CubeRoot _       -> OperatorID.CUBE_RT;
             case Absolute _       -> OperatorID.ABS;
             case Ceil _           -> OperatorID.CEIL;
             case Floor _          -> OperatorID.FLOOR;
             case Pi _             -> OperatorID.PI;
             case Euler _          -> OperatorID.E;
             case GoldenRatio _    -> OperatorID.GR;
-            default               -> OperatorID.CONSTANT;
+            default               -> OperatorID.CONST;
         };
     }
 

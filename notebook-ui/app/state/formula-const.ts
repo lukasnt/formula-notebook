@@ -32,11 +32,11 @@ export const testInputs: FormulaData[] = [
     inputs: [
       {
         id: "2",
-        operator: "DIVISION",
+        operator: "DIV",
         inputs: [
           {
             id: "3",
-            operator: "DIVISION",
+            operator: "DIV",
             inputs: [
               {
                 id: "4",
@@ -45,13 +45,13 @@ export const testInputs: FormulaData[] = [
                 inputs: [
                   {
                     id: "5",
-                    operator: "CONSTANT",
+                    operator: "CONST",
                     value: { num: 5 },
                     inputs: [],
                   },
                   {
                     id: "6",
-                    operator: "CONSTANT",
+                    operator: "CONST",
                     value: { num: 6 },
                     inputs: [],
                   },
@@ -59,7 +59,7 @@ export const testInputs: FormulaData[] = [
               },
               {
                 id: "7",
-                operator: "CONSTANT",
+                operator: "CONST",
                 value: { num: 20 },
                 inputs: [],
               },
@@ -67,18 +67,18 @@ export const testInputs: FormulaData[] = [
           },
           {
             id: "8",
-            operator: "CONSTANT",
+            operator: "CONST",
             value: { num: 20 },
             inputs: [],
           },
         ],
       },
-      { id: "9", operator: "CONSTANT", value: { num: 20 }, inputs: [] },
+      { id: "9", operator: "CONST", value: { num: 20 }, inputs: [] },
     ],
   },
   {
     id: "10",
-    operator: "CONSTANT",
+    operator: "CONST",
     value: { num: 20 },
     inputs: [],
   },
