@@ -6,7 +6,9 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -16,6 +18,7 @@
     "@react-router/node": "7.10.1",
     "@react-router/serve": "7.10.1",
     "@reduxjs/toolkit": "^2.11.2",
+    "@vitest/coverage-v8": "^4.0.16",
     "date-fns": "^4.1.0",
     "isbot": "^5.1.31",
     "react": "^19.2.3",
@@ -26,12 +29,17 @@
   },
   "devDependencies": {
     "@react-router/dev": "7.10.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "jsdom": "^27.4.0",
     "prettier": "3.7.4",
     "typescript": "^5.9.2",
     "vite": "^7.1.7",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^4.0.16"
   }
 }
