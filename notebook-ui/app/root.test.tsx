@@ -4,7 +4,6 @@ import App from "./root";
 
 describe("App-component test", () => {
   it("should render successfully", () => {
-    // @ts-ignore
     expect(render(<App />).baseElement).toBeTruthy();
   });
 });

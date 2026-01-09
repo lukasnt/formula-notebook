@@ -2,14 +2,30 @@ import { TextField } from "@mui/material";
 import { useState } from "react";
 import "./formula.css";
 import { useDispatch } from "react-redux";
-import { replaceAtSelected } from "~/state/notebook-slices";
+import { removeSelected, replaceAtSelected } from "~/state/notebook-slices";
 import { v4 } from "uuid";
 
-export default function FormulaField() {
+interface FormulaFieldProps {
+  initValue?: number;
+}
+
+export default function FormulaField({ initValue }: FormulaFieldProps) {
   const [activeInput, setActiveInput] = useState(true);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(initValue ? initValue.toString() : "");
 
   const dispatch = useDispatch();
+
+  const submitInput = () => {
+    dispatch(
+      replaceAtSelected({
+        id: v4(),
+        operator: "CONST",
+        value: { num: parseInt(value) },
+        inputs: [],
+      }),
+    );
+    setActiveInput(false);
+  };
 
   return (
     <span>
@@ -23,7 +39,7 @@ export default function FormulaField() {
           htmlInput: {
             inputMode: "numeric",
             pattern: "[0-9]",
-            fieldSizing: "content",
+            fielding: "content",
             style: {
               paddingBottom: 0,
               paddingTop: 0,
@@ -40,17 +56,20 @@ export default function FormulaField() {
         onChange={(e) => {
           if (/^\d*$/.test(e.target.value)) setValue(e.target.value);
         }}
+        onBlur={(e) => {
+          if (value !== "") {
+            submitInput();
+          }
+        }}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            dispatch(
-              replaceAtSelected({
-                id: v4(),
-                operator: "CONST",
-                value: { num: parseInt(value) },
-                inputs: [],
-              }),
-            );
-            setActiveInput(false);
+            submitInput();
+          }
+          if (e.key === "Backspace" && value !== "") {
+            e.stopPropagation();
+          }
+          if (e.key === "Escape") {
+            dispatch(removeSelected());
           }
         }}
       />

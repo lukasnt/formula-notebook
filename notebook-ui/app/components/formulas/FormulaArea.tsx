@@ -2,13 +2,30 @@ import { FormulaRoot } from "~/components/formulas/Formula";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "~/state/store";
 import { useEffect, useState } from "react";
-import { setSelectedCell } from "~/state/notebook-slices";
+import {
+  replaceAtSelected,
+  setSelectedCell,
+} from "~/state/notebook-slices";
 import { createEmptyFormula } from "~/state/formula-const";
 import "./formula.css";
+import useGlobalKeyPress from "~/hooks/global-key-press";
 
 export interface FormulaAreaProps {
   cellId: string;
 }
+
+export const NUMBER_KEYS: string[] = [
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+];
 
 export default function FormulaArea({ cellId }: FormulaAreaProps) {
   const dispatch = useDispatch();
@@ -28,6 +45,23 @@ export default function FormulaArea({ cellId }: FormulaAreaProps) {
   useEffect(() => {
     setFormula(cell?.formula ? cell.formula : createEmptyFormula());
   }, [cell]);
+
+  useGlobalKeyPress(
+    NUMBER_KEYS,
+    (e) => {
+      if (selectedFormula && selectedFormula.operator !== "INPUT") {
+        dispatch(
+          replaceAtSelected({
+            ...selectedFormula,
+            operator: "INPUT",
+            value: { num: parseInt(e.key) },
+            inputs: []
+          }),
+        );
+      }
+    },
+    { requireAll: false },
+  );
 
   return (
     <div

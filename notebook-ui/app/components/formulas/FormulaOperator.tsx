@@ -76,6 +76,6 @@ export default function FormulaOperator(props: FormulaProps) {
     case "TAU":
       return <Tau {...props} />;
     default:
-      return <Input />;
+      return <Input {...props} />;
   }
 }

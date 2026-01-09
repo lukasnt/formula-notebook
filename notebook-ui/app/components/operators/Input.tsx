@@ -1,10 +1,11 @@
 import FormulaField from "~/components/formulas/FormulaField";
 import "./operator.css";
+import type { FormulaProps } from "~/components/formulas/Formula";
 
-export default function Input() {
+export default function Input({ value }: FormulaProps) {
   return (
     <span className="row-operator">
-      <FormulaField />
+      <FormulaField initValue={value?.num} />
     </span>
   );
 }

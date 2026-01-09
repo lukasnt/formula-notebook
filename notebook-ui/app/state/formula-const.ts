@@ -5,7 +5,6 @@ export const createEmptyConst = (): FormulaData => {
   return {
     id: v4(),
     operator: "INPUT",
-    value: { num: 20 },
     inputs: [],
   };
 };
@@ -14,7 +13,6 @@ export const createEmptyFormula = (): FormulaData => {
   return {
     id: v4(),
     operator: "INPUT",
-    value: { num: 20 },
     inputs: [],
   };
 };
