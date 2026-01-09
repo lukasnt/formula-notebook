@@ -42,7 +42,7 @@ export default function MathematicsLibrary() {
     return Array.from(
       { length: Math.ceil(operators.length / 3) },
       (_, rowIndex) => (
-        <ListItem dense>
+        <ListItem dense key={rowIndex}>
           {operators.slice(rowIndex * 3, rowIndex * 3 + 3).map((op, i) => (
             <OperatorButton
               key={rowIndex * 3 + i}

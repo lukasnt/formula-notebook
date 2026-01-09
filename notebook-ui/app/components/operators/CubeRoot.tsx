@@ -14,7 +14,7 @@ export default function CubeRoot({ inputs }: FormulaProps) {
           marginLeft: "0.2em",
         }}
       >
-        <SqrtSvg />
+        <CubeRootSVG />
       </span>
       {containsMultipleFormulas(inputs[0]) ? (
         <Brackets>
@@ -27,7 +27,7 @@ export default function CubeRoot({ inputs }: FormulaProps) {
   );
 }
 
-const SqrtSvg = () => (
+const CubeRootSVG = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
@@ -37,6 +37,7 @@ const SqrtSvg = () => (
       height: "100%",
       left: "-1em",
       color: "inherit",
+      pointerEvents: "none",
     }}
     viewBox="0 0 96 96"
   >

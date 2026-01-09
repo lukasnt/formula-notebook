@@ -68,6 +68,7 @@ export default function Cell({ notebookId, cellId, onDelete }: CellProps) {
           </span>
           <span className={"cell-header-left-element"}>
             <Select
+              name="cellType"
               className="cell-type-select"
               style={{
                 fontSize: "small",

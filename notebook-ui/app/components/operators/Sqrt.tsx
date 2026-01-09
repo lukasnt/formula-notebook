@@ -37,6 +37,7 @@ const SqrtSvg = () => (
       height: "100%",
       left: "-1em",
       color: "inherit",
+      pointerEvents: "none",
     }}
     viewBox="0 0 96 96"
   >
