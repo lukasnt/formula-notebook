@@ -1,8 +1,13 @@
-.content-container {
+.page-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 0.75rem;
-  min-width: 800px;
+  min-width: 720px;
+}
+
+.content-container {
+  max-width: 960px;
+  width: 100%;
 }

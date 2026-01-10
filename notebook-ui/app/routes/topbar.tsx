@@ -4,9 +4,9 @@ import Topbar from "~/components/topbar/Topbar";
 
 export default function TopbarPage() {
   return (
-    <div className="home">
+    <div>
       <Topbar />
-      <div className="content-container">
+      <div className="page-content">
         <Outlet />
       </div>
     </div>

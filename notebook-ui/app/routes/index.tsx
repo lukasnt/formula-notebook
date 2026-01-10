@@ -14,15 +14,20 @@ export async function loader() {
 
 export default function Index({ loaderData }: Route.ComponentProps) {
   const [notebooks, setNotebooks] = useState<NotebookData[]>([]);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     setNotebooks(loaderData.notebooks);
   }, []);
 
   return (
-    <div>
-      <NotebookSearchBar />
-      <NotebookCollection notebooks={notebooks} />
+    <div className="content-container">
+      <NotebookSearchBar onQueryChange={setFilter} onCreateSubmit={() => console.log("create")} />
+      <NotebookCollection
+        notebooks={notebooks.filter((notebook) =>
+          notebook.title.toLowerCase().includes(filter.toLowerCase()),
+        )}
+      />
     </div>
   );
 }
