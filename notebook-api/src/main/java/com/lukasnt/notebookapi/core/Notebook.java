@@ -24,6 +24,10 @@ public class Notebook {
         this.cells = new LinkedHashMap<>();
     }
 
+    public Notebook() {
+        this(UUID.randomUUID(), "Untitled", ZonedDateTime.now(), ZonedDateTime.now(), 0);
+    }
+
     public Notebook(UUID id, String title, ZonedDateTime created, ZonedDateTime modified, List<Cell> cells) {
         this(id, title, created, modified, cells.size());
         cells.forEach(cell -> this.cells.put(cell.getId(), cell));

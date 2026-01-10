@@ -28,8 +28,15 @@ public class NotebookService {
         return repository.getAllNotebooks().stream().map(EntryMapper::toNotebook).toList();
     }
 
+    public NotebookData createNotebook() {
+        var notebook = new Notebook();
+        repository.insertNotebook(EntryMapper.toNotebookEntry(notebook));
+        notebookCache.put(notebook.getId().toString(), notebook);
+        return ResponseMapper.mapNotebook(notebook);
+    }
+
     public NotebookData saveNotebook(NotebookData notebookData) {
-        var notebook = RequestMapper.mapNotebook(notebookData);;
+        var notebook = RequestMapper.mapNotebook(notebookData);
         notebook.setModified(ZonedDateTime.now());
         notebookCache.put(notebook.getId().toString(), notebook);
         repository.replaceNotebook(EntryMapper.toNotebookEntry(notebook));

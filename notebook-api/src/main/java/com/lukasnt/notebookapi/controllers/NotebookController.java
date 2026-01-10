@@ -35,6 +35,11 @@ public class NotebookController {
         return notebookService.getAllNotebooks().stream().map(ResponseMapper::mapNotebook).toList();
     }
 
+    @PostMapping()
+    public NotebookData createNotebook() {
+        return notebookService.createNotebook();
+    }
+
     @GetMapping("/{id}")
     public NotebookData getNotebook(@PathVariable String id) {
         return ResponseMapper.mapNotebook(notebookService.getNotebook(id));

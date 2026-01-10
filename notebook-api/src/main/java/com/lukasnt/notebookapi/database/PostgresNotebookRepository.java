@@ -54,11 +54,12 @@ public class PostgresNotebookRepository implements NotebookRepository {
 
     @Override
     public NotebookEntry insertNotebook(NotebookEntry notebook) {
-        int id = jdbcTemplate.update("INSERT into notebooks (notebook_id, title, created, modified) VALUES (?, ?, ?, ?)",
+        int id = jdbcTemplate.update("INSERT into notebooks (notebook_id, title, created, modified, cell_count) VALUES (?, ?, ?, ?, ?)",
             notebook.notebookId(),
             notebook.title(),
-            notebook.created(),
-            notebook.modified()
+            toSqlTimestamp(notebook.created()),
+            toSqlTimestamp(notebook.modified()),
+            notebook.cellCount()
         );
         if (id > 0) {
             return notebook;
@@ -72,7 +73,7 @@ public class PostgresNotebookRepository implements NotebookRepository {
         int id = jdbcTemplate.update("INSERT into cells (cell_id, notebook_id, updated, text_content, evaluated) VALUES (?, ?, ?, ?, ?)",
             cell.cellId(),
             cell.notebookId(),
-            java.sql.Timestamp.from(cell.updated().toInstant()),
+            toSqlTimestamp(cell.updated()),
             cell.textContent(),
             cell.evaluated()
         );
@@ -121,12 +122,13 @@ public class PostgresNotebookRepository implements NotebookRepository {
     public NotebookEntry replaceNotebook(NotebookEntry notebook) {
         var deleteSql = "DELETE FROM notebooks WHERE notebook_id = ?";
         jdbcTemplate.update(deleteSql, notebook.notebookId());
-        var insertSql = "INSERT INTO notebooks (notebook_id, title, created, modified) VALUES (?, ?, ?, ?)";
+        var insertSql = "INSERT INTO notebooks (notebook_id, title, created, modified, cell_count) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(insertSql,
             notebook.notebookId(),
             notebook.title(),
             toSqlTimestamp(notebook.created()),
-            toSqlTimestamp(notebook.modified())
+            toSqlTimestamp(notebook.modified()),
+            notebook.cellCount()
         );
         return notebook;
     }
