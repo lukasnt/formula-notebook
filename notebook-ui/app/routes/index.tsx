@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { Route } from "./+types";
 import { fetchNotebooks } from "~/api/services/notebook-service";
 import type { NotebookData } from "~/api/types/notebook-data";
+import NotebookSearchBar from "~/components/search/NotebookSearchBar";
 
 export async function loader() {
   return {
@@ -20,6 +21,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
 
   return (
     <div>
+      <NotebookSearchBar />
       <NotebookCollection notebooks={notebooks} />
     </div>
   );
