@@ -59,6 +59,14 @@ public class NotebookService {
         return ResponseMapper.mapNotebook(notebook);
     }
 
+    public boolean deleteNotebook(String notebookId) {
+        boolean removed = repository.deleteNotebook(notebookId);
+        if (removed) {
+            notebookCache.remove(notebookId);
+        }
+        return removed;
+    }
+
     public NotebookCell createCell(String notebookId) {
         Notebook notebook = this.getNotebook(notebookId);
         Cell cell = notebook.createCell();

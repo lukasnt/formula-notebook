@@ -18,6 +18,6 @@ public interface NotebookRepository {
     CellEntry replaceCell(CellEntry cell);
     List<CellEntry> replaceCells(List<CellEntry> cells);
 
-    NotebookEntry deleteNotebook(NotebookEntry notebook);
-    NotebookEntry deleteCell(CellEntry cell);
+    boolean deleteNotebook(String notebookId);
+    boolean deleteCell(CellEntry cell);
 }

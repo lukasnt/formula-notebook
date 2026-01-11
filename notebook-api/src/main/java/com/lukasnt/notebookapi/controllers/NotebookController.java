@@ -51,6 +51,11 @@ public class NotebookController {
         return notebookService.saveNotebook(notebook);
     }
 
+    @DeleteMapping("/{id}")
+    public boolean deleteNotebook(@PathVariable String id) {
+        return notebookService.deleteNotebook(id);
+    }
+
     @PostMapping("/{id}/cell")
     public NotebookCell createCell(@PathVariable String id) {
         return notebookService.createCell(id);

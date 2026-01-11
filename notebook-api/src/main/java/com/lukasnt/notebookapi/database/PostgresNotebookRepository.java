@@ -157,18 +157,19 @@ public class PostgresNotebookRepository implements NotebookRepository {
     }
 
     @Override
-    public NotebookEntry deleteNotebook(NotebookEntry notebook) {
-        return null;
+    public boolean deleteNotebook(String notebookId) {
+        // Cells and formulas will be deleted by cascade
+        var sql = "DELETE FROM notebooks where notebook_id = ?";
+        return jdbcTemplate.update(sql, toUUID(notebookId)) > 0;
     }
 
     @Transactional
     @Override
-    public NotebookEntry deleteCell(CellEntry cell) {
+    public boolean deleteCell(CellEntry cell) {
         var deleteSql = "DELETE FROM cells WHERE cell_id = ?";
         jdbcTemplate.update(deleteSql, cell.cellId());
         var updateSql = "UPDATE notebooks SET modified = now(), cell_count = cell_count - 1 WHERE notebook_id = ?";
-        jdbcTemplate.update(updateSql, cell.notebookId());
-        return this.getNotebook(String.valueOf(cell.notebookId()));
+        return jdbcTemplate.update(updateSql, cell.notebookId()) > 0;
     }
 
     static NotebookEntry notebookEntry(ResultSet rs, int rowNum) {
