@@ -15,6 +15,20 @@ export const fetchNotebooks = async (): Promise<NotebookData[]> => {
   }
 };
 
+export const createNotebook = async (): Promise<NotebookData> => {
+  try {
+    const res = await fetch(`${apiUrl()}/notebooks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return await res.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const fetchNotebook = async (
   notebookId: string,
 ): Promise<NotebookData> => {

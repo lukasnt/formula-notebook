@@ -23,7 +23,9 @@ export default function Notebook() {
   const [cellIds, setCellIds] = useState<string[]>([]);
 
   useEffect(() => {
-    setCellIds(notebook.cells.map((cell: CellData) => cell.cellId));
+    if (notebook.cells) {
+      setCellIds(notebook.cells.map((cell: CellData) => cell.cellId));
+    }
   }, []);
 
   useEffect(() => {

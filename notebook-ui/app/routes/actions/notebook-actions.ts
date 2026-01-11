@@ -1,4 +1,5 @@
 import {
+  createNotebook,
   deleteCell,
   postCell,
   runCell,
@@ -6,6 +7,7 @@ import {
 } from "~/api/services/notebook-service";
 import type { CellData, NotebookData } from "~/api/types/notebook-data";
 
+export const CREATE_NOTEBOOK = "CREATE_NOTEBOOK";
 export const SAVE_NOTEBOOK = "SAVE_NOTEBOOK";
 export const ADD_CELL = "ADD_CELL";
 export const DELETE_CELL = "DELETE_CELL";
@@ -23,6 +25,11 @@ export const executeAction = async (
   formData: FormData,
 ) => {
   switch (actionType) {
+    case CREATE_NOTEBOOK:
+      return {
+        actionType: actionType,
+        notebookData: await createNotebook(),
+      };
     case ADD_CELL:
       return {
         actionType: actionType,
