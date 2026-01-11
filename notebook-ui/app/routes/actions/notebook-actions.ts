@@ -1,6 +1,7 @@
 import {
   createNotebook,
   deleteCell,
+  deleteNotebook,
   postCell,
   runCell,
   saveNotebook,
@@ -9,6 +10,7 @@ import type { CellData, NotebookData } from "~/api/types/notebook-data";
 
 export const CREATE_NOTEBOOK = "CREATE_NOTEBOOK";
 export const SAVE_NOTEBOOK = "SAVE_NOTEBOOK";
+export const DELETE_NOTEBOOK = "DELETE_NOTEBOOK";
 export const ADD_CELL = "ADD_CELL";
 export const DELETE_CELL = "DELETE_CELL";
 export const RUN_CELL = "RUN_CELL";
@@ -17,6 +19,7 @@ export interface NotebookAction {
   actionType: string;
   cellData?: CellData;
   notebookData?: NotebookData;
+  deleted?: boolean;
 }
 
 export const executeAction = async (
@@ -38,10 +41,7 @@ export const executeAction = async (
     case DELETE_CELL:
       return {
         actionType: actionType,
-        cellData: await deleteCell(
-          notebookId,
-          formData.get("cellId") as string,
-        ),
+        deleted: await deleteCell(notebookId, formData.get("cellId") as string),
       };
     case SAVE_NOTEBOOK:
       return {
@@ -50,6 +50,11 @@ export const executeAction = async (
           notebookId,
           formData.get("notebook") as string,
         ),
+      };
+    case DELETE_NOTEBOOK:
+      return {
+        actionType: actionType,
+        deleted: await deleteNotebook(formData.get("notebookId") as string),
       };
     case RUN_CELL:
       return {

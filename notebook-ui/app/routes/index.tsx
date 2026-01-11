@@ -37,7 +37,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
 
   useEffect(() => {
     setNotebooks(loaderData.notebooks);
-  }, []);
+  }, [loaderData.notebooks]);
 
   useEffect(() => {
     const notebook = fetcher.data?.notebookData as NotebookData;

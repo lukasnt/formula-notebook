@@ -11,9 +11,13 @@ import {
 import "./notebook-collection.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BookIcon from "@mui/icons-material/Book";
-import { useNavigate } from "react-router";
+import { useFetcher, useNavigate } from "react-router";
 import type { NotebookData } from "~/api/types/notebook-data";
 import { formatDistance } from "date-fns";
+import {
+  DELETE_NOTEBOOK,
+  type NotebookAction,
+} from "~/routes/actions/notebook-actions";
 
 interface NotebookCollectionProps {
   notebooks: NotebookData[];
@@ -23,10 +27,18 @@ export default function NotebookCollection({
   notebooks,
 }: NotebookCollectionProps) {
   const navigate = useNavigate();
+  const fetcher = useFetcher<NotebookAction>();
 
   const formatDate = (date: Date) => {
     return formatDistance(date, new Date(), { addSuffix: true });
   };
+
+  const handleDelete = (notebookId: string) => {
+    fetcher.submit(
+      { notebookId: notebookId, actionType: DELETE_NOTEBOOK },
+      { method: "DELETE" },
+    )
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -53,7 +65,7 @@ export default function NotebookCollection({
               </TableCell>
               <TableCell>{notebook.cellCount + " cells"}</TableCell>
               <TableCell onClick={(e) => e.stopPropagation()}>
-                <IconButton>
+                <IconButton onClick={() => handleDelete(notebook.notebookId)}>
                   <DeleteIcon />
                 </IconButton>
               </TableCell>

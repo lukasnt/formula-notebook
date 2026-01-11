@@ -58,6 +58,22 @@ export const saveNotebook = async (
   }
 };
 
+export const deleteNotebook = async (
+  notebookId: string,
+): Promise<boolean> => {
+  try {
+    const res = await fetch(`${apiUrl()}/notebooks/${notebookId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const postCell = async (
   notebookId: string,
   data: string,
@@ -79,7 +95,7 @@ export const postCell = async (
 export const deleteCell = async (
   notebookId: string,
   cellId: string,
-): Promise<CellData> => {
+): Promise<boolean> => {
   try {
     const res = await fetch(
       `${apiUrl()}/notebooks/${notebookId}/cell/${cellId}`,
