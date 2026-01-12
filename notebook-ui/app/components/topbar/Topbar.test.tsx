@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { MemoryRouter } from "react-router";
 import Topbar from "~/components/topbar/Topbar";
 
-describe("Topbar-component test", () => {
+describe("Topbar-component", () => {
   it("should render successfully", () => {
     render(
       <MemoryRouter>
