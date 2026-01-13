@@ -35,10 +35,15 @@ public class Cell {
         return evaluated;
     }
 
+    public void clearOutput() {
+        evaluated = null;
+        updated = ZonedDateTime.now();
+    }
+
     public void replaceFormula(Formula formula) {
         this.formula = formula;
+        evaluated = null;
         updated = ZonedDateTime.now();
-        this.evaluated = null;
     }
 
     public void setSymbol(String symbol) {

@@ -46,6 +46,12 @@ public class Notebook {
         return cells.values().stream().toList();
     }
 
+    public List<Cell> clearOutput() {
+        cells.values().forEach(Cell::clearOutput);
+        modified = ZonedDateTime.now();
+        return cells.values().stream().toList();
+    }
+
     public Cell evaluateCell(String cellId) {
         return modifyCell(cellId, Cell::evaluate);
     }

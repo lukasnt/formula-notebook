@@ -56,6 +56,11 @@ public class NotebookController {
         return notebookService.runAllCells(notebook);
     }
 
+    @PostMapping("/{id}/clearOutput")
+    public NotebookData clearOutput(@PathVariable String id, @RequestBody NotebookData notebook) {
+        return notebookService.clearOutput(notebook);
+    }
+
     @DeleteMapping("/{id}")
     public boolean deleteNotebook(@PathVariable String id) {
         return notebookService.deleteNotebook(id);

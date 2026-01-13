@@ -69,6 +69,16 @@ public class NotebookService {
         return ResponseMapper.mapNotebook(notebook);
     }
 
+    public NotebookData clearOutput(NotebookData notebookData) {
+        var notebook = RequestMapper.mapNotebook(this.saveNotebook(notebookData));
+        List<CellEntry> cellEntries = notebook.clearOutput().stream()
+            .map(EntryMapper::toCellEntry).toList();
+        notebookCache.put(notebook.getId().toString(), notebook);
+        repository.updateNotebook(EntryMapper.toNotebookEntry(notebook));
+        repository.updateCells(cellEntries);
+        return ResponseMapper.mapNotebook(notebook);
+    }
+
     public boolean deleteNotebook(String notebookId) {
         boolean removed = repository.deleteNotebook(notebookId);
         if (removed) {
