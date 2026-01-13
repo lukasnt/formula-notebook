@@ -58,6 +58,24 @@ export const saveNotebook = async (
   }
 };
 
+export const runAllCells = async (
+  notebookId: string,
+  data: string,
+): Promise<NotebookData> => {
+  try {
+    const res = await fetch(`${apiUrl()}/notebooks/${notebookId}/runAll`, {
+      method: "POST",
+      body: data,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const deleteNotebook = async (
   notebookId: string,
 ): Promise<boolean> => {
