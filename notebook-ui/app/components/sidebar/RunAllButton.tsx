@@ -2,6 +2,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Snackbar,
   Typography,
 } from "@mui/material";
 
@@ -15,10 +16,12 @@ import {
 } from "~/routes/actions/notebook-actions";
 import { onlyData } from "~/state/notebook-utils";
 import FastForwardIcon from "@mui/icons-material/FastForward";
+import { useEffect, useState } from "react";
 
 export default function RunAllButton() {
   const notebook = useSelector((state: RootState) => state.notebook);
   const fetcher = useFetcher<NotebookAction>();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleRunCells = () => {
     fetcher.submit(
@@ -28,6 +31,16 @@ export default function RunAllButton() {
       },
       { method: "POST" },
     );
+  };
+
+  useEffect(() => {
+    if (fetcher.data?.actionType === RUN_ALL_CELLS) {
+      setSnackbarOpen(true);
+    }
+  }, [fetcher.data])
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -42,6 +55,13 @@ export default function RunAllButton() {
           <FastForwardIcon htmlColor={"black"} />
         </ListItemIcon>
       </ListItemButton>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        open={snackbarOpen}
+        message="Cells executed successfully"
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+      />
     </>
   );
 }
