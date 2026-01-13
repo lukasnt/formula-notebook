@@ -77,8 +77,6 @@ public class PostgresNotebookRepository implements NotebookRepository {
             cell.textContent(),
             cell.evaluated()
         );
-        var updateSql = "UPDATE notebooks SET cell_count = cell_count + 1 WHERE notebook_id = ?";
-        jdbcTemplate.update(updateSql, cell.notebookId());
         if (id > 0) {
             return cell;
         }
@@ -98,8 +96,6 @@ public class PostgresNotebookRepository implements NotebookRepository {
             ps.setObject(6, cell.formula());
             ps.setBigDecimal(7, cell.evaluated());
         });
-        var updateSql = "UPDATE notebooks SET cell_count = cell_count + ? WHERE notebook_id = ?";
-        jdbcTemplate.update(updateSql, cells.size(), UUID.fromString(notebookId));
         return cells;
     }
 
@@ -115,6 +111,51 @@ public class PostgresNotebookRepository implements NotebookRepository {
             ps.setString(6, formula.error());
         });
         return formulas;
+    }
+
+    @Override
+    public NotebookEntry updateNotebook(NotebookEntry notebook) {
+        var sql = """
+            INSERT INTO notebooks (notebook_id, title, created, modified, cell_count)
+            VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT (notebook_id) DO UPDATE SET
+                title = EXCLUDED.title,
+                created = EXCLUDED.created,
+                modified = EXCLUDED.modified,
+                cell_count = EXCLUDED.cell_count
+        """;
+        jdbcTemplate.update(sql,
+            notebook.notebookId(),
+            notebook.title(),
+            toSqlTimestamp(notebook.created()),
+            toSqlTimestamp(notebook.modified()),
+            notebook.cellCount()
+        );
+        return notebook;
+    }
+
+    @Override
+    public List<CellEntry> updateCells(List<CellEntry> cells) {
+        var sql = """
+            INSERT INTO cells (cell_id, notebook_id, symbol, updated, text_content, formula, evaluated)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT (cell_id) DO UPDATE SET
+                notebook_id = EXCLUDED.notebook_id,
+                symbol = EXCLUDED.symbol,
+                text_content = EXCLUDED.text_content,
+                formula = EXCLUDED.formula,
+                evaluated = EXCLUDED.evaluated
+            """;
+        jdbcTemplate.batchUpdate(sql, cells, cells.size(), (ps,cell) -> {
+            ps.setObject(1, cell.cellId());
+            ps.setObject(2, cell.notebookId());
+            ps.setString(3, cell.symbol());
+            ps.setTimestamp(4, toSqlTimestamp(cell.updated()));
+            ps.setString(5, cell.textContent());
+            ps.setObject(6, cell.formula());
+            ps.setBigDecimal(7, cell.evaluated());
+        });
+        return cells;
     }
 
     @Transactional
@@ -152,11 +193,6 @@ public class PostgresNotebookRepository implements NotebookRepository {
     }
 
     @Override
-    public List<CellEntry> replaceCells(List<CellEntry> cells) {
-        return List.of();
-    }
-
-    @Override
     public boolean deleteNotebook(String notebookId) {
         // Cells and formulas will be deleted by cascade
         var sql = "DELETE FROM notebooks where notebook_id = ?";
@@ -167,9 +203,7 @@ public class PostgresNotebookRepository implements NotebookRepository {
     @Override
     public boolean deleteCell(CellEntry cell) {
         var deleteSql = "DELETE FROM cells WHERE cell_id = ?";
-        jdbcTemplate.update(deleteSql, cell.cellId());
-        var updateSql = "UPDATE notebooks SET modified = now(), cell_count = cell_count - 1 WHERE notebook_id = ?";
-        return jdbcTemplate.update(updateSql, cell.notebookId()) > 0;
+        return jdbcTemplate.update(deleteSql, cell.cellId()) > 0;
     }
 
     static NotebookEntry notebookEntry(ResultSet rs, int rowNum) {

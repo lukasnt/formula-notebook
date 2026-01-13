@@ -67,7 +67,7 @@ public class EntryMapper {
             notebook.getTitle(),
             notebook.getCreated(),
             notebook.getModified(),
-            0
+            notebook.getCellCount()
         );
     }
 

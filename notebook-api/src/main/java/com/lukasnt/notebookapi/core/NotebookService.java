@@ -59,6 +59,16 @@ public class NotebookService {
         return ResponseMapper.mapNotebook(notebook);
     }
 
+    public NotebookData runAllCells(NotebookData notebookData) {
+        var notebook = RequestMapper.mapNotebook(this.saveNotebook(notebookData));
+        List<CellEntry> cellEntries = notebook.evaluateCells().stream()
+            .map(EntryMapper::toCellEntry).toList();
+        notebookCache.put(notebook.getId().toString(), notebook);
+        repository.updateNotebook(EntryMapper.toNotebookEntry(notebook));
+        repository.updateCells(cellEntries);
+        return ResponseMapper.mapNotebook(notebook);
+    }
+
     public boolean deleteNotebook(String notebookId) {
         boolean removed = repository.deleteNotebook(notebookId);
         if (removed) {
@@ -71,6 +81,7 @@ public class NotebookService {
         Notebook notebook = this.getNotebook(notebookId);
         Cell cell = notebook.createCell();
         repository.insertCell(EntryMapper.toCellEntry(cell));
+        repository.updateNotebook(EntryMapper.toNotebookEntry(notebook));
         return ResponseMapper.mapCell(cell);
     }
 
@@ -78,6 +89,7 @@ public class NotebookService {
         Notebook notebook = this.getNotebook(notebookId);
         Cell cell = notebook.deleteCell(cellId);
         repository.deleteCell(EntryMapper.toCellEntry(cell));
+        repository.updateNotebook(EntryMapper.toNotebookEntry(notebook));
         return ResponseMapper.mapCell(cell);
     }
 
@@ -94,6 +106,7 @@ public class NotebookService {
             .toList();
         repository.insertFormulas(subFormulas);
 
+        repository.updateNotebook(EntryMapper.toNotebookEntry(notebook));
         return ResponseMapper.mapCell(evaluated);
     }
 

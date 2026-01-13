@@ -14,9 +14,11 @@ public interface NotebookRepository {
     List<CellEntry> insertCells(String notebookId, List<CellEntry> cell);
     List<FormulaEntry> insertFormulas(List<FormulaEntry> formulas);
 
+    NotebookEntry updateNotebook(NotebookEntry notebook);
+    List<CellEntry> updateCells(List<CellEntry> cells);
+
     NotebookEntry replaceNotebook(NotebookEntry notebook);
     CellEntry replaceCell(CellEntry cell);
-    List<CellEntry> replaceCells(List<CellEntry> cells);
 
     boolean deleteNotebook(String notebookId);
     boolean deleteCell(CellEntry cell);
