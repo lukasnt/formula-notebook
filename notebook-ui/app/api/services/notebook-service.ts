@@ -76,6 +76,24 @@ export const runAllCells = async (
   }
 };
 
+export const clearOutput = async (
+  notebookId: string,
+  data: string,
+): Promise<NotebookData> => {
+  try {
+    const res = await fetch(`${apiUrl()}/notebooks/${notebookId}/clearOutput`, {
+      method: "POST",
+      body: data,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const deleteNotebook = async (
   notebookId: string,
 ): Promise<boolean> => {

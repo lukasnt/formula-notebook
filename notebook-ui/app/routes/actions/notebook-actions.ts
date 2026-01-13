@@ -1,4 +1,5 @@
 import {
+  clearOutput,
   createNotebook,
   deleteCell,
   deleteNotebook,
@@ -12,6 +13,7 @@ import type { CellData, NotebookData } from "~/api/types/notebook-data";
 export const CREATE_NOTEBOOK = "CREATE_NOTEBOOK";
 export const SAVE_NOTEBOOK = "SAVE_NOTEBOOK";
 export const RUN_ALL_CELLS = "RUN_ALL_CELLS";
+export const CLEAR_OUTPUT = "CLEAR_OUTPUT";
 export const DELETE_NOTEBOOK = "DELETE_NOTEBOOK";
 export const ADD_CELL = "ADD_CELL";
 export const DELETE_CELL = "DELETE_CELL";
@@ -57,6 +59,14 @@ export const executeAction = async (
       return {
         actionType: actionType,
         notebookData: await runAllCells(
+          notebookId,
+          formData.get("notebook") as string,
+        ),
+      };
+    case CLEAR_OUTPUT:
+      return {
+        actionType: actionType,
+        notebookData: await clearOutput(
           notebookId,
           formData.get("notebook") as string,
         ),
