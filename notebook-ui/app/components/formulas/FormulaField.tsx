@@ -49,6 +49,7 @@ export default function FormulaField({ initValue }: FormulaFieldProps) {
             },
           },
         }}
+        autoComplete="off"
         focused={activeInput}
         autoFocus={true}
         disabled={!activeInput}

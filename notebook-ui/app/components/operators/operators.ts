@@ -90,7 +90,7 @@ export const FUNCTIONS_OPERATORS: Operator[] = [
     operator: "EXP",
     type: "unary",
     symbol: "exp",
-    keybind: "shift+e",
+    keybind: "x",
     composite: {
       id: "",
       operator: "POW",
