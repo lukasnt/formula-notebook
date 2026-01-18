@@ -44,7 +44,7 @@ public class RequestMapper {
             .orElse(BigDecimal.ZERO);
         var operatorId = Optional.ofNullable(formulaTree)
             .map(FormulaTree::operator)
-            .orElse(OperatorID.CONST);
+            .orElse(OperatorID.EMPTY);
         return new Formula(
             id,
             RequestMapper.mapOperator(operatorId, constValue),
@@ -55,6 +55,7 @@ public class RequestMapper {
 
     public static Operator mapOperator(OperatorID operatorId, BigDecimal constValue) {
         return switch (operatorId) {
+            case OperatorID.EMPTY, OperatorID.INPUT -> Empty.operator();
             case OperatorID.CONST   -> Constant.of(constValue);
             case OperatorID.PLUS    -> Plus.operator();
             case OperatorID.MINUS   -> Minus.operator();
@@ -71,7 +72,6 @@ public class RequestMapper {
             case OperatorID.PI      -> Pi.operator();
             case OperatorID.E       -> Euler.operator();
             case OperatorID.GR      -> GoldenRatio.operator();
-            case null               -> Constant.of(BigDecimal.ZERO);
         };
     }
 

@@ -14,6 +14,7 @@ public class Cell {
     private String textContent;
     private BigDecimal evaluated;
     private Formula formula;
+    private String error;
 
     public Cell(UUID notebookId, UUID id) {
         this.notebookId = notebookId;
@@ -30,13 +31,18 @@ public class Cell {
     }
 
     public BigDecimal evaluate() {
-        evaluated = Optional.ofNullable(formula).map(Formula::eval).orElse(BigDecimal.ZERO);
-        updated = ZonedDateTime.now();
+        clearOutput();
+        try {
+           evaluated = Optional.ofNullable(formula).map(Formula::eval).orElse(null);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
         return evaluated;
     }
 
     public void clearOutput() {
         evaluated = null;
+        error = null;
         updated = ZonedDateTime.now();
     }
 
@@ -79,4 +85,7 @@ public class Cell {
         return formula;
     }
 
+    public String getError() {
+        return error;
+    }
 }

@@ -1,6 +1,8 @@
 package com.lukasnt.notebookapi.models;
 
 public enum OperatorID {
+    EMPTY,
+    INPUT,
     CONST,
     PLUS,
     MINUS,

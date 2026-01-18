@@ -17,19 +17,6 @@ public class NotebookController {
     @Autowired
     NotebookService notebookService;
 
-    @GetMapping("/test")
-    public NotebookData test() {
-        return new NotebookData(UUID.randomUUID(), "Test", ZonedDateTime.now(), ZonedDateTime.now(), 1, List.of(
-            new NotebookCell(UUID.randomUUID(), UUID.randomUUID(), "a", ZonedDateTime.now(),
-                new FormulaTree("1", OperatorID.PLUS, List.of(
-                    new FormulaTree("2", OperatorID.CONST, null, new Evaluated(BigDecimal.ONE, null)),
-                    new FormulaTree("3", OperatorID.CONST, null, new Evaluated(BigDecimal.ONE, null))
-                ), new Evaluated(BigDecimal.TWO, null)),
-                "Text",
-                new Evaluated(BigDecimal.TWO, null)
-        )));
-    }
-
     @GetMapping()
     public List<NotebookData> getAllNotebooks() {
         return notebookService.getAllNotebooks().stream().map(ResponseMapper::mapNotebook).toList();

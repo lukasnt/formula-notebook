@@ -38,7 +38,7 @@ public class ResponseMapper {
             cell.getTextContent(),
             new Evaluated(
                 cell.getEvaluated(),
-                ""
+                cell.getError()
             )
         );
     }
