@@ -28,7 +28,7 @@ export default function Cell({ notebookId, cellId, onDelete }: CellProps) {
   const [result, setResult] = useState<number | undefined>();
   const [textValue, setTextValue] = useState<string | undefined>();
   const [cellType, setCellType] = useState<string>(
-    cellData?.formula ||
+    (cellData?.formula && cellData?.evaluated?.num) ||
       cellData?.textContent == undefined ||
       cellData?.textContent.length == 0
       ? "formula"
