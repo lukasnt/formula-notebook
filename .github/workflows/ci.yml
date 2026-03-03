@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build-test-notebook-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: notebook-api-env
+          load: true
+          push: false
+          tags: formula-notebook-api:latest
+
+      - name: Run tests
+        run: |
+          docker run --rm formula-notebook-api:latest sh -c "mvn test"
