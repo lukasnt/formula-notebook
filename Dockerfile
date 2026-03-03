@@ -17,13 +17,11 @@ FROM openjdk AS maven
 RUN apt-get install -y maven
 
 FROM maven AS notebook-api-env
-COPY /notebook-api/pom.xml /usr/home/notebook-api/pom.xml
-COPY /notebook-api/src /usr/home/notebook-api/src
+COPY /notebook-api /usr/home/notebook-api
 WORKDIR /usr/home/notebook-api
 RUN mvn clean package
 
 FROM node AS notebook-ui-env
-COPY /notebook-ui/package.json /usr/home/notebook-ui/package.json
-COPY /notebook-ui/package-lock.json /usr/home/notebook-ui/package-lock.json
+COPY /notebook-ui /usr/home/notebook-ui
 WORKDIR /usr/home/notebook-ui
 RUN npm install

@@ -1,0 +1,74 @@
+name: CI for formula-notebook
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-test-notebook-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: formula-notebook/notebook-api
+          tags: |
+            type=ref,event=branch
+            type=ref,event=branch,suffix=-{{sha}}
+            type=semver,pattern={{version}}
+
+      - name: Build Docker image
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: notebook-api-env
+          load: true
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Run tests
+        id: test
+        run: |
+          docker run --rm ${{ steps.build.outputs.imageid }} sh -c "mvn test"
+
+  build-test-notebook-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: formula-notebook/notebook-ui
+          tags: |
+            type=ref,event=branch
+            type=ref,event=branch,suffix=-{{sha}}
+            type=semver,pattern={{version}}
+
+      - name: Build Docker image
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: notebook-ui-env
+          load: true
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Run tests
+        id: test
+        run: |
+          docker run --rm ${{ steps.build.outputs.imageid }} sh -c "npm run test"
