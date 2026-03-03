@@ -1,9 +1,12 @@
-name: Test
+name: CI for formula-notebook
 
 on:
   push:
     branches:
       - '**'
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build-test-notebook-api:
