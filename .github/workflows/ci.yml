@@ -36,7 +36,7 @@ jobs:
       - name: Run tests
         id: test
         run: |
-          docker run --rm ${{ steps.meta.outputs.tags }} sh -c "mvn test"
+          docker run --rm ${{ steps.build.outputs.imageid }} sh -c "mvn test"
 
   build-test-notebook-ui:
     runs-on: ubuntu-latest
@@ -68,4 +68,4 @@ jobs:
       - name: Run tests
         id: test
         run: |
-          docker run --rm ${{ steps.meta.outputs.tags }} sh -c "npm run test"
+          docker run --rm ${{ steps.build.outputs.imageid }} sh -c "npm run test"
