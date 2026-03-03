@@ -24,3 +24,22 @@ jobs:
       - name: Run tests
         run: |
           docker run --rm formula-notebook-api:latest sh -c "mvn test"
+
+  build-test-notebook-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: notebook-ui-env
+          load: true
+          push: false
+          tags: formula-notebook-ui:latest
+
+      - name: Run tests
+        run: |
+          docker run --rm formula-notebook-ui:latest sh -c "npm run test"
